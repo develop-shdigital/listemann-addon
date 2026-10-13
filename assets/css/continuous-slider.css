@@ -1,0 +1,187 @@
+/**
+ * Listemann Addon: Continuous Slider.
+ *
+ * Elementor writes the widget settings as custom properties on the widget
+ * wrapper (--lst-spv, --lst-gap, --lst-height, --lst-mode, colours, …). The
+ * fallbacks below only apply when those are missing, e.g. before Elementor's
+ * CSS is generated. Without JavaScript the first slides are shown statically.
+ */
+
+.lst-cslider {
+	--_spv: var(--lst-spv, 7);
+	--_gap: var(--lst-gap, 15px);
+	--_height: var(--lst-height, 550px);
+	--_mode: var(--lst-mode, continuous);
+	--_duration: var(--lst-hover-duration, 300ms);
+	position: relative;
+	width: 100%;
+}
+
+@media (max-width: 1024px) {
+	.lst-cslider {
+		--_spv: var(--lst-spv, 4);
+		--_height: var(--lst-height, 300px);
+	}
+}
+
+@media (max-width: 767px) {
+	.lst-cslider {
+		--_spv: var(--lst-spv, 2);
+		--_mode: var(--lst-mode, step);
+	}
+}
+
+.lst-cslider__viewport {
+	position: relative;
+	width: 100%;
+	overflow: hidden;
+	/* "clip" also blocks programmatic scrolling (e.g. when a link gets focus). */
+	overflow: clip;
+}
+
+.lst-cslider__track {
+	display: flex;
+	gap: var(--_gap);
+	margin: 0;
+	padding: 0;
+	direction: ltr;
+}
+
+.lst-cslider.is-ready .lst-cslider__track {
+	will-change: transform;
+}
+
+.lst-cslider__slide {
+	position: relative;
+	flex: 0 0 calc((100% - (var(--_spv) - 1) * var(--_gap)) / var(--_spv));
+	min-width: 0;
+	height: var(--_height);
+}
+
+.lst-cslider .lst-cslider__card {
+	position: relative;
+	z-index: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	color: inherit;
+	text-decoration: none;
+	-webkit-tap-highlight-color: transparent;
+	-webkit-user-drag: none;
+}
+
+[dir="rtl"] .lst-cslider__card {
+	direction: rtl;
+}
+
+.lst-cslider .lst-cslider__card:focus-visible {
+	outline: 2px solid var(--lst-title-color, #fff);
+	outline-offset: -6px;
+}
+
+.lst-cslider .lst-cslider__image {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 0;
+	display: block;
+	width: 100%;
+	max-width: none;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	box-shadow: none;
+	object-fit: cover;
+	object-position: center center;
+	pointer-events: none;
+	user-select: none;
+	-webkit-user-drag: none;
+	transition: filter var(--_duration) ease;
+}
+
+.lst-cslider__overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	width: 100%;
+	height: 100%;
+	background-color: var(--lst-overlay-color, #000);
+	opacity: var(--lst-overlay-opacity, 0.35);
+	pointer-events: none;
+	transition: background-color var(--_duration) ease, opacity var(--_duration) ease;
+}
+
+.lst-cslider .lst-cslider__title {
+	position: relative;
+	z-index: 2;
+	display: block;
+	margin: 0;
+	padding: 0 15px 15px 20px;
+	color: var(--lst-title-color, #fff);
+	font-size: 1.3vw;
+	line-height: 1.7vw;
+	letter-spacing: 0.5px;
+	overflow-wrap: break-word;
+	transition: color var(--_duration) ease;
+}
+
+@media (max-width: 1024px) {
+	.lst-cslider .lst-cslider__title {
+		font-size: 2.2vw;
+		line-height: 2.8vw;
+	}
+}
+
+@media (max-width: 767px) {
+	.lst-cslider .lst-cslider__title {
+		font-size: 4.2vw;
+		line-height: 6.5vw;
+	}
+}
+
+/* Hover applies to the whole card, so hovering the title triggers it too. */
+@media (hover: hover) {
+	.lst-cslider .lst-cslider__card:hover .lst-cslider__overlay {
+		background-color: var(--lst-overlay-hover-color, #dd191a);
+		opacity: var(--lst-overlay-hover-opacity, 0.75);
+	}
+
+	.lst-cslider .lst-cslider__card:hover .lst-cslider__title {
+		color: var(--lst-title-hover-color, var(--lst-title-color, #fff));
+	}
+}
+
+.lst-cslider .lst-cslider__card:focus-visible .lst-cslider__overlay {
+	background-color: var(--lst-overlay-hover-color, #dd191a);
+	opacity: var(--lst-overlay-hover-opacity, 0.75);
+}
+
+.lst-cslider .lst-cslider__card:focus-visible .lst-cslider__title {
+	color: var(--lst-title-hover-color, var(--lst-title-color, #fff));
+}
+
+/* Drag / swipe (classes set by the script). */
+.lst-cslider.is-draggable .lst-cslider__viewport {
+	cursor: grab;
+	touch-action: pan-y;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+.lst-cslider.is-dragging .lst-cslider__viewport,
+.lst-cslider.is-dragging .lst-cslider__card {
+	cursor: grabbing;
+}
+
+@media print {
+	.lst-cslider .lst-cslider__track {
+		transform: none !important;
+	}
+}

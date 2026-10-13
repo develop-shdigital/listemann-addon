@@ -39,7 +39,7 @@ final class Settings_Page {
 	const CAPABILITY = 'manage_options';
 
 	/**
-	 * admin-post.php action (and nonce action) of the "Reset to defaults" form.
+	 * Action (admin-post.php and nonce) of the "Reset to defaults" form.
 	 *
 	 * @var string
 	 */

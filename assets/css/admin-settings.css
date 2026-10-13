@@ -8,8 +8,8 @@
 }
 
 .lst-settings .lst-textarea {
-	width: 25em;
-	max-width: 100%;
+	width: 100%;
+	max-width: 25em;
 }
 
 .lst-settings__reset .button {
@@ -124,10 +124,13 @@
 	padding: 12px;
 }
 
-.lst-rep__field {
-	display: flex;
-	flex-direction: column;
-	gap: 4px;
+/* Higher specificity than core's ".form-table td fieldset label". */
+.lst-rep .lst-rep__field {
+	display: inline-flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 8px;
+	margin: 0 !important;
 }
 
 .lst-rep__field-label {
@@ -222,7 +225,10 @@
 		width: 100%;
 	}
 
-	.lst-rep__field {
+	.lst-rep .lst-rep__field {
 		flex: 1 1 100%;
+		flex-direction: column;
+		align-items: stretch;
+		gap: 4px;
 	}
 }

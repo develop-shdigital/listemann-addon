@@ -357,8 +357,9 @@ final class Settings {
 	 * Sanitizes a contact link.
 	 *
 	 * Bare phone numbers become `tel:` links and bare e-mail addresses become
-	 * `mailto:` links. Visual separators are removed from `tel:` links
-	 * (`tel:+423 375 90 10` becomes `tel:+4233759010`). Only http, https, tel
+	 * `mailto:` links. Visual separators and a "(0)" trunk prefix are removed
+	 * from `tel:` links (`tel:+423 375 90 10` becomes `tel:+4233759010`,
+	 * `+41 (0)52 245 18 50` becomes `tel:+41522451850`). Only http, https, tel
 	 * and mailto (and relative URLs) are kept.
 	 *
 	 * @param string $url Raw URL.
@@ -378,7 +379,14 @@ final class Settings {
 		}
 
 		if ( 0 === stripos( $url, 'tel:' ) ) {
-			$url = 'tel:' . preg_replace( '/[\s().\/-]+/', '', substr( $url, 4 ) );
+			$number = trim( substr( $url, 4 ) );
+
+			// "+41 (0)52 …": the bracketed trunk prefix is not dialled with a country code.
+			if ( 0 === strpos( $number, '+' ) ) {
+				$number = preg_replace( '/\(\s*0\s*\)/', '', $number );
+			}
+
+			$url = 'tel:' . preg_replace( '/[\s().\/-]+/', '', $number );
 		}
 
 		return esc_url_raw( $url, self::url_protocols() );
@@ -387,17 +395,17 @@ final class Settings {
 	/**
 	 * Sanitizes a multi-line label (one visual line per text line).
 	 *
-	 * @param string $value   Raw value.
-	 * @param string $default Fallback when the result is empty.
+	 * @param string $value    Raw value.
+	 * @param string $fallback Fallback when the result is empty.
 	 * @return string Lines separated by "\n".
 	 */
-	public static function sanitize_multiline_label( $value, $default ) {
+	public static function sanitize_multiline_label( $value, $fallback ) {
 		$value = sanitize_textarea_field( (string) $value );
 		$lines = preg_split( '/\R/u', $value );
 		$lines = is_array( $lines ) ? array_filter( array_map( 'trim', $lines ), 'strlen' ) : array();
 		$label = implode( "\n", $lines );
 
-		return '' === $label ? (string) $default : $label;
+		return '' === $label ? (string) $fallback : $label;
 	}
 
 	/**
@@ -415,14 +423,14 @@ final class Settings {
 	/**
 	 * Validates a hex color.
 	 *
-	 * @param mixed  $value   Raw value.
-	 * @param string $default Fallback for empty or invalid values.
+	 * @param mixed  $value    Raw value.
+	 * @param string $fallback Fallback for empty or invalid values.
 	 * @return string Lower-case hex color or the fallback.
 	 */
-	public static function color( $value, $default ) {
+	public static function color( $value, $fallback ) {
 		$color = is_string( $value ) ? sanitize_hex_color( trim( $value ) ) : null;
 
-		return $color ? strtolower( $color ) : $default;
+		return $color ? strtolower( $color ) : $fallback;
 	}
 
 	/**
@@ -443,32 +451,32 @@ final class Settings {
 	/**
 	 * Reads a single-line text value.
 	 *
-	 * @param array  $values  Raw values.
-	 * @param string $key     Key.
-	 * @param string $default Fallback when the value is empty.
+	 * @param array  $values   Raw values.
+	 * @param string $key      Key.
+	 * @param string $fallback Fallback when the value is empty.
 	 * @return string
 	 */
-	private static function text_value( array $values, $key, $default ) {
+	private static function text_value( array $values, $key, $fallback ) {
 		$text = sanitize_text_field( self::scalar_value( $values, $key ) );
 
-		return '' === $text ? (string) $default : $text;
+		return '' === $text ? (string) $fallback : $text;
 	}
 
 	/**
 	 * Reads an integer value clamped to a range.
 	 *
-	 * @param array  $values  Raw values.
-	 * @param string $key     Key.
-	 * @param int    $default Fallback when the value is missing or not numeric.
-	 * @param int    $min     Minimum.
-	 * @param int    $max     Maximum.
+	 * @param array  $values   Raw values.
+	 * @param string $key      Key.
+	 * @param int    $fallback Fallback when the value is missing or not numeric.
+	 * @param int    $min      Minimum.
+	 * @param int    $max      Maximum.
 	 * @return int
 	 */
-	private static function int_value( array $values, $key, $default, $min, $max ) {
+	private static function int_value( array $values, $key, $fallback, $min, $max ) {
 		$raw = trim( self::scalar_value( $values, $key ) );
 
 		if ( '' === $raw || ! is_numeric( $raw ) ) {
-			return (int) $default;
+			return (int) $fallback;
 		}
 
 		return max( (int) $min, min( (int) $max, (int) round( (float) $raw ) ) );
