@@ -2,10 +2,10 @@
 /**
  * Continuous Slider widget.
  *
- * @package Listemann_Addon
+ * @package Listemann_Toolkit
  */
 
-namespace Listemann_Addon\Widgets;
+namespace Listemann_Toolkit\Widgets;
 
 use Elementor\Control_Media;
 use Elementor\Controls_Manager;
@@ -17,7 +17,7 @@ use Elementor\Plugin as Elementor;
 use Elementor\Repeater;
 use Elementor\Utils;
 use Elementor\Widget_Base;
-use Listemann_Addon\Plugin;
+use Listemann_Toolkit\Plugin;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -62,7 +62,7 @@ class Continuous_Slider extends Widget_Base {
 	 * @return string
 	 */
 	public function get_title() {
-		return esc_html__( 'Continuous Slider', 'listemann-addon' );
+		return esc_html__( 'Continuous Slider', 'listemann-toolkit-addon' );
 	}
 
 	/**
@@ -98,7 +98,7 @@ class Continuous_Slider extends Widget_Base {
 	 * @return string[]
 	 */
 	public function get_script_depends() {
-		return array( 'listemann-addon-continuous-slider' );
+		return array( 'listemann-toolkit-continuous-slider' );
 	}
 
 	/**
@@ -107,7 +107,7 @@ class Continuous_Slider extends Widget_Base {
 	 * @return string[]
 	 */
 	public function get_style_depends() {
-		return array( 'listemann-addon-continuous-slider' );
+		return array( 'listemann-toolkit-continuous-slider' );
 	}
 
 	/**
@@ -153,7 +153,7 @@ class Continuous_Slider extends Widget_Base {
 		$this->start_controls_section(
 			'section_slides',
 			array(
-				'label' => esc_html__( 'Slides', 'listemann-addon' ),
+				'label' => esc_html__( 'Slides', 'listemann-toolkit-addon' ),
 			)
 		);
 
@@ -162,7 +162,7 @@ class Continuous_Slider extends Widget_Base {
 		$repeater->add_control(
 			'image',
 			array(
-				'label'   => esc_html__( 'Image', 'listemann-addon' ),
+				'label'   => esc_html__( 'Image', 'listemann-toolkit-addon' ),
 				'type'    => Controls_Manager::MEDIA,
 				'dynamic' => array( 'active' => true ),
 				'default' => array( 'url' => Utils::get_placeholder_image_src() ),
@@ -172,7 +172,7 @@ class Continuous_Slider extends Widget_Base {
 		$repeater->add_control(
 			'title',
 			array(
-				'label'       => esc_html__( 'Title', 'listemann-addon' ),
+				'label'       => esc_html__( 'Title', 'listemann-toolkit-addon' ),
 				'type'        => Controls_Manager::TEXT,
 				'dynamic'     => array( 'active' => true ),
 				'label_block' => true,
@@ -182,17 +182,17 @@ class Continuous_Slider extends Widget_Base {
 		$repeater->add_control(
 			'link',
 			array(
-				'label'       => esc_html__( 'Link', 'listemann-addon' ),
+				'label'       => esc_html__( 'Link', 'listemann-toolkit-addon' ),
 				'type'        => Controls_Manager::URL,
 				'dynamic'     => array( 'active' => true ),
-				'placeholder' => esc_html__( 'https://your-link.com', 'listemann-addon' ),
+				'placeholder' => esc_html__( 'https://your-link.com', 'listemann-toolkit-addon' ),
 			)
 		);
 
 		$this->add_control(
 			'slides',
 			array(
-				'label'       => esc_html__( 'Slides', 'listemann-addon' ),
+				'label'       => esc_html__( 'Slides', 'listemann-toolkit-addon' ),
 				'type'        => Controls_Manager::REPEATER,
 				'fields'      => $repeater->get_controls(),
 				'default'     => $this->get_default_slides(),
@@ -212,7 +212,7 @@ class Continuous_Slider extends Widget_Base {
 		$this->add_control(
 			'title_tag',
 			array(
-				'label'   => esc_html__( 'Title HTML Tag', 'listemann-addon' ),
+				'label'   => esc_html__( 'Title HTML Tag', 'listemann-toolkit-addon' ),
 				'type'    => Controls_Manager::SELECT,
 				'options' => array(
 					'span' => 'span',
@@ -240,14 +240,14 @@ class Continuous_Slider extends Widget_Base {
 		$this->start_controls_section(
 			'section_slider',
 			array(
-				'label' => esc_html__( 'Slider', 'listemann-addon' ),
+				'label' => esc_html__( 'Slider', 'listemann-toolkit-addon' ),
 			)
 		);
 
 		$this->add_responsive_control(
 			'slides_per_view',
 			array(
-				'label'          => esc_html__( 'Slides per View', 'listemann-addon' ),
+				'label'          => esc_html__( 'Slides per View', 'listemann-toolkit-addon' ),
 				'type'           => Controls_Manager::NUMBER,
 				'min'            => 1,
 				'max'            => 12,
@@ -256,7 +256,7 @@ class Continuous_Slider extends Widget_Base {
 				'laptop_default' => 5,
 				'tablet_default' => 4,
 				'mobile_default' => 2,
-				'description'    => esc_html__( 'Decimals (e.g. 2.5) let the next slide peek in.', 'listemann-addon' ),
+				'description'    => esc_html__( 'Decimals (e.g. 2.5) let the next slide peek in.', 'listemann-toolkit-addon' ),
 				'selectors'      => array(
 					'{{WRAPPER}}' => '--lst-spv: {{VALUE}};',
 				),
@@ -266,7 +266,7 @@ class Continuous_Slider extends Widget_Base {
 		$this->add_responsive_control(
 			'gap',
 			array(
-				'label'      => esc_html__( 'Gap', 'listemann-addon' ),
+				'label'      => esc_html__( 'Gap', 'listemann-toolkit-addon' ),
 				'type'       => Controls_Manager::SLIDER,
 				'size_units' => array( 'px', 'em', 'rem' ),
 				'range'      => array(
@@ -288,7 +288,7 @@ class Continuous_Slider extends Widget_Base {
 		$this->add_responsive_control(
 			'height',
 			array(
-				'label'          => esc_html__( 'Height', 'listemann-addon' ),
+				'label'          => esc_html__( 'Height', 'listemann-toolkit-addon' ),
 				'type'           => Controls_Manager::SLIDER,
 				'size_units'     => array( 'px', 'vh', 'em', 'rem' ),
 				'range'          => array(
@@ -322,16 +322,16 @@ class Continuous_Slider extends Widget_Base {
 		$this->add_responsive_control(
 			'motion',
 			array(
-				'label'          => esc_html__( 'Motion', 'listemann-addon' ),
+				'label'          => esc_html__( 'Motion', 'listemann-toolkit-addon' ),
 				'type'           => Controls_Manager::SELECT,
 				'options'        => array(
-					'continuous' => esc_html__( 'Continuous glide', 'listemann-addon' ),
-					'step'       => esc_html__( 'Step (one slide at a time)', 'listemann-addon' ),
-					'none'       => esc_html__( 'Static', 'listemann-addon' ),
+					'continuous' => esc_html__( 'Continuous glide', 'listemann-toolkit-addon' ),
+					'step'       => esc_html__( 'Step (one slide at a time)', 'listemann-toolkit-addon' ),
+					'none'       => esc_html__( 'Static', 'listemann-toolkit-addon' ),
 				),
 				'default'        => 'continuous',
 				'mobile_default' => 'step',
-				'description'    => esc_html__( 'Visitors who prefer reduced motion always get a static strip they can drag.', 'listemann-addon' ),
+				'description'    => esc_html__( 'Visitors who prefer reduced motion always get a static strip they can drag.', 'listemann-toolkit-addon' ),
 				'selectors'      => array(
 					'{{WRAPPER}}' => '--lst-mode: {{VALUE}};',
 				),
@@ -341,21 +341,21 @@ class Continuous_Slider extends Widget_Base {
 		$this->add_control(
 			'direction',
 			array(
-				'label'       => esc_html__( 'Direction', 'listemann-addon' ),
+				'label'       => esc_html__( 'Direction', 'listemann-toolkit-addon' ),
 				'type'        => Controls_Manager::SELECT,
 				'options'     => array(
-					'left'  => esc_html__( 'Left', 'listemann-addon' ),
-					'right' => esc_html__( 'Right', 'listemann-addon' ),
+					'left'  => esc_html__( 'Left', 'listemann-toolkit-addon' ),
+					'right' => esc_html__( 'Right', 'listemann-toolkit-addon' ),
 				),
 				'default'     => 'left',
-				'description' => esc_html__( 'Applies to continuous and step motion.', 'listemann-addon' ),
+				'description' => esc_html__( 'Applies to continuous and step motion.', 'listemann-toolkit-addon' ),
 			)
 		);
 
 		$this->add_control(
 			'heading_continuous',
 			array(
-				'label'     => esc_html__( 'Continuous Glide', 'listemann-addon' ),
+				'label'     => esc_html__( 'Continuous Glide', 'listemann-toolkit-addon' ),
 				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 			)
@@ -364,20 +364,20 @@ class Continuous_Slider extends Widget_Base {
 		$this->add_control(
 			'speed',
 			array(
-				'label'       => esc_html__( 'Seconds per Slide', 'listemann-addon' ),
+				'label'       => esc_html__( 'Seconds per Slide', 'listemann-toolkit-addon' ),
 				'type'        => Controls_Manager::NUMBER,
 				'min'         => self::LIMITS['speed'][1],
 				'max'         => self::LIMITS['speed'][2],
 				'step'        => 0.1,
 				'default'     => self::LIMITS['speed'][0],
-				'description' => esc_html__( 'Time one slide (including the gap) takes to pass. Lower is faster.', 'listemann-addon' ),
+				'description' => esc_html__( 'Time one slide (including the gap) takes to pass. Lower is faster.', 'listemann-toolkit-addon' ),
 			)
 		);
 
 		$this->add_control(
 			'continuous_pause_on_hover',
 			array(
-				'label'   => esc_html__( 'Pause on Hover', 'listemann-addon' ),
+				'label'   => esc_html__( 'Pause on Hover', 'listemann-toolkit-addon' ),
 				'type'    => Controls_Manager::SWITCHER,
 				'default' => '',
 			)
@@ -386,7 +386,7 @@ class Continuous_Slider extends Widget_Base {
 		$this->add_control(
 			'continuous_draggable',
 			array(
-				'label'   => esc_html__( 'Allow Drag / Swipe', 'listemann-addon' ),
+				'label'   => esc_html__( 'Allow Drag / Swipe', 'listemann-toolkit-addon' ),
 				'type'    => Controls_Manager::SWITCHER,
 				'default' => '',
 			)
@@ -395,7 +395,7 @@ class Continuous_Slider extends Widget_Base {
 		$this->add_control(
 			'heading_step',
 			array(
-				'label'     => esc_html__( 'Step', 'listemann-addon' ),
+				'label'     => esc_html__( 'Step', 'listemann-toolkit-addon' ),
 				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 			)
@@ -404,7 +404,7 @@ class Continuous_Slider extends Widget_Base {
 		$this->add_control(
 			'step_interval',
 			array(
-				'label'   => esc_html__( 'Interval (ms)', 'listemann-addon' ),
+				'label'   => esc_html__( 'Interval (ms)', 'listemann-toolkit-addon' ),
 				'type'    => Controls_Manager::NUMBER,
 				'min'     => self::LIMITS['step_interval'][1],
 				'max'     => self::LIMITS['step_interval'][2],
@@ -416,7 +416,7 @@ class Continuous_Slider extends Widget_Base {
 		$this->add_control(
 			'step_duration',
 			array(
-				'label'   => esc_html__( 'Transition Duration (ms)', 'listemann-addon' ),
+				'label'   => esc_html__( 'Transition Duration (ms)', 'listemann-toolkit-addon' ),
 				'type'    => Controls_Manager::NUMBER,
 				'min'     => self::LIMITS['step_duration'][1],
 				'max'     => self::LIMITS['step_duration'][2],
@@ -428,7 +428,7 @@ class Continuous_Slider extends Widget_Base {
 		$this->add_control(
 			'step_pause_on_hover',
 			array(
-				'label'   => esc_html__( 'Pause on Hover', 'listemann-addon' ),
+				'label'   => esc_html__( 'Pause on Hover', 'listemann-toolkit-addon' ),
 				'type'    => Controls_Manager::SWITCHER,
 				'default' => 'yes',
 			)
@@ -437,7 +437,7 @@ class Continuous_Slider extends Widget_Base {
 		$this->add_control(
 			'step_draggable',
 			array(
-				'label'   => esc_html__( 'Allow Drag / Swipe', 'listemann-addon' ),
+				'label'   => esc_html__( 'Allow Drag / Swipe', 'listemann-toolkit-addon' ),
 				'type'    => Controls_Manager::SWITCHER,
 				'default' => 'yes',
 			)
@@ -446,7 +446,7 @@ class Continuous_Slider extends Widget_Base {
 		$this->add_control(
 			'heading_static',
 			array(
-				'label'     => esc_html__( 'Static', 'listemann-addon' ),
+				'label'     => esc_html__( 'Static', 'listemann-toolkit-addon' ),
 				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 			)
@@ -455,7 +455,7 @@ class Continuous_Slider extends Widget_Base {
 		$this->add_control(
 			'static_draggable',
 			array(
-				'label'   => esc_html__( 'Allow Drag / Swipe', 'listemann-addon' ),
+				'label'   => esc_html__( 'Allow Drag / Swipe', 'listemann-toolkit-addon' ),
 				'type'    => Controls_Manager::SWITCHER,
 				'default' => '',
 			)
@@ -464,13 +464,13 @@ class Continuous_Slider extends Widget_Base {
 		$this->add_control(
 			'aria_label',
 			array(
-				'label'       => esc_html__( 'Accessible Label', 'listemann-addon' ),
+				'label'       => esc_html__( 'Accessible Label', 'listemann-toolkit-addon' ),
 				'type'        => Controls_Manager::TEXT,
 				'dynamic'     => array( 'active' => true ),
 				'default'     => 'Einsatzgebiete',
 				'label_block' => true,
 				'separator'   => 'before',
-				'description' => esc_html__( 'Name of the carousel announced by screen readers.', 'listemann-addon' ),
+				'description' => esc_html__( 'Name of the carousel announced by screen readers.', 'listemann-toolkit-addon' ),
 			)
 		);
 
@@ -486,7 +486,7 @@ class Continuous_Slider extends Widget_Base {
 		$this->start_controls_section(
 			'section_style_slides',
 			array(
-				'label' => esc_html__( 'Slides', 'listemann-addon' ),
+				'label' => esc_html__( 'Slides', 'listemann-toolkit-addon' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -494,7 +494,7 @@ class Continuous_Slider extends Widget_Base {
 		$this->add_responsive_control(
 			'slide_border_radius',
 			array(
-				'label'      => esc_html__( 'Border Radius', 'listemann-addon' ),
+				'label'      => esc_html__( 'Border Radius', 'listemann-toolkit-addon' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', '%', 'em', 'rem' ),
 				'selectors'  => array(
@@ -506,18 +506,18 @@ class Continuous_Slider extends Widget_Base {
 		$this->add_responsive_control(
 			'image_position',
 			array(
-				'label'     => esc_html__( 'Image Position', 'listemann-addon' ),
+				'label'     => esc_html__( 'Image Position', 'listemann-toolkit-addon' ),
 				'type'      => Controls_Manager::SELECT,
 				'options'   => array(
-					'center center' => esc_html__( 'Center Center', 'listemann-addon' ),
-					'center top'    => esc_html__( 'Center Top', 'listemann-addon' ),
-					'center bottom' => esc_html__( 'Center Bottom', 'listemann-addon' ),
-					'left center'   => esc_html__( 'Left Center', 'listemann-addon' ),
-					'left top'      => esc_html__( 'Left Top', 'listemann-addon' ),
-					'left bottom'   => esc_html__( 'Left Bottom', 'listemann-addon' ),
-					'right center'  => esc_html__( 'Right Center', 'listemann-addon' ),
-					'right top'     => esc_html__( 'Right Top', 'listemann-addon' ),
-					'right bottom'  => esc_html__( 'Right Bottom', 'listemann-addon' ),
+					'center center' => esc_html__( 'Center Center', 'listemann-toolkit-addon' ),
+					'center top'    => esc_html__( 'Center Top', 'listemann-toolkit-addon' ),
+					'center bottom' => esc_html__( 'Center Bottom', 'listemann-toolkit-addon' ),
+					'left center'   => esc_html__( 'Left Center', 'listemann-toolkit-addon' ),
+					'left top'      => esc_html__( 'Left Top', 'listemann-toolkit-addon' ),
+					'left bottom'   => esc_html__( 'Left Bottom', 'listemann-toolkit-addon' ),
+					'right center'  => esc_html__( 'Right Center', 'listemann-toolkit-addon' ),
+					'right top'     => esc_html__( 'Right Top', 'listemann-toolkit-addon' ),
+					'right bottom'  => esc_html__( 'Right Bottom', 'listemann-toolkit-addon' ),
 				),
 				'default'   => 'center center',
 				'selectors' => array(
@@ -531,7 +531,7 @@ class Continuous_Slider extends Widget_Base {
 		$this->start_controls_tab(
 			'image_effects_normal',
 			array(
-				'label' => esc_html__( 'Normal', 'listemann-addon' ),
+				'label' => esc_html__( 'Normal', 'listemann-toolkit-addon' ),
 			)
 		);
 
@@ -548,7 +548,7 @@ class Continuous_Slider extends Widget_Base {
 		$this->start_controls_tab(
 			'image_effects_hover',
 			array(
-				'label' => esc_html__( 'Hover', 'listemann-addon' ),
+				'label' => esc_html__( 'Hover', 'listemann-toolkit-addon' ),
 			)
 		);
 
@@ -576,7 +576,7 @@ class Continuous_Slider extends Widget_Base {
 		$this->start_controls_section(
 			'section_style_overlay',
 			array(
-				'label' => esc_html__( 'Overlay', 'listemann-addon' ),
+				'label' => esc_html__( 'Overlay', 'listemann-toolkit-addon' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -586,14 +586,14 @@ class Continuous_Slider extends Widget_Base {
 		$this->start_controls_tab(
 			'overlay_normal',
 			array(
-				'label' => esc_html__( 'Normal', 'listemann-addon' ),
+				'label' => esc_html__( 'Normal', 'listemann-toolkit-addon' ),
 			)
 		);
 
 		$this->add_control(
 			'overlay_color',
 			array(
-				'label'     => esc_html__( 'Color', 'listemann-addon' ),
+				'label'     => esc_html__( 'Color', 'listemann-toolkit-addon' ),
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '#000000',
 				'selectors' => array(
@@ -605,7 +605,7 @@ class Continuous_Slider extends Widget_Base {
 		$this->add_control(
 			'overlay_opacity',
 			array(
-				'label'     => esc_html__( 'Opacity', 'listemann-addon' ),
+				'label'     => esc_html__( 'Opacity', 'listemann-toolkit-addon' ),
 				'type'      => Controls_Manager::SLIDER,
 				'range'     => array(
 					'px' => array(
@@ -626,14 +626,14 @@ class Continuous_Slider extends Widget_Base {
 		$this->start_controls_tab(
 			'overlay_hover',
 			array(
-				'label' => esc_html__( 'Hover', 'listemann-addon' ),
+				'label' => esc_html__( 'Hover', 'listemann-toolkit-addon' ),
 			)
 		);
 
 		$this->add_control(
 			'overlay_hover_color',
 			array(
-				'label'     => esc_html__( 'Color', 'listemann-addon' ),
+				'label'     => esc_html__( 'Color', 'listemann-toolkit-addon' ),
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '#dd191a',
 				'selectors' => array(
@@ -645,7 +645,7 @@ class Continuous_Slider extends Widget_Base {
 		$this->add_control(
 			'overlay_hover_opacity',
 			array(
-				'label'     => esc_html__( 'Opacity', 'listemann-addon' ),
+				'label'     => esc_html__( 'Opacity', 'listemann-toolkit-addon' ),
 				'type'      => Controls_Manager::SLIDER,
 				'range'     => array(
 					'px' => array(
@@ -668,7 +668,7 @@ class Continuous_Slider extends Widget_Base {
 		$this->add_control(
 			'hover_transition',
 			array(
-				'label'      => esc_html__( 'Transition Duration', 'listemann-addon' ),
+				'label'      => esc_html__( 'Transition Duration', 'listemann-toolkit-addon' ),
 				'type'       => Controls_Manager::SLIDER,
 				'size_units' => array( 'ms' ),
 				'range'      => array(
@@ -701,7 +701,7 @@ class Continuous_Slider extends Widget_Base {
 		$this->start_controls_section(
 			'section_style_title',
 			array(
-				'label' => esc_html__( 'Title', 'listemann-addon' ),
+				'label' => esc_html__( 'Title', 'listemann-toolkit-addon' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -711,14 +711,14 @@ class Continuous_Slider extends Widget_Base {
 		$this->start_controls_tab(
 			'title_normal',
 			array(
-				'label' => esc_html__( 'Normal', 'listemann-addon' ),
+				'label' => esc_html__( 'Normal', 'listemann-toolkit-addon' ),
 			)
 		);
 
 		$this->add_control(
 			'title_color',
 			array(
-				'label'     => esc_html__( 'Color', 'listemann-addon' ),
+				'label'     => esc_html__( 'Color', 'listemann-toolkit-addon' ),
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '#ffffff',
 				'selectors' => array(
@@ -732,14 +732,14 @@ class Continuous_Slider extends Widget_Base {
 		$this->start_controls_tab(
 			'title_hover',
 			array(
-				'label' => esc_html__( 'Hover', 'listemann-addon' ),
+				'label' => esc_html__( 'Hover', 'listemann-toolkit-addon' ),
 			)
 		);
 
 		$this->add_control(
 			'title_hover_color',
 			array(
-				'label'     => esc_html__( 'Color', 'listemann-addon' ),
+				'label'     => esc_html__( 'Color', 'listemann-toolkit-addon' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}}' => '--lst-title-hover-color: {{VALUE}};',
@@ -824,7 +824,7 @@ class Continuous_Slider extends Widget_Base {
 		$this->add_responsive_control(
 			'title_padding',
 			array(
-				'label'      => esc_html__( 'Padding', 'listemann-addon' ),
+				'label'      => esc_html__( 'Padding', 'listemann-toolkit-addon' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', 'em', 'rem', '%' ),
 				'default'    => array(
@@ -845,19 +845,19 @@ class Continuous_Slider extends Widget_Base {
 		$this->add_responsive_control(
 			'title_position',
 			array(
-				'label'                => esc_html__( 'Vertical Position', 'listemann-addon' ),
+				'label'                => esc_html__( 'Vertical Position', 'listemann-toolkit-addon' ),
 				'type'                 => Controls_Manager::CHOOSE,
 				'options'              => array(
 					'top'    => array(
-						'title' => esc_html__( 'Top', 'listemann-addon' ),
+						'title' => esc_html__( 'Top', 'listemann-toolkit-addon' ),
 						'icon'  => 'eicon-v-align-top',
 					),
 					'center' => array(
-						'title' => esc_html__( 'Center', 'listemann-addon' ),
+						'title' => esc_html__( 'Center', 'listemann-toolkit-addon' ),
 						'icon'  => 'eicon-v-align-middle',
 					),
 					'bottom' => array(
-						'title' => esc_html__( 'Bottom', 'listemann-addon' ),
+						'title' => esc_html__( 'Bottom', 'listemann-toolkit-addon' ),
 						'icon'  => 'eicon-v-align-bottom',
 					),
 				),
@@ -876,19 +876,19 @@ class Continuous_Slider extends Widget_Base {
 		$this->add_responsive_control(
 			'title_align',
 			array(
-				'label'     => esc_html__( 'Alignment', 'listemann-addon' ),
+				'label'     => esc_html__( 'Alignment', 'listemann-toolkit-addon' ),
 				'type'      => Controls_Manager::CHOOSE,
 				'options'   => array(
 					'left'   => array(
-						'title' => esc_html__( 'Left', 'listemann-addon' ),
+						'title' => esc_html__( 'Left', 'listemann-toolkit-addon' ),
 						'icon'  => 'eicon-text-align-left',
 					),
 					'center' => array(
-						'title' => esc_html__( 'Center', 'listemann-addon' ),
+						'title' => esc_html__( 'Center', 'listemann-toolkit-addon' ),
 						'icon'  => 'eicon-text-align-center',
 					),
 					'right'  => array(
-						'title' => esc_html__( 'Right', 'listemann-addon' ),
+						'title' => esc_html__( 'Right', 'listemann-toolkit-addon' ),
 						'icon'  => 'eicon-text-align-right',
 					),
 				),
@@ -950,7 +950,7 @@ class Continuous_Slider extends Widget_Base {
 				'slider',
 				array(
 					'role'                 => 'region',
-					'aria-roledescription' => __( 'carousel', 'listemann-addon' ),
+					'aria-roledescription' => __( 'carousel', 'listemann-toolkit-addon' ),
 					'aria-label'           => $label,
 				)
 			);
@@ -993,7 +993,7 @@ class Continuous_Slider extends Widget_Base {
 			array(
 				'class'                => array( 'lst-cslider__slide', 'elementor-repeater-item-' . ( $slide['_id'] ?? $index ) ),
 				'role'                 => 'group',
-				'aria-roledescription' => __( 'slide', 'listemann-addon' ),
+				'aria-roledescription' => __( 'slide', 'listemann-toolkit-addon' ),
 				'aria-label'           => sprintf( '%1$d / %2$d', $index + 1, $total ),
 			)
 		);
@@ -1187,7 +1187,7 @@ class Continuous_Slider extends Widget_Base {
 			if ( lstLabel ) {
 				view.addRenderAttribute( 'slider', {
 					role: 'region',
-					'aria-roledescription': '<?php echo esc_js( __( 'carousel', 'listemann-addon' ) ); ?>',
+					'aria-roledescription': '<?php echo esc_js( __( 'carousel', 'listemann-toolkit-addon' ) ); ?>',
 					'aria-label': lstLabel
 				} );
 			}
@@ -1217,7 +1217,7 @@ class Continuous_Slider extends Widget_Base {
 							view.addRenderAttribute( slideKey, {
 								'class': [ 'lst-cslider__slide', 'elementor-repeater-item-' + ( slide._id || index ) ],
 								role: 'group',
-								'aria-roledescription': '<?php echo esc_js( __( 'slide', 'listemann-addon' ) ); ?>',
+								'aria-roledescription': '<?php echo esc_js( __( 'slide', 'listemann-toolkit-addon' ) ); ?>',
 								'aria-label': ( index + 1 ) + ' / ' + lstSlides.length
 							} );
 

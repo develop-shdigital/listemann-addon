@@ -1,0 +1,213 @@
+/**
+ * Listemann Menu widget.
+ *
+ * All values that the widget controls change are CSS custom properties set
+ * by Elementor on the widget wrapper ({{WRAPPER}}); the fallbacks below are
+ * the control defaults, so the menu also looks right before Elementor's
+ * generated CSS exists. Nothing here relies on `.elementor-widget-container`
+ * (works with Elementor's optimized markup on and off).
+ *
+ *   --lst-menu-heading-color / -hover-color / -active-color
+ *   --lst-menu-item-color    / -hover-color / -active-color
+ *   --lst-menu-group-gap     space before/after groups (heading + links)
+ *   --lst-menu-heading-gap   space below a heading
+ *   --lst-menu-item-gap      space between items
+ *   --lst-menu-indent        indent per nested level
+ *   --lst-menu-h-gap         gap between top-level items (horizontal layout)
+ *   --lst-menu-justify       alignment of top-level items (horizontal layout)
+ *   --lst-menu-transition    hover transition duration
+ *   --lst-menu-line-w / -w-nested / -h / -color / -gap / -radius / -offset
+ *   --lst-menu-line-grow / -hover-color   line hover effects
+ *
+ * Markup: nav.lst-menu > ul.lst-menu__list > li.lst-menu__item
+ *         > (a|span).lst-menu__link > span.lst-menu__label, ul.lst-menu__sub
+ */
+
+/* Lists ------------------------------------------------------------------ */
+
+.lst-menu .lst-menu__list,
+.lst-menu .lst-menu__sub {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.lst-menu .lst-menu__item {
+	margin: 0;
+	padding: 0;
+}
+
+.lst-menu .lst-menu__item::before,
+.lst-menu .lst-menu__item::after {
+	content: none; /* Neutralise theme list markers. */
+}
+
+/* Vertical layout: groups are separated by the group gap, plain items by the item gap. */
+.lst-menu--vertical > .lst-menu__list > .lst-menu__item + .lst-menu__item {
+	margin-top: var(--lst-menu-item-gap, 0px);
+}
+
+.lst-menu--vertical > .lst-menu__list > .lst-menu__item--heading + .lst-menu__item,
+.lst-menu--vertical > .lst-menu__list > .lst-menu__item + .lst-menu__item--heading {
+	margin-top: var(--lst-menu-group-gap, 25px);
+}
+
+/* Horizontal layout: top-level items in a wrapping row. */
+.lst-menu--horizontal > .lst-menu__list {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	justify-content: var(--lst-menu-justify, flex-start);
+	column-gap: var(--lst-menu-h-gap, 30px);
+	row-gap: var(--lst-menu-item-gap, 0px);
+}
+
+/* Sub-menus. */
+.lst-menu .lst-menu__sub {
+	margin-inline-start: var(--lst-menu-indent, 25px);
+}
+
+.lst-menu .lst-menu__item--heading > .lst-menu__sub {
+	margin-inline-start: 0;
+	margin-top: var(--lst-menu-heading-gap, 0px);
+}
+
+.lst-menu .lst-menu__sub > .lst-menu__item + .lst-menu__item {
+	margin-top: var(--lst-menu-item-gap, 0px);
+}
+
+/* Nested groups (a sub-item with its own sub-items). */
+.lst-menu .lst-menu__sub > .lst-menu__item--has-sub + .lst-menu__item,
+.lst-menu .lst-menu__sub > .lst-menu__item + .lst-menu__item--has-sub {
+	margin-top: var(--lst-menu-group-gap, 25px);
+}
+
+/* Links and plain-text items ----------------------------------------------- */
+
+.lst-menu .lst-menu__link {
+	--lst-menu-line-w-item: var(--lst-menu-line-w, 30px);
+	position: relative;
+	display: block;
+	width: fit-content;
+	max-width: 100%;
+	color: var(--lst-menu-item-color, inherit);
+	text-decoration: none;
+	overflow-wrap: break-word;
+	transition: color var(--lst-menu-transition, 300ms) ease;
+}
+
+.lst-menu .lst-menu__label {
+	display: block;
+	transition: transform var(--lst-menu-transition, 300ms) ease;
+}
+
+.lst-menu .lst-menu__text {
+	cursor: default;
+}
+
+.lst-menu a.lst-menu__link:hover,
+.lst-menu a.lst-menu__link:focus-visible {
+	color: var(--lst-menu-item-hover-color, var(--lst-menu-item-color, inherit));
+}
+
+.lst-menu .current-menu-item > .lst-menu__link,
+.lst-menu .current-menu-ancestor > .lst-menu__link {
+	color: var(--lst-menu-item-active-color, var(--lst-menu-item-color, inherit));
+}
+
+/* Headings (top-level items with sub-items). */
+.lst-menu .lst-menu__item--heading > .lst-menu__link {
+	color: var(--lst-menu-heading-color, var(--lst-menu-item-color, inherit));
+}
+
+.lst-menu .lst-menu__item--heading.current-menu-item > .lst-menu__link,
+.lst-menu .lst-menu__item--heading.current-menu-ancestor > .lst-menu__link {
+	color: var(--lst-menu-heading-active-color, var(--lst-menu-heading-color, var(--lst-menu-item-color, inherit)));
+}
+
+.lst-menu .lst-menu__item--heading > a.lst-menu__link:hover,
+.lst-menu .lst-menu__item--heading > a.lst-menu__link:focus-visible {
+	color: var(--lst-menu-heading-hover-color, var(--lst-menu-heading-color, var(--lst-menu-item-color, inherit)));
+}
+
+/* Line before items -------------------------------------------------------- */
+
+/* Nested levels (3rd level and deeper) use the nested width. */
+.lst-menu .lst-menu__sub .lst-menu__sub > .lst-menu__item > .lst-menu__link {
+	--lst-menu-line-w-item: var(--lst-menu-line-w-nested, 20px);
+}
+
+.lst-menu .lst-menu__link--line {
+	padding-inline-start: calc(var(--lst-menu-line-w-item) + var(--lst-menu-line-gap, 5px));
+}
+
+/*
+ * The line is centred on the FIRST line of text: half the line height
+ * (1lh) from the top of the link, minus half the line thickness. Browsers
+ * without `lh` support use the vertical middle of the link, which is the
+ * same for single-line items.
+ */
+.lst-menu .lst-menu__link--line::before {
+	content: "";
+	position: absolute;
+	inset-inline-start: 0;
+	top: calc(50% - var(--lst-menu-line-h, 2px) / 2 + var(--lst-menu-line-offset, 0px));
+	top: calc(0.5lh - var(--lst-menu-line-h, 2px) / 2 + var(--lst-menu-line-offset, 0px));
+	width: var(--lst-menu-line-w-item);
+	height: var(--lst-menu-line-h, 2px);
+	border-radius: var(--lst-menu-line-radius, 0px);
+	background-color: var(--lst-menu-line-color, #dd191a);
+	pointer-events: none;
+	transition:
+		width var(--lst-menu-transition, 300ms) ease,
+		background-color var(--lst-menu-transition, 300ms) ease;
+}
+
+/* Hover effect: grow (the line widens, the text moves along). */
+.lst-menu--line-hover-grow a.lst-menu__link--line:hover::before,
+.lst-menu--line-hover-grow a.lst-menu__link--line:focus-visible::before,
+.lst-menu--line-hover-grow-color a.lst-menu__link--line:hover::before,
+.lst-menu--line-hover-grow-color a.lst-menu__link--line:focus-visible::before {
+	width: calc(var(--lst-menu-line-w-item) + var(--lst-menu-line-grow, 10px));
+}
+
+.lst-menu--line-hover-grow a.lst-menu__link--line:hover > .lst-menu__label,
+.lst-menu--line-hover-grow a.lst-menu__link--line:focus-visible > .lst-menu__label,
+.lst-menu--line-hover-grow-color a.lst-menu__link--line:hover > .lst-menu__label,
+.lst-menu--line-hover-grow-color a.lst-menu__link--line:focus-visible > .lst-menu__label {
+	transform: translateX(var(--lst-menu-line-grow, 10px));
+}
+
+[dir="rtl"] .lst-menu--line-hover-grow a.lst-menu__link--line:hover > .lst-menu__label,
+[dir="rtl"] .lst-menu--line-hover-grow a.lst-menu__link--line:focus-visible > .lst-menu__label,
+[dir="rtl"] .lst-menu--line-hover-grow-color a.lst-menu__link--line:hover > .lst-menu__label,
+[dir="rtl"] .lst-menu--line-hover-grow-color a.lst-menu__link--line:focus-visible > .lst-menu__label {
+	transform: translateX(calc(-1 * var(--lst-menu-line-grow, 10px)));
+}
+
+/* Hover effect: color. */
+.lst-menu--line-hover-color a.lst-menu__link--line:hover::before,
+.lst-menu--line-hover-color a.lst-menu__link--line:focus-visible::before,
+.lst-menu--line-hover-grow-color a.lst-menu__link--line:hover::before,
+.lst-menu--line-hover-grow-color a.lst-menu__link--line:focus-visible::before {
+	background-color: var(--lst-menu-line-hover-color, var(--lst-menu-line-color, #dd191a));
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.lst-menu .lst-menu__link,
+	.lst-menu .lst-menu__link::before,
+	.lst-menu .lst-menu__label {
+		transition: none;
+	}
+}
+
+/* Editor-only notice ------------------------------------------------------- */
+
+.lst-menu-notice {
+	padding: 12px 16px;
+	border: 1px dashed #c2c7cd;
+	background: #f9fafa;
+	color: #515962;
+	font-size: 13px;
+	line-height: 1.5;
+}

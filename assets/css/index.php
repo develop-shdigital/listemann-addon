@@ -2,5 +2,5 @@
 /**
  * Silence is golden.
  *
- * @package Listemann_Addon
+ * @package Listemann_Toolkit
  */

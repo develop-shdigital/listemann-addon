@@ -1,5 +1,5 @@
 /**
- * Listemann Addon: Continuous Slider.
+ * Listemann Toolkit Addon: Continuous Slider.
  *
  * `ListemannContinuousSlider` is a dependency-free engine that turns the
  * `.lst-cslider` markup into an endless strip. The server renders every slide
@@ -424,23 +424,85 @@
 			}
 
 			const gap = parseFloat( window.getComputedStyle( this.track ).columnGap ) || 0;
-			const stepWidth = slideWidth + gap;
+			const estimate = slideWidth + gap;
 
 			// Originals + clones must cover one full set plus the viewport at any offset.
-			const sets = Math.max( 1, Math.ceil( ( viewportWidth + stepWidth ) / ( stepWidth * count ) ) );
+			const sets = Math.max( 1, Math.ceil( ( viewportWidth + estimate + 1 ) / ( estimate * count ) ) );
 
 			if ( sets !== this.cloneSets ) {
 				this.buildClones( sets );
+			} else {
+				this.setSetPadding( 0 );
 			}
 
-			// Measured from the layout (sub-pixel) rather than computed, so the wrap
-			// point matches the browser's own slide positions exactly.
-			const setWidth = this.clones[ 0 ].getBoundingClientRect().left - this.slides[ 0 ].getBoundingClientRect().left;
+			// Natural set width, measured from the layout rather than computed so it
+			// matches the browser's own (sub-pixel) slide positions.
+			const first = this.slides[ 0 ].getBoundingClientRect().left;
+			const natural = this.clones[ 0 ].getBoundingClientRect().left - first;
 
-			this.setWidth = setWidth > 0 ? setWidth : stepWidth * count;
-			this.stepWidth = this.setWidth / count;
+			if ( ! ( natural > 0 ) ) {
+				this.setWidth = 0;
+				return;
+			}
+
+			// Each clone set starts up to one device pixel later, so that a set spans
+			// a whole number of device pixels: originals and clones then rasterise
+			// identically and the wrap point is pixel-perfect.
+			const density = window.devicePixelRatio || 1;
+			const aligned = Math.ceil( natural * density - 0.001 ) / density;
+
+			if ( aligned - natural > 0.001 ) {
+				this.setSetPadding( aligned - natural );
+			}
+
+			this.setWidth = this.clones[ 0 ].getBoundingClientRect().left - first;
+			this.stepWidth = natural / count;
 			this.slideWidth = slideWidth;
 			this.viewportWidth = viewportWidth;
+		}
+
+		/**
+		 * Adds space in front of the first slide of every clone set.
+		 *
+		 * @param {number} padding Extra space in px (less than one device pixel).
+		 */
+		setSetPadding( padding ) {
+			const count = this.slides.length;
+
+			this.clones.forEach( ( clone, index ) => {
+				if ( 0 === index % count ) {
+					clone.style.marginLeft = padding ? padding.toFixed( 4 ) + 'px' : '';
+				}
+			} );
+		}
+
+		/**
+		 * Track offset of a slide index; index n is the first slide of the first
+		 * clone set, and so on.
+		 *
+		 * @param {number} index Slide index (may be negative).
+		 * @return {number} Offset in px.
+		 */
+		positionOf( index ) {
+			const count = this.slides.length;
+			const set = Math.floor( index / count );
+
+			return set * this.setWidth + ( index - set * count ) * this.stepWidth;
+		}
+
+		/**
+		 * Slide index at a track offset.
+		 *
+		 * @param {number}   pos      Offset in px.
+		 * @param {Function} rounding Math.round, Math.floor or Math.ceil.
+		 * @return {number} Slide index.
+		 */
+		indexAt( pos, rounding = Math.round ) {
+			const count = this.slides.length;
+			const set = Math.floor( pos / this.setWidth );
+			const local = ( pos - set * this.setWidth ) / this.stepWidth;
+
+			return set * count + Math.min( rounding( local ), count );
 		}
 
 		buildClones( sets ) {
@@ -520,7 +582,7 @@
 		}
 
 		snap( pos ) {
-			return this.stepWidth ? Math.round( pos / this.stepWidth ) * this.stepWidth : pos;
+			return this.setWidth ? this.positionOf( this.indexAt( pos ) ) : pos;
 		}
 
 		/**
@@ -649,7 +711,7 @@
 				return;
 			}
 
-			this.animateTo( this.snap( this.pos ) + this.direction() * this.stepWidth, this.snapDuration() );
+			this.animateTo( this.positionOf( this.indexAt( this.pos ) + this.direction() ), this.snapDuration() );
 		}
 
 		snapDuration() {
@@ -770,17 +832,15 @@
 
 			if ( this.isSnapping() ) {
 				const velocity = event.timeStamp - drag.lastTime > 100 ? 0 : drag.velocity;
-				let index = this.pos / this.stepWidth;
+				let rounding = Math.round;
 
 				if ( velocity < -FLICK_VELOCITY ) {
-					index = Math.ceil( index );
+					rounding = Math.ceil; // Flicked left: next slide.
 				} else if ( velocity > FLICK_VELOCITY ) {
-					index = Math.floor( index );
-				} else {
-					index = Math.round( index );
+					rounding = Math.floor; // Flicked right: previous slide.
 				}
 
-				this.animateTo( index * this.stepWidth, this.snapDuration() );
+				this.animateTo( this.positionOf( this.indexAt( this.pos, rounding ) ), this.snapDuration() );
 			} else {
 				this.pos = mod( this.pos, this.setWidth );
 			}
@@ -876,7 +936,7 @@
 				target = Math.max( 0, end - this.viewportWidth );
 
 				if ( this.isSnapping() ) {
-					target = Math.ceil( ( target - 0.5 ) / this.stepWidth ) * this.stepWidth;
+					target = this.positionOf( this.indexAt( target - 0.5, Math.ceil ) );
 				}
 
 				target = Math.min( start, target ); // A slide wider than the viewport aligns left.
@@ -1038,22 +1098,59 @@
 				const root = this.$element[ 0 ].querySelector( SELECTOR.root );
 
 				this.slider = root ? new ListemannContinuousSlider( root ) : null;
+				this.settingsModel = null;
+				this.refreshFrame = 0;
 
-				if ( this.slider && this.isEdit && editorProgress.has( this.getModelCID() ) ) {
-					this.slider.setProgress( editorProgress.get( this.getModelCID() ) );
-				}
-			}
-
-			onElementChange( setting ) {
-				if ( ! LAYOUT_SETTING.test( setting ) ) {
+				if ( ! this.slider || ! this.isEdit ) {
 					return;
 				}
 
-				// Elementor injects the regenerated CSS in this tick; measure on the next frame.
-				raf( () => this.slider && this.slider.refresh() );
+				const cid = this.getModelCID();
+
+				if ( editorProgress.has( cid ) ) {
+					this.slider.setProgress( editorProgress.get( cid ) );
+				}
+
+				// Settings that render through CSS custom properties do not re-render
+				// the widget. Listening to the settings model (rather than only to
+				// panel changes) also covers undo/redo and changes made via $e.run().
+				const model = elementorFrontend.config.elements.data[ cid ];
+
+				if ( model && 'function' === typeof model.on ) {
+					this.settingsModel = model;
+					this.onSettingsChange = this.onSettingsChange.bind( this );
+					model.on( 'change', this.onSettingsChange );
+				}
+			}
+
+			onSettingsChange( model ) {
+				const changed = Object.keys( ( model && model.changed ) || {} );
+
+				if ( ! this.slider || this.refreshFrame || ! changed.some( ( key ) => LAYOUT_SETTING.test( key ) ) ) {
+					return;
+				}
+
+				// The editor injects the regenerated CSS in this tick; measure on the next frame.
+				this.refreshFrame = raf( () => {
+					this.refreshFrame = 0;
+
+					if ( this.slider ) {
+						this.slider.refresh();
+					}
+				} );
 			}
 
 			onDestroy( ...args ) {
+				if ( this.settingsModel ) {
+					this.settingsModel.off( 'change', this.onSettingsChange );
+					this.settingsModel = null;
+				}
+
+				if ( this.refreshFrame ) {
+					caf( this.refreshFrame );
+					this.refreshFrame = 0;
+				}
+
 				if ( this.slider ) {
 					if ( this.isEdit ) {
 						editorProgress.set( this.getModelCID(), this.slider.getProgress() );
