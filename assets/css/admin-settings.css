@@ -1,0 +1,228 @@
+/**
+ * Listemann Toolkit – admin settings page.
+ */
+
+.lst-settings__intro {
+	max-width: 800px;
+	font-size: 14px;
+}
+
+.lst-settings .lst-textarea {
+	width: 25em;
+	max-width: 100%;
+}
+
+.lst-settings__reset .button {
+	margin-top: 4px;
+}
+
+/* Repeater -------------------------------------------------------------- */
+
+.lst-rep {
+	max-width: 960px;
+}
+
+.lst-rep > .description {
+	margin: 0 0 12px;
+}
+
+.lst-rep__section {
+	margin: 0 0 12px;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	background: #fff;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.lst-rep__section-header {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	padding: 8px 12px;
+	border-bottom: 1px solid #dcdcde;
+	background: #f6f7f7;
+	border-radius: 4px 4px 0 0;
+}
+
+.lst-rep__section-heading {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin: 0;
+	font-size: 14px;
+	text-transform: uppercase;
+}
+
+.lst-rep__section-number {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 22px;
+	height: 22px;
+	padding: 0 4px;
+	border-radius: 11px;
+	background: #dd191a;
+	color: #fff;
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.lst-rep__section-title {
+	overflow-wrap: anywhere;
+}
+
+.lst-rep__tools {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 4px;
+}
+
+.lst-rep__remove {
+	margin-left: 8px !important;
+}
+
+.lst-settings .lst-rep__icon-button.button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 30px;
+	padding: 0 4px;
+}
+
+.lst-rep__icon-button .dashicons {
+	width: 18px;
+	height: 18px;
+	font-size: 18px;
+}
+
+.lst-rep__icon-button:disabled {
+	visibility: hidden;
+}
+
+.lst-rep .button .dashicons-plus-alt2 {
+	margin: 3px 2px 0 -4px;
+	font-size: 18px;
+	width: 18px;
+	height: 18px;
+	vertical-align: text-top;
+}
+
+.lst-rep .button-small .dashicons-plus-alt2 {
+	margin-top: 2px;
+	font-size: 16px;
+	width: 16px;
+	height: 16px;
+}
+
+.lst-rep__section-fields {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px 24px;
+	padding: 12px;
+}
+
+.lst-rep__field {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.lst-rep__field-label {
+	font-weight: 600;
+}
+
+.lst-rep__lines {
+	padding: 0 12px 12px;
+}
+
+.lst-rep__lines-head,
+.lst-rep__line {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto auto;
+	align-items: center;
+	gap: 8px;
+}
+
+.lst-rep__lines-head {
+	padding: 0 0 4px;
+	font-weight: 600;
+}
+
+.lst-rep__line {
+	padding: 6px 0;
+	border-top: 1px solid #f0f0f1;
+}
+
+.lst-rep__line-field input[type="text"] {
+	width: 100%;
+}
+
+.lst-rep__line-field--new-tab {
+	white-space: nowrap;
+}
+
+/* Visually hidden on wide screens (the column head labels the inputs). */
+.lst-rep__line-label {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+.lst-rep__lines .button[data-lst-action="line-add"] {
+	margin-top: 8px;
+}
+
+.lst-rep__empty {
+	margin: 4px 0 8px;
+	color: #646970;
+	font-style: italic;
+}
+
+.lst-rep__empty[hidden] {
+	display: none;
+}
+
+@media screen and (max-width: 782px) {
+	.lst-rep__lines-head {
+		display: none;
+	}
+
+	.lst-rep__line {
+		grid-template-columns: minmax(0, 1fr) auto;
+		padding: 10px 0;
+	}
+
+	.lst-rep__line-field--text,
+	.lst-rep__line-field--url {
+		grid-column: 1 / -1;
+	}
+
+	.lst-rep__line-label {
+		position: static;
+		width: auto;
+		height: auto;
+		margin: 0 0 2px;
+		overflow: visible;
+		clip: auto;
+		white-space: normal;
+		display: block;
+		font-weight: 600;
+	}
+
+	.lst-rep__section-fields .regular-text {
+		width: 100%;
+	}
+
+	.lst-rep__field {
+		flex: 1 1 100%;
+	}
+}

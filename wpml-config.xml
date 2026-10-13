@@ -1,0 +1,29 @@
+<wpml-config>
+	<!--
+		Listemann Toolkit Addon: translatable texts of the global features
+		(option "listemann_toolkit_settings"). Read by WPML String Translation
+		("Admin texts") and by Polylang. Save the settings page once so the
+		option exists before translating.
+	-->
+	<admin-texts>
+		<key name="listemann_toolkit_settings">
+			<key name="contact">
+				<key name="label" />
+				<key name="sections">
+					<key name="*">
+						<key name="title" />
+						<key name="lines">
+							<key name="*">
+								<key name="text" />
+								<key name="url" />
+							</key>
+						</key>
+					</key>
+				</key>
+			</key>
+			<key name="to_top">
+				<key name="label" />
+			</key>
+		</key>
+	</admin-texts>
+</wpml-config>

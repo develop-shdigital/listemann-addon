@@ -1,0 +1,382 @@
+/**
+ * Listemann Toolkit – side dock (contact box + back to top).
+ *
+ * Layout: a fixed dock anchored bottom-right contains the contact box (height
+ * auto, min 200px) and the back-to-top button. The contact toggle hangs off
+ * the box's top-left corner and the back-to-top button is positioned relative
+ * to the dock top, so it always sits right below the toggle (4px gap) however
+ * tall the box is. The dock itself ignores the pointer; only its controls
+ * and the open box receive events.
+ *
+ * Colors are custom properties; the settings page overrides them inline.
+ */
+
+.lst-dock {
+	--lst-dock-brand: #dd191a;
+	--lst-dock-text: #fff;
+	--lst-dock-top-bg: #a8a8a8;
+	--lst-dock-top-arrow: #fafafa;
+	--lst-dock-top-label-bg: #fff;
+	--lst-dock-top-label-color: #000;
+	--lst-dock-size: 58px;
+	--lst-dock-gap: 4px;
+	--lst-dock-icon-size: 37px;
+	--lst-dock-width: 365px;
+	--lst-dock-min-height: 200px;
+	--lst-dock-label-width: 60px;
+	--lst-dock-top-only-bottom: 80px;
+	--lst-dock-padding: 20px 40px 30px 50px;
+	--lst-dock-section-gap: 25px;
+	--lst-dock-duration: 0.3s;
+	--lst-dock-easing: ease;
+	--lst-dock-z: 9990;
+	--lst-dock-admin-bar: var(--wp-admin--admin-bar--height, 0px);
+
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	z-index: var(--lst-dock-z);
+	box-sizing: border-box;
+	width: var(--lst-dock-width);
+	max-width: calc(100vw - var(--lst-dock-size));
+	margin: 0;
+	padding: 0;
+	font-family: inherit;
+	line-height: 1.5;
+	text-align: left;
+	pointer-events: none;
+}
+
+.lst-dock *,
+.lst-dock *::before,
+.lst-dock *::after {
+	box-sizing: border-box;
+}
+
+/* Contact box ------------------------------------------------------------ */
+
+.lst-dock__contact {
+	position: relative;
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	min-height: var(--lst-dock-min-height);
+	max-height: calc(100vh - var(--lst-dock-admin-bar));
+	max-height: calc(100dvh - var(--lst-dock-admin-bar));
+	background-color: var(--lst-dock-brand);
+	color: var(--lst-dock-text);
+	transform: translateX(100%);
+	transition: transform var(--lst-dock-duration) var(--lst-dock-easing);
+	pointer-events: auto;
+}
+
+.lst-dock__contact.is-open {
+	transform: none;
+}
+
+.lst-dock__panel {
+	flex: 1 1 auto;
+	min-height: 0;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	padding: var(--lst-dock-padding);
+	visibility: hidden;
+	transition: visibility 0s linear var(--lst-dock-duration);
+	scrollbar-color: rgba(255, 255, 255, 0.7) transparent;
+	scrollbar-width: thin;
+}
+
+.lst-dock__contact.is-open .lst-dock__panel {
+	visibility: visible;
+	transition-delay: 0s;
+}
+
+.lst-dock__panel::-webkit-scrollbar-thumb {
+	background-color: var(--lst-dock-text);
+}
+
+/* Without JS the box opens while the toggle or a link inside has focus. */
+.lst-dock:not(.is-ready) .lst-dock__contact:focus-within {
+	transform: none;
+}
+
+.lst-dock:not(.is-ready) .lst-dock__contact:focus-within .lst-dock__panel {
+	visibility: visible;
+	transition-delay: 0s;
+}
+
+.lst-dock .lst-dock__section + .lst-dock__section {
+	margin-top: var(--lst-dock-section-gap);
+}
+
+.lst-dock .lst-dock__title {
+	display: block;
+	margin: 0;
+	padding: 0;
+	color: inherit;
+	font-size: 18px;
+	font-weight: 700;
+	line-height: 1.5;
+	text-transform: uppercase;
+}
+
+.lst-dock .lst-dock__lines {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.lst-dock .lst-dock__line {
+	margin: 0;
+	padding: 0;
+	color: inherit;
+	list-style: none;
+}
+
+.lst-dock .lst-dock__line::before,
+.lst-dock .lst-dock__line::marker {
+	content: none;
+}
+
+.lst-dock .lst-dock__section--large .lst-dock__line {
+	font-size: 19px;
+	line-height: 1.5;
+}
+
+.lst-dock .lst-dock__section--small .lst-dock__line {
+	font-size: 15px;
+	line-height: 26px;
+}
+
+.lst-dock a.lst-dock__link,
+.lst-dock a.lst-dock__link:visited,
+.lst-dock a.lst-dock__link:hover,
+.lst-dock a.lst-dock__link:focus,
+.lst-dock a.lst-dock__link:active {
+	color: inherit;
+	background: none;
+	font: inherit;
+	text-decoration: none;
+	box-shadow: none;
+}
+
+.lst-dock a.lst-dock__link:hover,
+.lst-dock a.lst-dock__link:focus-visible {
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.lst-dock a.lst-dock__link:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
+}
+
+.lst-dock .lst-dock__sr {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* Buttons: reset theme / Elementor kit button styles ------------------------ */
+
+.lst-dock button.lst-dock__toggle,
+.lst-dock button.lst-dock__toggle:hover,
+.lst-dock button.lst-dock__toggle:focus,
+.lst-dock button.lst-dock__toggle:active,
+.lst-dock button.lst-dock__top-btn,
+.lst-dock button.lst-dock__top-btn:hover,
+.lst-dock button.lst-dock__top-btn:focus,
+.lst-dock button.lst-dock__top-btn:active {
+	-webkit-appearance: none;
+	appearance: none;
+	min-width: 0;
+	min-height: 0;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	box-shadow: none;
+	font: inherit;
+	letter-spacing: normal;
+	text-decoration: none;
+	text-transform: none;
+	white-space: normal;
+	cursor: pointer;
+	pointer-events: auto;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.lst-dock button.lst-dock__toggle,
+.lst-dock button.lst-dock__toggle:hover,
+.lst-dock button.lst-dock__toggle:focus,
+.lst-dock button.lst-dock__toggle:active {
+	position: absolute;
+	top: 0;
+	left: calc(-1 * var(--lst-dock-size));
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--lst-dock-size);
+	height: var(--lst-dock-size);
+	background-color: var(--lst-dock-brand);
+	color: var(--lst-dock-text);
+}
+
+.lst-dock button.lst-dock__toggle:focus-visible {
+	outline: 2px solid var(--lst-dock-text);
+	outline-offset: -6px;
+}
+
+.lst-dock .lst-dock__icon {
+	display: block;
+	line-height: 0;
+	pointer-events: none;
+}
+
+.lst-dock .lst-dock__icon svg {
+	display: block;
+	max-width: none;
+}
+
+.lst-dock .lst-dock__icon--contact svg {
+	width: var(--lst-dock-icon-size);
+	height: auto;
+}
+
+/* Back to top ----------------------------------------------------------- */
+
+.lst-dock__top {
+	position: absolute;
+	top: calc(var(--lst-dock-size) + var(--lst-dock-gap));
+	right: 0;
+	z-index: 1;
+	width: calc(var(--lst-dock-size) + var(--lst-dock-label-width));
+	height: var(--lst-dock-size);
+	pointer-events: none;
+}
+
+.lst-dock--top-only .lst-dock__top {
+	top: auto;
+	bottom: var(--lst-dock-top-only-bottom);
+}
+
+.lst-dock button.lst-dock__top-btn,
+.lst-dock button.lst-dock__top-btn:hover,
+.lst-dock button.lst-dock__top-btn:focus,
+.lst-dock button.lst-dock__top-btn:active {
+	display: flex;
+	width: calc(var(--lst-dock-size) + var(--lst-dock-label-width));
+	height: var(--lst-dock-size);
+	background-color: transparent;
+	color: var(--lst-dock-top-label-color);
+	transform: translateX(var(--lst-dock-label-width));
+	transition: transform var(--lst-dock-duration) var(--lst-dock-easing), visibility 0s linear 0s;
+}
+
+.lst-dock .lst-dock__icon--top {
+	flex: 0 0 var(--lst-dock-size);
+	width: var(--lst-dock-size);
+	height: var(--lst-dock-size);
+	background-color: var(--lst-dock-top-bg);
+	color: var(--lst-dock-top-arrow);
+}
+
+.lst-dock .lst-dock__icon--top svg {
+	width: 100%;
+	height: 100%;
+}
+
+.lst-dock .lst-dock__icon--top .lst-icon-bg {
+	fill: var(--lst-dock-top-bg);
+}
+
+.lst-dock .lst-dock__icon--top .lst-icon-fg {
+	fill: currentColor;
+}
+
+.lst-dock .lst-dock__top-label {
+	display: flex;
+	flex: 0 0 var(--lst-dock-label-width);
+	align-items: center;
+	justify-content: center;
+	width: var(--lst-dock-label-width);
+	height: var(--lst-dock-size);
+	padding: 5px 0;
+	background-color: var(--lst-dock-top-label-bg);
+	color: inherit;
+	font-size: 10px;
+	font-weight: 400;
+	line-height: 11px;
+	text-align: center;
+	text-transform: uppercase;
+	overflow: hidden;
+}
+
+@media (hover: hover) {
+	.lst-dock button.lst-dock__top-btn:hover {
+		transform: none;
+	}
+}
+
+.lst-dock button.lst-dock__top-btn:focus-visible,
+.lst-dock .lst-dock__top.is-active button.lst-dock__top-btn {
+	transform: none;
+}
+
+.lst-dock button.lst-dock__top-btn:focus-visible {
+	outline: 2px solid var(--lst-dock-brand);
+	outline-offset: -2px;
+}
+
+/* Hidden until the page is scrolled past the configured offset. */
+.lst-dock .lst-dock__top.is-hidden button.lst-dock__top-btn {
+	transform: translateX(calc(100% + 1px));
+	visibility: hidden;
+	transition: transform var(--lst-dock-duration) var(--lst-dock-easing), visibility 0s linear var(--lst-dock-duration);
+}
+
+/* Focus target after "back to top" (body gets tabindex="-1" temporarily). */
+[data-lst-dock-focus]:focus {
+	outline: none;
+}
+
+/* Mobile -------------------------------------------------------------------- */
+
+@media (max-width: 767.98px) {
+	.lst-dock {
+		--lst-dock-width: 250px;
+		--lst-dock-padding: 15px;
+		--lst-dock-section-gap: 15px;
+	}
+}
+
+/* Preferences --------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+	.lst-dock .lst-dock__contact,
+	.lst-dock .lst-dock__panel,
+	.lst-dock button.lst-dock__top-btn {
+		transition: none !important;
+	}
+}
+
+@media (forced-colors: active) {
+	.lst-dock__contact,
+	.lst-dock button.lst-dock__toggle,
+	.lst-dock button.lst-dock__top-btn {
+		outline: 1px solid CanvasText;
+	}
+}
+
+@media print {
+	.lst-dock {
+		display: none !important;
+	}
+}
