@@ -1043,7 +1043,6 @@ class Continuous_Slider extends Widget_Base {
 		$attrs = array(
 			'class'     => 'lst-cslider__image',
 			'alt'       => $alt,
-			'loading'   => 'lazy',
 			'decoding'  => 'async',
 			'draggable' => 'false',
 		);
@@ -1054,7 +1053,9 @@ class Continuous_Slider extends Widget_Base {
 
 		$registered_sizes = array_merge( get_intermediate_image_sizes(), array( 'full' ) );
 
-		// Responsive (srcset) markup for library images in a registered size.
+		// Responsive (srcset) markup for library images in a registered size. The
+		// `loading` attribute is left to WordPress / Elementor's image loading
+		// optimization, which would otherwise add a second one.
 		if ( $id && in_array( $size, $registered_sizes, true ) && ! Elementor::$instance->frontend->is_static_render_mode() ) {
 			$html = wp_get_attachment_image( $id, $size, false, $attrs );
 

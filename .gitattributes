@@ -1,0 +1,11 @@
+# Normalise line endings.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.svg text
+
+# Keep development files out of `git archive` (the installable zip).
+/.claude export-ignore
+/skills-lock.json export-ignore
+/.gitattributes export-ignore
+/.gitignore export-ignore
