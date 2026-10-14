@@ -42,13 +42,17 @@
 	content: none; /* Neutralise theme list markers. */
 }
 
-/* Vertical layout: groups are separated by the group gap, plain items by the item gap. */
+/*
+ * Vertical layout: groups (an item with visible sub-items, i.e. a heading
+ * when "Top-level items are headings" is on) are separated by the group gap,
+ * plain items by the item gap.
+ */
 .lst-menu--vertical > .lst-menu__list > .lst-menu__item + .lst-menu__item {
 	margin-top: var(--lst-menu-item-gap, 0px);
 }
 
-.lst-menu--vertical > .lst-menu__list > .lst-menu__item--heading + .lst-menu__item,
-.lst-menu--vertical > .lst-menu__list > .lst-menu__item + .lst-menu__item--heading {
+.lst-menu--vertical > .lst-menu__list > .lst-menu__item--has-sub + .lst-menu__item,
+.lst-menu--vertical > .lst-menu__list > .lst-menu__item + .lst-menu__item--has-sub {
 	margin-top: var(--lst-menu-group-gap, 25px);
 }
 
@@ -62,9 +66,10 @@
 	row-gap: var(--lst-menu-item-gap, 0px);
 }
 
-/* Sub-menus. */
+/* Sub-menus: indented, and as far from their parent item as items are from each other. */
 .lst-menu .lst-menu__sub {
 	margin-inline-start: var(--lst-menu-indent, 25px);
+	margin-top: var(--lst-menu-item-gap, 0px);
 }
 
 .lst-menu .lst-menu__item--heading > .lst-menu__sub {

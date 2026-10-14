@@ -6,6 +6,10 @@
  * once; the engine clones the set as often as the viewport needs and moves the
  * track with translate3d(), wrapping the offset modulo one set width.
  *
+ * Clones are hidden from assistive technology (`aria-hidden`) and their content
+ * is `inert`. The clone's slide element itself stays hit-testable, so hover
+ * styles still apply to it and clicks on it are replayed on the original card.
+ *
  * Modes, read from the `--lst-mode` custom property so they follow Elementor's
  * breakpoints:
  * - continuous: linear glide driven by requestAnimationFrame,
@@ -23,11 +27,13 @@
 		viewport: '.lst-cslider__viewport',
 		track: '.lst-cslider__track',
 		slide: '.lst-cslider__slide',
+		card: '.lst-cslider__card',
 	};
 
 	const CLASS = {
 		ready: 'is-ready',
 		clone: 'is-clone',
+		link: 'is-link',
 		draggable: 'is-draggable',
 		dragging: 'is-dragging',
 	};
@@ -36,6 +42,7 @@
 
 	const DEFAULTS = {
 		direction: 'left',
+		forwardClicks: true, // Replay clicks on clones on the original card.
 		continuous: { speed: 6, pauseOnHover: false, draggable: false },
 		step: { interval: 3500, duration: 300, pauseOnHover: true, draggable: true },
 		none: { draggable: false },
@@ -50,6 +57,8 @@
 	const FOCUS_DURATION = 300; // ms to bring a keyboard-focused slide into view.
 
 	const instances = new WeakMap();
+
+	let activeCount = 0; // Running engines (for diagnostics and tests).
 
 	const now = () => ( window.performance && performance.now ? performance.now() : Date.now() );
 
@@ -185,11 +194,14 @@
 	}
 
 	/**
-	 * Hides a cloned slide from assistive technology and the tab order.
+	 * Turns a copy of a slide into a decorative clone.
 	 *
-	 * Clones are deliberately not made `inert`: inert content is skipped by
-	 * hit-testing, so clicks and hover on the clones (which fill most of the
-	 * visible strip) would stop working.
+	 * The clone is hidden from assistive technology and its content is made
+	 * `inert` (not focusable, not selectable, skipped by find-in-page);
+	 * focusables also get `tabindex="-1"` for browsers without `inert`. Inert
+	 * content is skipped by hit-testing, so the pointer lands on the clone's
+	 * slide element instead: `:hover` styles on the slide still apply, and the
+	 * engine replays clicks on the original card (see forwardClick()).
 	 *
 	 * @param {HTMLElement} clone Cloned slide.
 	 */
@@ -199,6 +211,9 @@
 		[ 'id', 'role', 'aria-roledescription', 'aria-label' ].forEach( ( attribute ) => clone.removeAttribute( attribute ) );
 		clone.querySelectorAll( '[id]' ).forEach( ( element ) => element.removeAttribute( 'id' ) );
 		clone.querySelectorAll( FOCUSABLE ).forEach( ( element ) => element.setAttribute( 'tabindex', '-1' ) );
+		clone.querySelectorAll( '[fetchpriority]' ).forEach( ( element ) => element.removeAttribute( 'fetchpriority' ) );
+		Array.from( clone.children ).forEach( ( child ) => child.setAttribute( 'inert', '' ) );
+		clone.classList.toggle( CLASS.link, !! clone.querySelector( 'a[href]' ) );
 	}
 
 	/**
@@ -226,6 +241,7 @@
 			}
 
 			instances.set( root, this );
+			activeCount++;
 
 			this.options = mergeOptions( DEFAULTS, readDataOptions( root ), options );
 
@@ -258,6 +274,7 @@
 			this.lastTime = 0;
 			this.tween = null;
 			this.timer = 0;
+			this.stepStart = 0; // Start time of the running autoplay step.
 			this.drag = null;
 			this.suppressClick = false;
 			this.listeners = [];
@@ -303,6 +320,15 @@
 		}
 
 		/**
+		 * Number of running engines (created and not destroyed).
+		 *
+		 * @return {number} Count.
+		 */
+		static get activeCount() {
+			return activeCount;
+		}
+
+		/**
 		 * Creates engines for all sliders in a context that do not have one yet.
 		 *
 		 * @param {ParentNode} context Defaults to the document.
@@ -335,6 +361,7 @@
 			this.listen( this.root, 'pointerenter', this.onPointerEnter );
 			this.listen( this.root, 'pointerleave', this.onPointerLeave );
 			this.listen( this.root, 'click', this.onClick, true );
+			this.listen( this.root, 'auxclick', this.onClick, true );
 			this.listen( this.root, 'dragstart', this.onDragStart );
 			this.listen( this.root, 'focusin', this.onFocusIn );
 			this.listen( this.root, 'focusout', this.onFocusOut );
@@ -415,8 +442,15 @@
 
 		measure() {
 			const count = this.slides.length;
-			const viewportWidth = this.viewport.getBoundingClientRect().width;
-			const slideWidth = this.slides[ 0 ].getBoundingClientRect().width;
+			const rect = this.viewport.getBoundingClientRect();
+			const layoutWidth = parseFloat( window.getComputedStyle( this.viewport ).width );
+
+			// Bounding rects include ancestor transforms (e.g. a "zoom in" entrance
+			// animation running while the slider initialises), the track offset
+			// does not: convert measurements back to layout pixels.
+			const scale = layoutWidth > 0 && Math.abs( rect.width / layoutWidth - 1 ) > 0.001 ? rect.width / layoutWidth : 1;
+			const viewportWidth = rect.width / scale;
+			const slideWidth = this.slides[ 0 ].getBoundingClientRect().width / scale;
 
 			if ( ! viewportWidth || ! slideWidth ) {
 				this.setWidth = 0;
@@ -438,7 +472,7 @@
 			// Natural set width, measured from the layout rather than computed so it
 			// matches the browser's own (sub-pixel) slide positions.
 			const first = this.slides[ 0 ].getBoundingClientRect().left;
-			const natural = this.clones[ 0 ].getBoundingClientRect().left - first;
+			const natural = ( this.clones[ 0 ].getBoundingClientRect().left - first ) / scale;
 
 			if ( ! ( natural > 0 ) ) {
 				this.setWidth = 0;
@@ -455,7 +489,7 @@
 				this.setSetPadding( aligned - natural );
 			}
 
-			this.setWidth = this.clones[ 0 ].getBoundingClientRect().left - first;
+			this.setWidth = ( this.clones[ 0 ].getBoundingClientRect().left - first ) / scale;
 			this.stepWidth = natural / count;
 			this.slideWidth = slideWidth;
 			this.viewportWidth = viewportWidth;
@@ -540,6 +574,7 @@
 		setMode( mode ) {
 			this.mode = mode;
 			this.tween = null;
+			this.stepStart = 0;
 			this.clearTimer();
 
 			MODES.forEach( ( name ) => this.root.classList.toggle( 'is-mode-' + name, name === mode ) );
@@ -596,12 +631,24 @@
 
 			this.root.classList.toggle( CLASS.draggable, this.isDraggable() );
 
-			if ( 'step' === this.mode && this.canAutoplay() && ! this.isHeld() && ! this.tween && ! this.drag ) {
+			const autoplay = 'step' === this.mode && this.canAutoplay() && ! this.isHeld() && ! this.drag;
+
+			if ( autoplay && ! this.tween ) {
 				if ( ! this.timer ) {
-					this.timer = window.setTimeout( this.onStepTimer, toNumber( this.options.step.interval, DEFAULTS.step.interval, 100 ) );
+					// Steps start one interval apart (the transition is part of the
+					// interval, as with slick's autoplaySpeed); after a pause the
+					// next step waits a full interval.
+					const interval = toNumber( this.options.step.interval, DEFAULTS.step.interval, 100 );
+					const elapsed = this.stepStart ? now() - this.stepStart : 0;
+
+					this.timer = window.setTimeout( this.onStepTimer, clamp( interval - elapsed, 0, interval ) );
 				}
 			} else {
 				this.clearTimer();
+
+				if ( ! autoplay ) {
+					this.stepStart = 0;
+				}
 			}
 
 			this.requestTick();
@@ -711,6 +758,7 @@
 				return;
 			}
 
+			this.stepStart = now();
 			this.animateTo( this.positionOf( this.indexAt( this.pos ) + this.direction() ), this.snapDuration() );
 		}
 
@@ -856,11 +904,69 @@
 		}
 
 		onClick( event ) {
-			if ( this.suppressClick ) {
+			if ( this.suppressClick && 'click' === event.type ) {
 				this.suppressClick = false;
 				event.preventDefault();
 				event.stopPropagation();
+				return;
 			}
+
+			this.forwardClick( event );
+		}
+
+		/**
+		 * Replays a click on a clone on the corresponding original card, so the
+		 * link opens (and listeners on the original run) as if the original had
+		 * been clicked. Clicks that ask for a new tab or window (middle button,
+		 * Ctrl, Cmd or Shift) open the link with window.open(), because browsers
+		 * apply those modifiers only to trusted events.
+		 *
+		 * @param {MouseEvent} event `click` or `auxclick` event.
+		 */
+		forwardClick( event ) {
+			if ( ! this.options.forwardClicks || event.defaultPrevented || ! event.target || ! event.target.closest ) {
+				return;
+			}
+
+			const index = this.clones.indexOf( event.target.closest( SELECTOR.slide ) );
+			const card = index < 0 ? null : this.slides[ index % this.slides.length ].querySelector( SELECTOR.card );
+
+			if ( ! card ) {
+				return;
+			}
+
+			const middle = 'auxclick' === event.type;
+
+			if ( middle && 1 !== event.button ) {
+				return; // Right button and others: nothing to replay.
+			}
+
+			if ( middle || event.ctrlKey || event.metaKey || event.shiftKey ) {
+				const href = card.matches( 'a[href]' ) ? card.href : '';
+
+				if ( /^https?:/i.test( href ) ) {
+					event.preventDefault();
+					window.open( href, '_blank', 'noopener' );
+				}
+
+				return;
+			}
+
+			event.preventDefault();
+			card.dispatchEvent(
+				new window.MouseEvent( 'click', {
+					bubbles: true,
+					cancelable: true,
+					view: window,
+					detail: event.detail,
+					screenX: event.screenX,
+					screenY: event.screenY,
+					clientX: event.clientX,
+					clientY: event.clientY,
+					altKey: event.altKey,
+					button: 0,
+				} )
+			);
 		}
 
 		onDragStart( event ) {
@@ -1030,6 +1136,7 @@
 			}
 
 			this.destroyed = true;
+			activeCount--;
 
 			if ( this.frame ) {
 				caf( this.frame );
@@ -1097,7 +1204,8 @@
 
 				const root = this.$element[ 0 ].querySelector( SELECTOR.root );
 
-				this.slider = root ? new ListemannContinuousSlider( root ) : null;
+				// Links must not open from the editor preview.
+				this.slider = root ? new ListemannContinuousSlider( root, { forwardClicks: ! this.isEdit } ) : null;
 				this.settingsModel = null;
 				this.refreshFrame = 0;
 

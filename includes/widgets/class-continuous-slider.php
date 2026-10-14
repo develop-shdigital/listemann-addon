@@ -200,10 +200,11 @@ class Continuous_Slider extends Widget_Base {
 			)
 		);
 
+		// The group name "image" yields the settings image_size and image_custom_dimension.
 		$this->add_group_control(
 			Group_Control_Image_Size::get_type(),
 			array(
-				'name'      => 'image', // Creates `image_size` and `image_custom_dimension`.
+				'name'      => 'image',
 				'default'   => 'large',
 				'separator' => 'before',
 			)
@@ -526,6 +527,41 @@ class Continuous_Slider extends Widget_Base {
 			)
 		);
 
+		$this->add_responsive_control(
+			'image_height',
+			array(
+				'label'          => esc_html__( 'Image Height', 'listemann-toolkit-addon' ),
+				'type'           => Controls_Manager::SLIDER,
+				'size_units'     => array( '%', 'px', 'vh' ),
+				'range'          => array(
+					'%'  => array(
+						'min' => 100,
+						'max' => 200,
+					),
+					'px' => array(
+						'min' => 100,
+						'max' => 1500,
+					),
+					'vh' => array(
+						'min' => 10,
+						'max' => 150,
+					),
+				),
+				'default'        => array(
+					'unit' => '%',
+					'size' => 109,
+				),
+				'tablet_default' => array(
+					'unit' => '%',
+					'size' => 100,
+				),
+				'description'    => esc_html__( 'Percentages are relative to the slide height. A taller image is cropped at the bottom: the original strip shows 600 px images in 550 px slides (109 %). The image never gets shorter than the slide.', 'listemann-toolkit-addon' ),
+				'selectors'      => array(
+					'{{WRAPPER}}' => '--lst-image-height: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
 		$this->start_controls_tabs( 'image_effects_tabs' );
 
 		$this->start_controls_tab(
@@ -556,7 +592,7 @@ class Continuous_Slider extends Widget_Base {
 			Group_Control_Css_Filter::get_type(),
 			array(
 				'name'     => 'image_filters_hover',
-				'selector' => '{{WRAPPER}} .lst-cslider__card:hover .lst-cslider__image, {{WRAPPER}} .lst-cslider__card:focus-visible .lst-cslider__image',
+				'selector' => '{{WRAPPER}} .lst-cslider__slide:hover .lst-cslider__image, {{WRAPPER}} .lst-cslider__card:focus-visible .lst-cslider__image',
 			)
 		);
 

@@ -12,6 +12,7 @@
 	--_gap: var(--lst-gap, 15px);
 	--_height: var(--lst-height, 550px);
 	--_mode: var(--lst-mode, continuous);
+	--_image-height: var(--lst-image-height, 109%);
 	--_duration: var(--lst-hover-duration, 300ms);
 	position: relative;
 	width: 100%;
@@ -21,6 +22,7 @@
 	.lst-cslider {
 		--_spv: var(--lst-spv, 4);
 		--_height: var(--lst-height, 300px);
+		--_image-height: var(--lst-image-height, 100%);
 	}
 }
 
@@ -91,7 +93,10 @@
 	display: block;
 	width: 100%;
 	max-width: none;
-	height: 100%;
+	/* Taller than the card: cropped at the bottom, as on the original strip. */
+	height: var(--_image-height);
+	min-height: 100%;
+	max-height: none;
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -146,14 +151,18 @@
 	}
 }
 
-/* Hover applies to the whole card, so hovering the title triggers it too. */
+/*
+ * Hover applies to the whole slide, so hovering the title triggers it too. It
+ * is bound to the slide rather than the card because the content of clones is
+ * inert (skipped by hit-testing): on a clone the pointer lands on the slide.
+ */
 @media (hover: hover) {
-	.lst-cslider .lst-cslider__card:hover .lst-cslider__overlay {
+	.lst-cslider .lst-cslider__slide:hover .lst-cslider__overlay {
 		background-color: var(--lst-overlay-hover-color, #dd191a);
 		opacity: var(--lst-overlay-hover-opacity, 0.75);
 	}
 
-	.lst-cslider .lst-cslider__card:hover .lst-cslider__title {
+	.lst-cslider .lst-cslider__slide:hover .lst-cslider__title {
 		color: var(--lst-title-hover-color, var(--lst-title-color, #fff));
 	}
 }
@@ -167,6 +176,11 @@
 	color: var(--lst-title-hover-color, var(--lst-title-color, #fff));
 }
 
+/* Clones of linked slides: the script replays their clicks on the original. */
+.lst-cslider .lst-cslider__slide.is-clone.is-link {
+	cursor: pointer;
+}
+
 /* Drag / swipe (classes set by the script). */
 .lst-cslider.is-draggable .lst-cslider__viewport {
 	cursor: grab;
@@ -176,6 +190,8 @@
 }
 
 .lst-cslider.is-dragging .lst-cslider__viewport,
+.lst-cslider.is-dragging .lst-cslider__slide,
+.lst-cslider.is-dragging .lst-cslider__slide.is-link,
 .lst-cslider.is-dragging .lst-cslider__card {
 	cursor: grabbing;
 }

@@ -425,7 +425,7 @@ class Menu extends Widget_Base {
 					'unit' => 'px',
 					'size' => 25,
 				),
-				'description' => esc_html__( 'Space before and after each group (a heading with its links), also for nested groups.', 'listemann-toolkit-addon' ),
+				'description' => esc_html__( 'Space before and after each group (an item with its sub-items, e.g. a heading with its links), on every level.', 'listemann-toolkit-addon' ),
 				'selectors'   => array(
 					'{{WRAPPER}}' => '--lst-menu-group-gap: {{SIZE}}{{UNIT}};',
 				),

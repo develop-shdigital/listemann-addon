@@ -69,7 +69,8 @@ class Menu_Walker extends \Walker_Nav_Menu {
 	private $id_prefix = '';
 
 	/**
-	 * Maximum depth that is displayed (0 = all levels).
+	 * Maximum depth that is displayed (0 = all levels). Only used when the
+	 * wp_nav_menu() arguments do not carry a depth.
 	 *
 	 * @var int
 	 */
@@ -163,7 +164,9 @@ class Menu_Walker extends \Walker_Nav_Menu {
 
 		$indent = $depth ? str_repeat( $t, $depth ) : '';
 
-		$has_sub    = $this->has_children && ( 0 === $this->max_depth || $this->max_depth > $depth + 1 );
+		// Children are only printed when the depth limit allows it (see Walker::display_element()).
+		$max_depth  = isset( $args->depth ) ? max( 0, (int) $args->depth ) : $this->max_depth;
+		$has_sub    = $this->has_children && ( 0 === $max_depth || $max_depth > $depth + 1 );
 		$is_heading = 0 === $depth && $this->headings && $has_sub;
 
 		$classes   = empty( $menu_item->classes ) ? array() : (array) $menu_item->classes;
