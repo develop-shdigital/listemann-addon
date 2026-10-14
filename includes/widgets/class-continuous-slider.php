@@ -48,6 +48,16 @@ class Continuous_Slider extends Widget_Base {
 	);
 
 	/**
+	 * Button icons (static markup, coloured with currentColor).
+	 */
+	const ICONS = array(
+		'pause' => '<path d="M4 2h3v12H4zM9 2h3v12H9z"/>',
+		'play'  => '<path d="M4 2l10 6-10 6z"/>',
+		'prev'  => '<path d="M10.6 2 12 3.4 7.4 8l4.6 4.6-1.4 1.4-6-6z"/>',
+		'next'  => '<path d="M5.4 2 4 3.4 8.6 8 4 12.6 5.4 14l6-6z"/>',
+	);
+
+	/**
 	 * Widget name.
 	 *
 	 * @return string
@@ -142,6 +152,30 @@ class Continuous_Slider extends Widget_Base {
 		$this->register_slides_style_controls();
 		$this->register_overlay_style_controls();
 		$this->register_title_style_controls();
+		$this->register_buttons_style_controls();
+	}
+
+	/**
+	 * Display condition of the button settings: at least one button is on.
+	 *
+	 * @return array
+	 */
+	private function get_buttons_condition() {
+		return array(
+			'relation' => 'or',
+			'terms'    => array(
+				array(
+					'name'     => 'pause_button',
+					'operator' => '===',
+					'value'    => 'yes',
+				),
+				array(
+					'name'     => 'nav_buttons',
+					'operator' => '===',
+					'value'    => 'yes',
+				),
+			),
+		);
 	}
 
 	/**
@@ -253,11 +287,10 @@ class Continuous_Slider extends Widget_Base {
 				'min'            => 1,
 				'max'            => 12,
 				'step'           => 0.1,
-				'default'        => 7,
-				'laptop_default' => 5,
+				'placeholder'    => 7,
 				'tablet_default' => 4,
 				'mobile_default' => 2,
-				'description'    => esc_html__( 'Decimals (e.g. 2.5) let the next slide peek in.', 'listemann-toolkit-addon' ),
+				'description'    => esc_html__( 'Decimals (e.g. 2.5) let the next slide peek in. Left empty, the strip shows 7 slides, 5 below 1300 px and 4 below 1100 px, like the original.', 'listemann-toolkit-addon' ),
 				'selectors'      => array(
 					'{{WRAPPER}}' => '--lst-spv: {{VALUE}};',
 				),
@@ -353,7 +386,7 @@ class Continuous_Slider extends Widget_Base {
 				),
 				'default'        => 'continuous',
 				'mobile_default' => 'step',
-				'description'    => esc_html__( 'Visitors who prefer reduced motion always get a static strip they can drag.', 'listemann-toolkit-addon' ),
+				'description'    => esc_html__( 'Visitors who prefer reduced motion always get a static strip they can drag or move with the previous / next buttons.', 'listemann-toolkit-addon' ),
 				'selectors'      => array(
 					'{{WRAPPER}}' => '--lst-mode: {{VALUE}};',
 				),
@@ -480,6 +513,50 @@ class Continuous_Slider extends Widget_Base {
 				'label'   => esc_html__( 'Allow Drag / Swipe', 'listemann-toolkit-addon' ),
 				'type'    => Controls_Manager::SWITCHER,
 				'default' => '',
+			)
+		);
+
+		$this->add_control(
+			'heading_buttons',
+			array(
+				'label'     => esc_html__( 'Buttons', 'listemann-toolkit-addon' ),
+				'type'      => Controls_Manager::HEADING,
+				'separator' => 'before',
+			)
+		);
+
+		$this->add_control(
+			'pause_button',
+			array(
+				'label'       => esc_html__( 'Pause Button', 'listemann-toolkit-addon' ),
+				'type'        => Controls_Manager::SWITCHER,
+				'default'     => 'yes',
+				'description' => esc_html__( 'Lets visitors stop and restart the motion. Accessibility guidelines (WCAG 2.2.2) require it for content that moves on its own.', 'listemann-toolkit-addon' ),
+			)
+		);
+
+		$this->add_control(
+			'nav_buttons',
+			array(
+				'label'       => esc_html__( 'Previous / Next Buttons', 'listemann-toolkit-addon' ),
+				'type'        => Controls_Manager::SWITCHER,
+				'default'     => 'yes',
+				'description' => esc_html__( 'Shown while the strip stands still (paused, static or reduced motion) and not every slide fits, so all slides can be reached without dragging.', 'listemann-toolkit-addon' ),
+			)
+		);
+
+		$this->add_control(
+			'buttons_visibility',
+			array(
+				'label'       => esc_html__( 'Show Buttons', 'listemann-toolkit-addon' ),
+				'type'        => Controls_Manager::SELECT,
+				'options'     => array(
+					'always' => esc_html__( 'Always', 'listemann-toolkit-addon' ),
+					'hover'  => esc_html__( 'On hover and keyboard focus', 'listemann-toolkit-addon' ),
+				),
+				'default'     => 'always',
+				'description' => esc_html__( 'Touch screens always show them.', 'listemann-toolkit-addon' ),
+				'conditions'  => $this->get_buttons_condition(),
 			)
 		);
 
@@ -723,6 +800,39 @@ class Continuous_Slider extends Widget_Base {
 		$this->end_controls_tabs();
 
 		$this->add_control(
+			'title_shade_opacity',
+			array(
+				'label'       => esc_html__( 'Shade Behind Title', 'listemann-toolkit-addon' ),
+				'type'        => Controls_Manager::SLIDER,
+				'range'       => array(
+					'px' => array(
+						'min'  => 0,
+						'max'  => 1,
+						'step' => 0.01,
+					),
+				),
+				'default'     => array( 'size' => 0 ),
+				'separator'   => 'before',
+				'description' => esc_html__( 'A gradient that darkens the lower half of the slide. On light images, about 0.6 keeps white titles readable (WCAG contrast 4.5:1).', 'listemann-toolkit-addon' ),
+				'selectors'   => array(
+					'{{WRAPPER}}' => '--lst-shade-opacity: {{SIZE}};',
+				),
+			)
+		);
+
+		$this->add_control(
+			'title_shade_color',
+			array(
+				'label'     => esc_html__( 'Shade Color', 'listemann-toolkit-addon' ),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '#000000',
+				'selectors' => array(
+					'{{WRAPPER}}' => '--lst-shade-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_control(
 			'hover_transition',
 			array(
 				'label'      => esc_html__( 'Transition Duration', 'listemann-toolkit-addon' ),
@@ -959,6 +1069,117 @@ class Continuous_Slider extends Widget_Base {
 	}
 
 	/**
+	 * Style tab: pause and previous / next buttons.
+	 *
+	 * @return void
+	 */
+	private function register_buttons_style_controls() {
+		$this->start_controls_section(
+			'section_style_buttons',
+			array(
+				'label'      => esc_html__( 'Buttons', 'listemann-toolkit-addon' ),
+				'tab'        => Controls_Manager::TAB_STYLE,
+				'conditions' => $this->get_buttons_condition(),
+			)
+		);
+
+		$this->add_responsive_control(
+			'buttons_position',
+			array(
+				'label'                => esc_html__( 'Position', 'listemann-toolkit-addon' ),
+				'type'                 => Controls_Manager::SELECT,
+				'options'              => array(
+					'top-right'    => esc_html__( 'Top Right', 'listemann-toolkit-addon' ),
+					'top-left'     => esc_html__( 'Top Left', 'listemann-toolkit-addon' ),
+					'bottom-right' => esc_html__( 'Bottom Right', 'listemann-toolkit-addon' ),
+					'bottom-left'  => esc_html__( 'Bottom Left', 'listemann-toolkit-addon' ),
+				),
+				'default'              => 'top-right',
+				'selectors_dictionary' => array(
+					'top-right'    => 'top: var(--_inset); right: var(--_inset); bottom: auto; left: auto;',
+					'top-left'     => 'top: var(--_inset); right: auto; bottom: auto; left: var(--_inset);',
+					'bottom-right' => 'top: auto; right: var(--_inset); bottom: var(--_inset); left: auto;',
+					'bottom-left'  => 'top: auto; right: auto; bottom: var(--_inset); left: var(--_inset);',
+				),
+				'selectors'            => array(
+					'{{WRAPPER}} .lst-cslider__controls' => '{{VALUE}}',
+				),
+			)
+		);
+
+		$this->start_controls_tabs( 'buttons_tabs' );
+
+		$this->start_controls_tab(
+			'buttons_normal',
+			array(
+				'label' => esc_html__( 'Normal', 'listemann-toolkit-addon' ),
+			)
+		);
+
+		$this->add_control(
+			'buttons_color',
+			array(
+				'label'     => esc_html__( 'Icon Color', 'listemann-toolkit-addon' ),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '#ffffff',
+				'selectors' => array(
+					'{{WRAPPER}}' => '--lst-button-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_control(
+			'buttons_background',
+			array(
+				'label'     => esc_html__( 'Background Color', 'listemann-toolkit-addon' ),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => 'rgba(0, 0, 0, 0.6)',
+				'selectors' => array(
+					'{{WRAPPER}}' => '--lst-button-bg: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->end_controls_tab();
+
+		$this->start_controls_tab(
+			'buttons_hover',
+			array(
+				'label' => esc_html__( 'Hover', 'listemann-toolkit-addon' ),
+			)
+		);
+
+		$this->add_control(
+			'buttons_hover_color',
+			array(
+				'label'     => esc_html__( 'Icon Color', 'listemann-toolkit-addon' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}}' => '--lst-button-hover-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_control(
+			'buttons_hover_background',
+			array(
+				'label'     => esc_html__( 'Background Color', 'listemann-toolkit-addon' ),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '#dd191a',
+				'selectors' => array(
+					'{{WRAPPER}}' => '--lst-button-hover-bg: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->end_controls_tab();
+
+		$this->end_controls_tabs();
+
+		$this->end_controls_section();
+	}
+
+	/**
 	 * Default slides: the four "Einsatzgebiete" of listemann.com.
 	 *
 	 * @return array
@@ -993,6 +1214,8 @@ class Continuous_Slider extends Widget_Base {
 
 		$title_tag = in_array( $settings['title_tag'] ?? '', self::TITLE_TAGS, true ) ? $settings['title_tag'] : 'span';
 		$label     = trim( wp_strip_all_tags( (string) ( $settings['aria_label'] ?? '' ) ) );
+		$pause     = 'yes' === ( $settings['pause_button'] ?? '' );
+		$nav       = 'yes' === ( $settings['nav_buttons'] ?? '' );
 
 		$this->add_render_attribute(
 			'slider',
@@ -1001,6 +1224,10 @@ class Continuous_Slider extends Widget_Base {
 				'data-lst-options' => wp_json_encode( $this->get_engine_options( $settings ) ),
 			)
 		);
+
+		if ( ( $pause || $nav ) && 'hover' === ( $settings['buttons_visibility'] ?? '' ) ) {
+			$this->add_render_attribute( 'slider', 'class', 'lst-cslider--buttons-on-hover' );
+		}
 
 		if ( '' !== $label ) {
 			$this->add_render_attribute(
@@ -1014,6 +1241,23 @@ class Continuous_Slider extends Widget_Base {
 		}
 		?>
 		<div <?php $this->print_render_attribute_string( 'slider' ); ?>>
+			<?php if ( $pause || $nav ) : ?>
+				<div class="lst-cslider__controls">
+					<?php
+					if ( $nav ) {
+						$this->print_button( 'prev' );
+					}
+
+					if ( $pause ) {
+						$this->print_button( 'pause' );
+					}
+
+					if ( $nav ) {
+						$this->print_button( 'next' );
+					}
+					?>
+				</div>
+			<?php endif; ?>
 			<div class="lst-cslider__viewport">
 				<div class="lst-cslider__track">
 					<?php
@@ -1051,7 +1295,8 @@ class Continuous_Slider extends Widget_Base {
 				'class'                => array( 'lst-cslider__slide', 'elementor-repeater-item-' . ( $slide['_id'] ?? $index ) ),
 				'role'                 => 'group',
 				'aria-roledescription' => __( 'slide', 'listemann-toolkit-addon' ),
-				'aria-label'           => sprintf( '%1$d / %2$d', $index + 1, $total ),
+				/* translators: 1: Slide number, 2: Number of slides. */
+				'aria-label'           => sprintf( __( '%1$d of %2$d', 'listemann-toolkit-addon' ), $index + 1, $total ),
 			)
 		);
 
@@ -1077,6 +1322,49 @@ class Continuous_Slider extends Widget_Base {
 			</<?php Utils::print_validated_html_tag( $card_tag ); ?>>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Prints the pause / play button or a previous / next button. Shared by
+	 * render() and content_template(); the script switches the pause button's
+	 * label between its two data attributes.
+	 *
+	 * @param string $name pause, prev or next.
+	 * @return void
+	 */
+	private function print_button( $name ) {
+		if ( 'pause' === $name ) {
+			printf(
+				'<button type="button" class="lst-cslider__button lst-cslider__pause" aria-label="%1$s" data-lst-pause-label="%1$s" data-lst-play-label="%2$s">',
+				esc_attr__( 'Pause carousel', 'listemann-toolkit-addon' ),
+				esc_attr__( 'Play carousel', 'listemann-toolkit-addon' )
+			);
+			$this->print_icon( 'pause' );
+			$this->print_icon( 'play' );
+		} else {
+			printf(
+				'<button type="button" class="lst-cslider__button lst-cslider__nav lst-cslider__%1$s" aria-label="%2$s">',
+				esc_attr( $name ),
+				'prev' === $name ? esc_attr__( 'Previous slide', 'listemann-toolkit-addon' ) : esc_attr__( 'Next slide', 'listemann-toolkit-addon' )
+			);
+			$this->print_icon( $name );
+		}
+
+		echo '</button>';
+	}
+
+	/**
+	 * Prints a button icon.
+	 *
+	 * @param string $name Key of self::ICONS.
+	 * @return void
+	 */
+	private function print_icon( $name ) {
+		printf(
+			'<svg class="lst-cslider__icon lst-cslider__icon-%1$s" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">%2$s</svg>',
+			esc_attr( $name ),
+			self::ICONS[ $name ] // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Static markup from a class constant.
+		);
 	}
 
 	/**
@@ -1234,12 +1522,19 @@ class Continuous_Slider extends Widget_Base {
 						draggable: lstOn( 'static_draggable' )
 					}
 				},
-				lstLabel = String( settings.aria_label || '' ).replace( /<[^>]*>/g, '' ).trim();
+				lstLabel = String( settings.aria_label || '' ).replace( /<[^>]*>/g, '' ).trim(),
+				lstPause = lstOn( 'pause_button' ),
+				lstNav = lstOn( 'nav_buttons' ),
+				lstSlideLabel = <?php echo wp_json_encode( /* translators: 1: Slide number, 2: Number of slides. */ __( '%1$d of %2$d', 'listemann-toolkit-addon' ) ); ?>;
 
 			view.addRenderAttribute( 'slider', {
 				'class': 'lst-cslider',
 				'data-lst-options': JSON.stringify( lstOptions )
 			} );
+
+			if ( ( lstPause || lstNav ) && 'hover' === settings.buttons_visibility ) {
+				view.addRenderAttribute( 'slider', 'class', 'lst-cslider--buttons-on-hover' );
+			}
 
 			if ( lstLabel ) {
 				view.addRenderAttribute( 'slider', {
@@ -1250,6 +1545,19 @@ class Continuous_Slider extends Widget_Base {
 			}
 			#>
 			<div {{{ view.getRenderAttributeString( 'slider' ) }}}>
+				<# if ( lstPause || lstNav ) { #>
+					<div class="lst-cslider__controls">
+						<# if ( lstNav ) { #>
+							<?php $this->print_button( 'prev' ); ?>
+						<# } #>
+						<# if ( lstPause ) { #>
+							<?php $this->print_button( 'pause' ); ?>
+						<# } #>
+						<# if ( lstNav ) { #>
+							<?php $this->print_button( 'next' ); ?>
+						<# } #>
+					</div>
+				<# } #>
 				<div class="lst-cslider__viewport">
 					<div class="lst-cslider__track">
 						<# _.each( lstSlides, function( slide, index ) {
@@ -1275,7 +1583,7 @@ class Continuous_Slider extends Widget_Base {
 								'class': [ 'lst-cslider__slide', 'elementor-repeater-item-' + ( slide._id || index ) ],
 								role: 'group',
 								'aria-roledescription': '<?php echo esc_js( __( 'slide', 'listemann-toolkit-addon' ) ); ?>',
-								'aria-label': ( index + 1 ) + ' / ' + lstSlides.length
+								'aria-label': lstSlideLabel.replace( '%1$d', index + 1 ).replace( '%2$d', lstSlides.length )
 							} );
 
 							view.addRenderAttribute( cardKey, {

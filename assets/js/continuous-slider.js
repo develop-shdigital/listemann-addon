@@ -10,6 +10,10 @@
  * is `inert`. The clone's slide element itself stays hit-testable, so hover
  * styles still apply to it and clicks on it are replayed on the original card.
  *
+ * Optional buttons in `.lst-cslider__controls`: a pause / play toggle, and
+ * previous / next buttons that the stylesheet shows while the strip stands
+ * still (paused, static or reduced motion) and not every slide fits.
+ *
  * Modes, read from the `--lst-mode` custom property so they follow Elementor's
  * breakpoints:
  * - continuous: linear glide driven by requestAnimationFrame,
@@ -28,6 +32,9 @@
 		track: '.lst-cslider__track',
 		slide: '.lst-cslider__slide',
 		card: '.lst-cslider__card',
+		pause: '.lst-cslider__pause',
+		prev: '.lst-cslider__prev',
+		next: '.lst-cslider__next',
 	};
 
 	const CLASS = {
@@ -36,6 +43,9 @@
 		link: 'is-link',
 		draggable: 'is-draggable',
 		dragging: 'is-dragging',
+		autoplay: 'is-autoplay', // The current mode moves on its own (pause button shown).
+		paused: 'is-paused', // Stopped with the pause button.
+		overflowing: 'is-overflowing', // Not every slide fits (previous / next buttons may show).
 	};
 
 	const MODES = [ 'continuous', 'step', 'none' ];
@@ -71,7 +81,9 @@
 		? ( id ) => window.cancelAnimationFrame( id )
 		: ( id ) => window.clearTimeout( id );
 
-	const mod = ( value, length ) => ( ( value % length ) + length ) % length;
+	// Without a length (slider not rendered, e.g. in a hidden tab) the value is
+	// kept: NaN would stick to the position for good.
+	const mod = ( value, length ) => ( length ? ( ( value % length ) + length ) % length : value );
 
 	const clamp = ( value, min, max ) => Math.min( Math.max( value, min ), max );
 
@@ -229,6 +241,9 @@
 			this.root = root;
 			this.viewport = root ? root.querySelector( SELECTOR.viewport ) : null;
 			this.track = root ? root.querySelector( SELECTOR.track ) : null;
+			this.pauseButton = root ? root.querySelector( SELECTOR.pause ) : null;
+			this.prevButton = root ? root.querySelector( SELECTOR.prev ) : null;
+			this.nextButton = root ? root.querySelector( SELECTOR.next ) : null;
 			this.destroyed = ! this.viewport || ! this.track;
 
 			if ( this.destroyed ) {
@@ -268,7 +283,7 @@
 
 			this.glide = 1; // Continuous speed factor (0..1), eased on pause and resume.
 			this.hovered = false;
-			this.pauses = { focus: false, offscreen: false, hidden: false };
+			this.pauses = { focus: false, offscreen: false, hidden: false, user: false };
 			this.reducedMotion = false;
 
 			this.frame = 0;
@@ -298,6 +313,9 @@
 				'onPointerEnter',
 				'onPointerLeave',
 				'onClick',
+				'onPauseClick',
+				'onPrevClick',
+				'onNextClick',
 				'onDragStart',
 				'onFocusIn',
 				'onFocusOut',
@@ -356,8 +374,9 @@
 
 			this.listen( this.viewport, 'pointerdown', this.onPointerDown );
 			this.listen( this.viewport, 'pointermove', this.onPointerMove );
-			this.listen( this.viewport, 'pointerup', this.onPointerUp );
-			this.listen( this.viewport, 'pointercancel', this.onPointerUp );
+			// On the root: a press released over the buttons is forgotten too.
+			this.listen( this.root, 'pointerup', this.onPointerUp );
+			this.listen( this.root, 'pointercancel', this.onPointerUp );
 			this.listen( this.viewport, 'lostpointercapture', this.onLostPointerCapture );
 			this.listen( this.viewport, 'scroll', this.onScroll );
 			this.listen( this.root, 'pointerenter', this.onPointerEnter );
@@ -368,6 +387,16 @@
 			this.listen( this.root, 'focusin', this.onFocusIn );
 			this.listen( this.root, 'focusout', this.onFocusOut );
 			this.listen( document, 'visibilitychange', this.onVisibilityChange );
+
+			[
+				[ this.pauseButton, this.onPauseClick ],
+				[ this.prevButton, this.onPrevClick ],
+				[ this.nextButton, this.onNextClick ],
+			].forEach( ( [ button, handler ] ) => {
+				if ( button ) {
+					this.listen( button, 'click', handler );
+				}
+			} );
 
 			if ( 'ResizeObserver' in window ) {
 				// The root covers container resizes, the first slide covers CSS changes
@@ -411,6 +440,10 @@
 			if ( ! this.setWidth ) {
 				return; // Not rendered (e.g. in a hidden tab); the observer fires again once visible.
 			}
+
+			// Some slide is always out of view when the last one, with the strip at
+			// rest at offset 0, does not end inside the viewport.
+			this.root.classList.toggle( CLASS.overflowing, this.lead + ( this.slides.length - 1 ) * this.stepWidth + this.slideWidth > this.viewportWidth + 0.5 );
 
 			if ( oldSetWidth ) {
 				const ratio = this.setWidth / oldSetWidth;
@@ -619,7 +652,7 @@
 		}
 
 		isHeld() {
-			return !! ( ( this.hovered && this.modeOptions().pauseOnHover ) || this.pauses.focus || ( this.drag && this.drag.active ) );
+			return !! ( ( this.hovered && this.modeOptions().pauseOnHover ) || this.pauses.focus || this.pauses.user || ( this.drag && this.drag.active ) );
 		}
 
 		snap( pos ) {
@@ -636,6 +669,7 @@
 			}
 
 			this.root.classList.toggle( CLASS.draggable, this.isDraggable() );
+			this.root.classList.toggle( CLASS.autoplay, ( 'continuous' === this.mode || 'step' === this.mode ) && ! this.reducedMotion );
 
 			const autoplay = 'step' === this.mode && this.canAutoplay() && ! this.isHeld() && ! this.drag;
 
@@ -806,6 +840,13 @@
 			}
 
 			if ( ! drag.active ) {
+				// A press holds no pointer capture until it becomes a drag, so a
+				// button released outside the slider never sent us its pointerup.
+				if ( 0 === event.buttons && 'touch' !== event.pointerType ) {
+					this.releasePress();
+					return;
+				}
+
 				const dx = event.clientX - drag.startX;
 				const dy = event.clientY - drag.startY;
 
@@ -924,8 +965,9 @@
 		}
 
 		onClick( event ) {
-			// Keyboard activation (detail 0) is never the end of a drag.
-			if ( 'click' === event.type && this.suppressClickUntil && event.detail > 0 ) {
+			// Keyboard activation (detail 0) is never the end of a drag, nor is a
+			// click on the buttons.
+			if ( 'click' === event.type && this.suppressClickUntil && event.detail > 0 && this.viewport.contains( event.target ) ) {
 				const suppress = now() <= this.suppressClickUntil;
 
 				this.suppressClickUntil = 0;
@@ -1007,10 +1049,78 @@
 		}
 
 		onPointerLeave( event ) {
+			// A press that has not turned into a drag holds no pointer capture,
+			// so its pointerup may never reach the slider: forget it here.
+			if ( this.drag && ! this.drag.active && event.pointerId === this.drag.id ) {
+				this.drag = null;
+			}
+
 			if ( 'touch' !== event.pointerType ) {
 				this.hovered = false;
-				this.update();
 			}
+
+			this.update();
+		}
+
+		/* Buttons --------------------------------------------------------- */
+
+		onPauseClick() {
+			this.setPaused( ! this.pauses.user );
+		}
+
+		onPrevClick() {
+			this.go( -1 );
+		}
+
+		onNextClick() {
+			this.go( 1 );
+		}
+
+		/**
+		 * Stops or restarts the autoplay for the visitor (pause button). The
+		 * continuous glide eases out and back in; the step timer restarts with
+		 * a full interval.
+		 *
+		 * @param {boolean} paused Whether the visitor paused the slider.
+		 */
+		setPaused( paused ) {
+			if ( this.destroyed ) {
+				return;
+			}
+
+			this.pauses.user = !! paused;
+			this.root.classList.toggle( CLASS.paused, this.pauses.user );
+			this.labelPauseButton();
+			this.update();
+		}
+
+		labelPauseButton() {
+			const label = this.pauseButton ? this.pauseButton.getAttribute( this.pauses.user ? 'data-lst-play-label' : 'data-lst-pause-label' ) : '';
+
+			if ( label ) {
+				this.pauseButton.setAttribute( 'aria-label', label );
+			}
+		}
+
+		/**
+		 * Moves the strip by whole slides (previous / next buttons). From a
+		 * position between two slides (continuous glide), the first move goes
+		 * to the nearest slide edge in that direction.
+		 *
+		 * @param {number} delta Number of slides; positive shows later slides.
+		 */
+		go( delta ) {
+			if ( this.destroyed || ! this.setWidth || ! delta || ( this.drag && this.drag.active ) ) {
+				return;
+			}
+
+			// Where the strip comes to rest: repeated presses add up.
+			const from = this.tween ? this.tween.to : this.pos;
+			const index = delta > 0 ? this.indexAt( from + 0.5, Math.floor ) : this.indexAt( from - 0.5, Math.ceil );
+
+			this.glide = 0; // A paused glide that is still easing out stops here.
+			this.stepStart = now(); // Step autoplay (if running) waits a full interval.
+			this.animateTo( this.positionOf( index + delta ), this.reducedMotion ? 0 : this.snapDuration() );
 		}
 
 		/* Keyboard focus -------------------------------------------------- */
@@ -1206,7 +1316,17 @@
 
 			this.removeClones();
 			this.track.style.removeProperty( 'transform' );
-			this.root.classList.remove( CLASS.ready, CLASS.draggable, CLASS.dragging, ...MODES.map( ( name ) => 'is-mode-' + name ) );
+			this.root.classList.remove(
+				CLASS.ready,
+				CLASS.draggable,
+				CLASS.dragging,
+				CLASS.autoplay,
+				CLASS.paused,
+				CLASS.overflowing,
+				...MODES.map( ( name ) => 'is-mode-' + name )
+			);
+			this.pauses.user = false;
+			this.labelPauseButton();
 
 			if ( instances.get( this.root ) === this ) {
 				instances.delete( this.root );

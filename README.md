@@ -1,71 +1,90 @@
-# Listemann Addon
+# Listemann Toolkit Addon
 
-Custom Elementor widgets for [listemann.com](https://listemann.com/). The first widget, **Continuous Slider**, recreates the full-width "Einsatzgebiete" image strip from the homepage as a native Elementor widget. Before, that strip was a theme shortcode rendered with slick.
+WordPress plugin for [listemann.com](https://listemann.com/) by SH Digital. It provides:
 
-- Requires WordPress 6.5+, PHP 7.4+ and Elementor 3.24+ (tested with Elementor 4.3.5 and Elementor Pro 4.3.1). Elementor Pro is not required.
-- Uses the classic widget API (`\Elementor\Widget_Base`), so the widgets work with and without the Elementor V4 / atomic editor experiments.
-- No build step, no jQuery in the slider engine, no external libraries.
+- three **Elementor widgets** in the panel category **Listemann**: *Continuous Slider*, *Listemann Menu* and *Listemann Header*;
+- three **site-wide features** that appear on every front-end page without any widget: a **contact box** and a **back-to-top button** docked to the right edge, and a **scrollbar in the brand colour**. They are edited under **Listemann Toolkit** in the dashboard.
+
+## Requirements
+
+- WordPress 6.5+ and PHP 7.4+.
+- Elementor 3.24+ for the widgets (developed and tested with Elementor 4.3.5 and the Hello Elementor theme). The widgets use the classic widget API (`\Elementor\Widget_Base`), so they work with and without the Elementor V4 / atomic editor experiments. Elementor Pro is optional: it is only needed to use the header in a Theme Builder header template.
+- No build step. The front-end scripts are plain JavaScript without jQuery or third-party libraries.
 
 ## Installation
 
-1. Create the installable zip from the repository (development files are excluded via `.gitattributes`):
+1. Build the installable zip from the repository. `.gitattributes` keeps the development files out of it:
 
    ```sh
-   git archive --format=zip --prefix=listemann-addon/ -o listemann-addon.zip HEAD
+   git archive --format=zip --prefix=listemann-toolkit-addon/ -o listemann-toolkit-addon.zip HEAD
    ```
 
-2. In WordPress go to **Plugins → Add New → Upload Plugin**, upload the zip and activate it. Alternatively copy the folder to `wp-content/plugins/listemann-addon/`.
+2. In WordPress go to **Plugins › Add New Plugin › Upload Plugin**, upload the zip and activate it. Or copy the folder to `wp-content/plugins/listemann-toolkit-addon/` and activate it there.
 
-If Elementor is missing, inactive or older than 3.24, the plugin stays idle and shows an admin notice with an install, activate or update button.
+The contact box, back-to-top button, scrollbar and settings page work without Elementor. Only the widgets need it. If Elementor is missing, inactive or older than 3.24, the widgets are not registered and an admin notice offers to install, activate or update Elementor.
+
+The plugin header contains `Update URI: false`, so wordpress.org never offers an update for this plugin, even if a plugin with the same folder name is published there. Install new versions by uploading a new zip.
 
 ## Continuous Slider
 
-Find it in the Elementor panel under **Listemann → Continuous Slider** (search: *slider*, *carousel*, *marquee*).
+Elementor panel: **Listemann › Continuous Slider** (search: *slider*, *carousel*, *marquee*). It recreates the full-width "Einsatzgebiete" image strip from the homepage. Previously the strip was a theme shortcode rendered with slick.
 
 ### Recreating the homepage strip
 
-1. Add a container (or section) and set **Content Width → Full Width** with **Padding 0** (legacy sections: *Stretch Section* on, *Columns Gap → No Gap*, column padding 0). The slider always fills its parent, so the parent decides how wide it is.
-2. Add the Heading widget "Einsatzgebiete" above it as a separate widget, as on the original page.
-3. Drop the **Continuous Slider** into the container. The defaults match the original: 4 slides (Luft- & Raumfahrt, Energie- & Umwelttechnik, Medizintechnik, Formen- & Werkzeugbau), 7 per view, 15 px gap, 550 px high (300 px on tablet and mobile), a 35 % black overlay that turns 75 % red (#dd191a) on hover, white titles bottom-left. On desktop and tablet the strip glides left continuously, one slide every 6 s. On mobile it steps one slide every 3.5 s and can be swiped.
-4. Pick the image and link for each slide. You don't need to duplicate slides: the script clones them as often as the screen width requires.
+1. Add a container and set **Content Width › Full Width** and **Padding 0**. For a legacy section, turn **Stretch Section** on, set **Columns Gap › No Gap** and give the column padding 0. The slider always fills its parent, so the parent sets its width.
+2. Add the heading "Einsatzgebiete" above it as a separate Heading widget, as on the original page.
+3. Drop the **Continuous Slider** into the container. The defaults match the original:
+   - 4 slides (Luft- & Raumfahrt, Energie- & Umwelttechnik, Medizintechnik, Formen- & Werkzeugbau), 7 per view, 15 px gap, 550 px high (300 px on tablet and mobile);
+   - a 35 % black overlay that turns 75 % red (#dd191a) on hover, and white titles at the bottom left;
+   - on desktop and tablet the strip glides left continuously at one slide every 6 s; on mobile it steps one slide every 3.5 s and can be swiped.
+4. Pick the image and link of each slide. Don't duplicate slides: the script clones them as often as the screen width requires.
 
 ### Settings
 
 | Section | Control | Default | Notes |
 | --- | --- | --- | --- |
-| Content › Slides | Slides (image, title, link) | 4 slides | Image, title and link support dynamic tags. |
+| Content › Slides | Slides (image, title, link) | 4 slides | Image, title and link accept dynamic tags. |
 | | Image Resolution | Large | Registered sizes get `srcset`. |
 | | Title HTML Tag | `span` | `span`, `div`, `p`, `h2`–`h6`. |
-| Content › Slider | Slides per View ⧉ | 7 / laptop 5 / tablet 4 / mobile 2 | Decimals let the next slide peek in. |
+| Content › Slider | Slides per View ⧉ | empty / tablet 4 / mobile 2 | Empty on desktop follows the original: 7 slides, 5 below 1300 px, 4 below 1100 px. A desktop value replaces these steps. Decimals (e.g. 2.5) let the next slide peek in. |
 | | Gap ⧉ | 15 px | |
+| | Gap at the Edges ⧉ | Half gap | *Half gap*: each slide plus its gap takes exactly 1 / slides per view of the width, as on the original. *None (flush)*: the outer slides touch the edges. |
 | | Height ⧉ | 550 px / tablet 300 px / mobile 300 px | px, vh, em, rem. |
-| | Motion ⧉ | Continuous / mobile Step | Continuous glide, Step, Static. |
+| | Motion ⧉ | Continuous / mobile Step | Continuous glide, Step (one slide at a time), Static. |
 | | Direction | Left | Applies to continuous and step motion. |
-| | Continuous: Seconds per Slide | 6 | Time one slide plus gap takes to pass. |
-| | Continuous: Pause on Hover / Allow Drag | off / off | Pausing eases out and back in. |
-| | Step: Interval / Transition | 3500 ms / 300 ms | |
+| | Continuous: Seconds per Slide | 6 | Time one slide plus its gap takes to pass. |
+| | Continuous: Pause on Hover / Allow Drag | off / off | The glide eases out and back in when it pauses. |
+| | Step: Interval / Transition Duration | 3500 ms / 300 ms | |
 | | Step: Pause on Hover / Allow Drag | on / on | |
 | | Static: Allow Drag | off | |
-| | Accessible Label | Einsatzgebiete | `aria-label` of the carousel region. |
-| Style › Slides | Border Radius ⧉, Image Position ⧉, CSS Filters (normal / hover) | –, center | |
+| | Buttons: Pause Button | on | A pause / play button while the strip moves on its own (WCAG 2.2.2). |
+| | Buttons: Previous / Next Buttons | on | Shown while the strip stands still (paused, static or reduced motion) and not every slide fits. |
+| | Buttons: Show Buttons | Always | Or *On hover and keyboard focus*; touch screens always show them. |
+| | Accessible Label | Einsatzgebiete | Name of the carousel region for screen readers. |
+| Style › Slides | Border Radius ⧉, Image Position ⧉ | –, center center | |
+| | Image Height ⧉ | 109 % / tablet 100 % | Relative to the slide height. A taller image is cropped at the bottom; the original shows 600 px images in 550 px slides. The image never gets shorter than the slide. |
+| | CSS Filters (normal / hover) | – | |
 | Style › Overlay | Color / Opacity (normal, hover), Transition Duration | #000 35 %, #dd191a 75 %, 300 ms | Hover and keyboard focus apply to the whole card. |
-| Style › Title | Color (normal, hover), Typography, Text Shadow, Padding ⧉, Vertical Position ⧉, Alignment ⧉ | #fff, 1.3/2.2/4.2 vw, line height 1.7/2.8/6.5 vw, 0.5 px spacing, padding 0 15 15 20 px, bottom | |
+| | Shade Behind Title, Shade Color | 0, #000 | A gradient over the lower half of the slide; about 0.6 keeps white titles readable on light images. |
+| Style › Title | Color (normal, hover), Typography, Text Shadow, Padding ⧉, Vertical Position ⧉, Alignment ⧉ | #fff; 1.3 / 2.2 / 4.2 vw; line height 1.7 / 2.8 / 6.5 vw; 0.5 px letter spacing; bottom | |
+| Style › Buttons | Position ⧉, Icon Color and Background Color (normal, hover) | top right; #fff on 60 % black, hover on #dd191a | |
 
 ⧉ = responsive control.
 
 ### Breakpoints
 
-Elementor only enables the **Mobile (767 px)** and **Tablet (1024 px)** breakpoints by default. The original slick slider also changed at 1300 px (5 slides) and 1100 px (4 slides). To get those steps, enable the **Laptop** breakpoint (and, if needed, **Tablet Extra**) in *Site Settings → Layout → Breakpoints*, e.g. set Laptop to 1300 px. The widget already ships a laptop default of 5 slides, which applies as soon as that breakpoint is active. All layout values are CSS custom properties written by Elementor, so custom breakpoints work without code changes.
+With **Slides per View** left empty on desktop, the strip follows the steps of the original slick slider: 7 slides, 5 below 1300 px and 4 below 1100 px; Elementor's Tablet (1024 px) and Mobile (767 px) values (4 and 2) apply below that. A value on desktop replaces the 1300 / 1100 px steps. For other steps, enable more breakpoints (e.g. **Laptop**) under *Site Settings › Layout › Breakpoints* and set a value there. All layout values are CSS custom properties written by Elementor, so custom breakpoints work without code changes.
 
 ### Behaviour and accessibility
 
-- **Rendering.** Every slide is rendered once by the server. Without JavaScript the first slides show statically, with no scrollbar.
-- **Clones.** The script adds clones so the strip covers the viewport plus one full set. Clones are hidden from screen readers (`aria-hidden`) and removed from the tab order (`tabindex="-1"`). They are not `inert`: inert content ignores clicks and hover, and clones fill most of the visible strip.
+- **Rendering.** The server renders every slide once. Without JavaScript the first slides show as a static strip without a scrollbar.
+- **Clones.** The script adds clones until the strip covers the viewport plus one full set. Clones are hidden from screen readers (`aria-hidden`). Their content is `inert`, and focusable elements also get `tabindex="-1"` for browsers without `inert`. The clone's slide element itself still receives the pointer: hover styles apply to it, and a click on a clone is forwarded to the original card.
 - **Pausing.** Motion pauses while the slider is off-screen or the browser tab is hidden.
-- **Reduced motion.** Visitors with `prefers-reduced-motion: reduce` get no autoplay. They can drag the strip instead, and keyboard focus still brings slides into view.
+- **Pause and navigation buttons.** While the strip moves on its own, a pause button lets visitors stop and restart it. While it stands still and not every slide fits, previous / next buttons move it by one slide.
+- **Reduced motion.** Visitors with `prefers-reduced-motion: reduce` get no autoplay. They can drag the strip or use the previous / next buttons, and keyboard focus still brings slides into view.
 - **Keyboard.** When a slide link receives keyboard focus, the slider stops and moves that slide fully into view. It resumes when focus leaves the slider.
 - **Dragging.** A press that moves more than 6 px counts as a drag and does not open the link. Native image and link drag ghosts are disabled.
-- **Image alt text.** Slides with a visible title use an empty `alt` on the image, because the title already names the link. Slides without a title use the image's alt text from the media library.
+- **Screen readers.** The region is announced as a carousel with the Accessible Label, and each slide as a slide with its position ("1 of 4"). A slide with a visible title gets an empty image `alt`, because the title already names the link. A slide without a title uses the image's alt text from the media library.
 
 ### JavaScript API
 
@@ -80,26 +99,148 @@ slider.destroy(); // removes clones, listeners and observers
 ListemannContinuousSlider.initAll(); // all .lst-cslider without an instance
 ```
 
+## Listemann Menu
+
+Elementor panel: **Listemann › Listemann Menu**. It renders a WordPress menu (*Appearance › Menus*) as grouped links, like the listemann.com footer: top-level items act as headings and their sub-items are links with a **small red line** in front.
+
+- **Content › Menu:** Menu, Depth (all levels or 1–3), Layout (*Vertical*, or *Horizontal* for a row of top-level items such as legal links, with gap and alignment), *Top-level items are headings* (on), *Show "#" links as plain text* (on; items with an empty or `#` URL become text instead of links) and an Accessible label for the navigation landmark (empty = menu name).
+- **Style › Headings (top level)** and **Style › Items (sub levels):** typography, normal / hover / active colours, spacing between groups, spacing below headings and between items, indent per nested level, and the font size and line height of the 3rd level and deeper. Defaults: headings 18 px bold uppercase, items 15 px, both #626262 on a 34 px line; items turn red (#dd191a) on hover and for the current page.
+- **Style › Line before items:**
+
+  | Control | Default |
+  | --- | --- |
+  | Show line | on |
+  | Apply to | Sub-menu items (or All items, Top-level items) |
+  | Width ⧉ / Width (nested items) ⧉ | 30 px / 20 px |
+  | Thickness, Color | 2 px, #dd191a |
+  | Gap to text ⧉, Border radius | 5 px, 0 |
+  | Vertical offset | 0; the line is centred on the first line of text, so wrapped items keep it in place |
+  | Hover effect, Grow by, Hover color | None (or Grow, Color, Grow and color), 10 px, #626262 |
+
+The current page gets `aria-current="page"` and the active colour. The line is decorative CSS (`::before`), so screen readers do not announce it.
+
+## Listemann Header
+
+Elementor panel: **Listemann › Listemann Header**. It recreates the listemann.com header: a grey logo box that hangs over the content, the main menu with dropdowns and mega menus, a language switcher, and a hamburger that opens a full-screen off-canvas menu.
+
+### Where to place it
+
+- **With Elementor Pro:** *Templates › Theme Builder › Header*, add a container with **Content Width › Full Width** and padding 0, drop the widget into it, publish and set the display condition to *Entire Site*.
+- **Without Elementor Pro:** put the widget in a full-width container at the top of a page. To hide the theme's own header, either set the page template to *Elementor Canvas* or, with Hello Elementor, turn on *Hello › Settings › Disable theme header and footer*.
+
+### Content
+
+| Section | Controls (defaults) |
+| --- | --- |
+| Logo | Logo image (site logo from the Customizer, otherwise the bundled Listemann logo), Link (home page), Alternative text (site name), Logo width ⧉ (165 / 65 / 65 px). |
+| Main menu | Menu; Mega panel width (*Auto* or *Full* header content width); Show dropdown chevrons (on); Open dropdowns on (*Hover*, or *Click*: the first click opens, the second follows the link); Accessible label (empty = menu name). |
+| Language switcher | Show language switcher (on), Display (*Flag + code*, *Code only*, *Flag only*), Also show in the off-canvas (on). |
+| Hamburger / off-canvas | Show hamburger ⧉ (on); Off-canvas content: *Menus* (Menu columns, one menu per column, by default the first three menus; Show logo; Off-canvas logo, by default the colour logo; Social links: LinkedIn, Facebook, YouTube, Instagram, Xing, X or a custom icon, by default the three Listemann profiles) or *Elementor template* (any published saved template that does not contain this header); Accessible label of the dialog (empty = "Menu"). |
+| Layout | Collapse breakpoint (1280 px): below this screen width the main menu and language switcher are hidden and only the logo and hamburger remain; 0 = never collapse. Sticky header (off): once the header has scrolled out of view, a compact bar (90 / 60 / 60 px, logo 110 / 65 / 65 px) stays fixed at the top, below the admin bar, with optional background and shadow. Sticky does not work inside a parent that uses CSS transforms. |
+
+The Style tab has sections for the header bar (height 170 / 60 / 60 px, background, side padding, max content width), the logo box (#eee, 234 × 200 px on desktop), top-level items, dropdowns (including the group headings and the red line before items), the language switcher, the hamburger and the off-canvas.
+
+### Mega menus
+
+Second-level items that have sub-items are shown as column headings with their sub-items beneath. To turn a dropdown into a **multi-column mega panel**, open *Appearance › Menus*, expand the **top-level** item and set **Mega menu columns (Listemann Header)** to 2–6; each second-level item then becomes a column. Leave the field empty or set 0 for a normal dropdown. The value is stored in the item's post meta `_lst_mega_columns`. The field is only on the *Appearance › Menus* screen, not in the Customizer's menu panel.
+
+### Language switcher
+
+The switcher reads its languages from **WPML** (`wpml_active_languages`) or **Polylang** (`pll_the_languages()`). It is shown only when two or more languages exist, and it is skipped when WPML or Polylang already add language items to the selected menu. The filter `listemann_toolkit_header_languages` can change the list (entries: `code`, `name`, `url`, `flag`, `current`).
+
+### Behaviour and accessibility
+
+- Dropdowns open on hover (with a 150 ms close delay) and on keyboard focus. Every parent item has a real toggle button with `aria-expanded`; a top-level item with a `#` link is itself the button. Escape closes and returns focus. On touch devices the first tap opens the dropdown. A dropdown that would overflow the right edge of the viewport opens to the left.
+- The off-canvas is a modal dialog (`role="dialog"`, `aria-modal`) moved to the end of `<body>`. Focus moves into it and stays there while it is open. Page scrolling is locked without a layout shift. Escape, the close button and same-page links close it, and focus returns to the hamburger. When closed it is `inert`.
+- The current page and its ancestors get the active colour. Reduced motion turns off the transitions.
+- The script runs without Elementor's frontend script (`window.ListemannHeader.init( root )`, `.destroy( root )`, `.initAll()`) and cleans up when the Elementor editor re-renders the widget.
+
+## Site-wide features and the settings page
+
+These features are added automatically to every front-end page (also in the Elementor preview), but not in wp-admin, feeds, embeds, REST or AJAX responses. Their assets load only while the feature is enabled.
+
+- **Contact box:** a red button with a phone and envelope icon on the right edge. A click slides in the red contact panel. Escape, a click outside or moving focus out of the panel closes it. The closed panel is `inert`. Its height follows its content and the button stays attached to the panel's top-left corner. On screens up to 767 px the panel is 250 px wide.
+- **Back to top:** a grey arrow button directly below the contact button. On hover or keyboard focus the label ("Zurück nach oben") slides in. A click scrolls to the top (smoothly unless the visitor prefers reduced motion) and moves keyboard focus to the start of the page.
+- **Scrollbar:** the page scrollbar in the brand colour (5 px wide by default). Chrome, Edge and Safari use the exact width. Firefox only supports *thin* (used up to 8 px) and *auto*.
+
+The dock is hidden when printing. Both can also be turned off in code with the filters `listemann_toolkit_side_dock_enabled` and `listemann_toolkit_scrollbar_enabled`.
+
+**Dashboard › Listemann Toolkit** (capability `manage_options`; also linked as *Settings* on the Plugins screen):
+
+| Section | Fields |
+| --- | --- |
+| Contact box | Enable; Button label for screen readers ("Kontakt"); Sections, each with a Title (shown in capitals), a Text size (*Large* like phone numbers, 19 px, or *Small* like addresses, 15 px) and Lines (Text, Link URL, Open in new tab). Sections and lines can be added, removed and moved up and down. The defaults are the original TELEFON and ANFAHRT sections. |
+| Back to top | Enable; Label (each line is a line of the label); Show after scrolling (px, 0 = always visible). |
+| Appearance | Brand color (#dd191a, used by the contact box, its button and the scrollbar), Text color on brand color (#fff), Back-to-top button color (#a8a8a8), Back-to-top arrow color (#fafafa). |
+| Scrollbar | Enable; Color (empty = brand color); Width (2–24 px). |
+
+Links accept `tel:`, `mailto:`, `http(s)://` and relative URLs. A bare phone number or e-mail address becomes a `tel:` or `mailto:` link automatically, and spaces, separators and a "(0)" are removed from phone links (`+41 (0)52 245 18 50` → `tel:+41522451850`). A line without text shows its address. Empty lines and sections are dropped on save. **Reset to defaults** at the bottom of the page deletes the stored settings, so the defaults apply again.
+
+All settings live in the single option `listemann_toolkit_settings`. The option is only created when the page is saved for the first time; until then the defaults apply.
+
+## Translation and multilingual sites
+
+- **Plugin texts.** The editor labels, admin screens and the texts read by screen readers (e.g. "Open menu", "carousel", "(opens in a new tab)") are translatable with the text domain `listemann-toolkit-addon`. A German translation (`de_DE`) ships in `languages/`; with a German admin language the widgets are listed as *Endlos-Slider*, *Listemann Menü* and *Listemann Header*. Other languages can be added with Loco Translate or Poedit from `languages/listemann-toolkit-addon.pot`. Elementor caches the slider's output (by default for 24 hours), so after adding or changing a translation, clear it with *Elementor › Tools › Clear Files & Data*.
+- **Contact box and back-to-top texts (WPML).** `wpml-config.xml` registers the button label, section titles, line texts and URLs, and the back-to-top label as admin texts. **Save the Listemann Toolkit settings page once** (WPML can only register an option that exists, see above), then translate the strings under *WPML › String Translation*, domain *admin_texts_listemann_toolkit_settings*. After *Reset to defaults*, save the page again before translating. Polylang reads the same file and lists the strings under *Languages › Translations*.
+- **Widget content** (slide titles and links, labels, selected menus and templates) is stored in each page's Elementor data. Translate it with the page, and check on every language version that the header and menu widgets show the menus of that language.
+
+## Uninstall
+
+Deleting the plugin on the Plugins screen runs `uninstall.php`, which deletes the option `listemann_toolkit_settings` (on multisite: on every site). Deactivating it keeps the settings. Elementor content that uses the widgets and the `_lst_mega_columns` values on menu items stay in the database.
+
 ## Development
 
 ```
-listemann-addon.php                    Plugin header, constants, requirement checks, autoloader
-includes/class-plugin.php              Bootstrap: Elementor checks, category, assets, widget list
-includes/widgets/class-*.php           One file per widget
-assets/css/*.css, assets/js/*.js       Front-end assets (registered, enqueued per widget)
-languages/                             Translations (text domain listemann-addon)
+listemann-toolkit-addon.php              Plugin header, constants, PHP check, autoloader, bootstrap
+includes/class-plugin.php                Plugin: starts the global features, Elementor checks, category, widget registry, widget assets
+includes/class-settings.php              Settings: option name, defaults, get(), sanitize()
+includes/class-mega-menu-fields.php      "Mega menu columns" field on Appearance › Menus
+includes/admin/class-settings-page.php   Dashboard page "Listemann Toolkit" (Settings API, reset, Plugins link)
+includes/frontend/class-side-dock.php    Contact box + back-to-top button (wp_footer)
+includes/frontend/class-scrollbar.php    Branded scrollbar (inline CSS)
+includes/widgets/class-*.php             One file per widget, plus the menu walkers
+assets/css, assets/js, assets/img        Front-end and admin assets, icons, logos
+languages/                               .pot template and the German translation (text domain listemann-toolkit-addon)
+wpml-config.xml                          Translatable admin texts for WPML / Polylang
+uninstall.php                            Deletes the settings option
 ```
+
+Classes live in the `Listemann_Toolkit` namespace. The autoloader maps namespaces to folders and class names to WordPress-style file names: `Listemann_Toolkit\Widgets\My_Widget` → `includes/widgets/class-my-widget.php`, `Listemann_Toolkit\Frontend\My_Feature` → `includes/frontend/class-my-feature.php`.
 
 ### Adding a widget
 
-1. Create `includes/widgets/class-my-widget.php` with the class `Listemann_Addon\Widgets\My_Widget` extending `\Elementor\Widget_Base`. The autoloader maps `My_Widget` to `class-my-widget.php`. Return `\Listemann_Addon\Plugin::CATEGORY` from `get_categories()`.
-2. Add `Widgets\My_Widget::class` to `Plugin::WIDGETS` in `includes/class-plugin.php`.
-3. If the widget needs assets, add them to `Plugin::SCRIPTS` / `Plugin::STYLES` (handle → path and dependencies). Return the handles from the widget's `get_script_depends()` / `get_style_depends()`, so Elementor only loads them on pages that use the widget.
+1. Create `includes/widgets/class-my-widget.php` with the class `Listemann_Toolkit\Widgets\My_Widget` extending `\Elementor\Widget_Base`. Return `\Listemann_Toolkit\Plugin::CATEGORY` from `get_categories()`.
+2. Add `Widgets\My_Widget::class` to `Plugin::WIDGETS` in `includes/class-plugin.php`. `register_widgets()` skips classes that do not exist, so a wrong namespace or file name makes the widget silently disappear from the panel.
+3. If the widget needs assets, add them to `Plugin::SCRIPTS` / `Plugin::STYLES` (handle → path and dependencies, handles prefixed `listemann-toolkit-`). Return the handles from the widget's `get_script_depends()` / `get_style_depends()`, so Elementor loads them only on pages that use the widget.
 
-Conventions used by the slider, worth keeping for new widgets:
+Conventions used by the existing widgets, worth keeping:
 
 - **Inner wrapper.** `has_widget_inner_wrapper()` returns `false` only when Elementor's optimized markup is active, because the Advanced tab relies on the wrapper otherwise. Write CSS that works both with and without `.elementor-widget-container`.
 - **Values read in `render()`.** Controls with `selectors` are not available in `render()` on the front end (Elementor's optimized control loading). Values the PHP or JS needs go into plain controls or `data-*` attributes. Purely visual values go into CSS custom properties.
+- **Caching.** `is_dynamic_content()` must return `true` when the output depends on the request (current menu item, language). Otherwise Elementor caches it per page.
 - **Front-end handlers.** Front-end JS attaches with `elementorFrontend.elementsHandler.attachHandler( '<widget-name>', Handler )` on the `elementor/frontend/init` event. The handler extends `elementorModules.frontend.handlers.Base`. Don't use class fields: `onInit()` runs inside the base constructor.
 
-`SCRIPT_DEBUG` set to `true` appends the file modification time to asset URLs, which busts browser caches while developing.
+### Adding a global feature
+
+Global features must not depend on Elementor.
+
+1. **Settings.** Add a group with its defaults to `Settings::defaults()` and sanitize it in `Settings::sanitize()`. `Settings::get()` only returns keys that exist in the defaults.
+2. **Fields.** Add a section and fields in `Admin\Settings_Page::register_settings()` (`add_settings_section()` plus `self::add_field( $group, $key, $label, $type, $args )` with the types `checkbox`, `text`, `textarea`, `number` or `color`).
+3. **Front end.** Create `includes/frontend/class-my-feature.php` with `final class My_Feature` in `Listemann_Toolkit\Frontend` and a `public static function init()` that adds the hooks (e.g. `wp_enqueue_scripts`, `wp_footer`). Check the setting before enqueueing anything, skip admin, feed and REST requests like `Side_Dock::is_enabled()`, and offer a `listemann_toolkit_*_enabled` filter.
+4. **Bootstrap.** Call `Frontend\My_Feature::init();` in `Plugin::__construct()` next to `Side_Dock::init()`, before the Elementor check.
+5. **Translation.** Add translatable option texts to `wpml-config.xml`. A feature that stores its data outside `listemann_toolkit_settings` must also delete it in `uninstall.php`.
+
+### Translations
+
+After changing strings, regenerate the template and update the German files with WP-CLI from the plugin folder:
+
+```sh
+wp i18n make-pot . languages/listemann-toolkit-addon.pot --exclude=.claude
+wp i18n update-po languages/listemann-toolkit-addon.pot languages/listemann-toolkit-addon-de_DE.po
+# translate the new entries in the .po file, then:
+wp i18n make-mo languages/listemann-toolkit-addon-de_DE.po languages/
+```
+
+### Asset versions
+
+With `SCRIPT_DEBUG` set to `true`, the widget assets registered by `Plugin` get the file modification time as their version, which busts browser caches while developing. The side dock, scrollbar and settings page assets always use the plugin version (`LISTEMANN_TOOLKIT_VERSION`).

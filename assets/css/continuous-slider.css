@@ -20,6 +20,23 @@
 	width: 100%;
 }
 
+/*
+ * The steps of the original strip, for breakpoints without a value: Elementor
+ * only has the mobile and tablet breakpoints by default, and the desktop value
+ * of "Slides per View" is empty unless set.
+ */
+@media (max-width: 1299.98px) {
+	.lst-cslider {
+		--_spv: var(--lst-spv, 5);
+	}
+}
+
+@media (max-width: 1099.98px) {
+	.lst-cslider {
+		--_spv: var(--lst-spv, 4);
+	}
+}
+
 @media (max-width: 1024px) {
 	.lst-cslider {
 		--_spv: var(--lst-spv, 4);
@@ -41,6 +58,13 @@
 	overflow: hidden;
 	/* "clip" also blocks programmatic scrolling (e.g. when a link gets focus). */
 	overflow: clip;
+	/*
+	 * The strip runs left to right on RTL pages too (the card content follows
+	 * the page, see below). Set here rather than on the track: the track is
+	 * over-constrained (width 100% plus padding), and the browser resolves
+	 * that with the direction of its containing block.
+	 */
+	direction: ltr;
 }
 
 .lst-cslider__track {
@@ -51,7 +75,6 @@
 	width: 100%;
 	margin: 0;
 	padding: 0 0 0 calc(var(--_edge) * var(--_gap) / 2);
-	direction: ltr;
 }
 
 .lst-cslider.is-ready .lst-cslider__track {
@@ -77,9 +100,32 @@
 	height: 100%;
 	overflow: hidden;
 	color: inherit;
+	/* A linked card is an <a>: keep the Site Settings link typography off it, so linked and unlinked slides look alike. */
+	font-family: inherit;
+	font-size: inherit;
+	font-style: inherit;
+	font-weight: inherit;
+	line-height: inherit;
+	letter-spacing: inherit;
+	word-spacing: inherit;
+	text-transform: inherit;
 	text-decoration: none;
 	-webkit-tap-highlight-color: transparent;
 	-webkit-user-drag: none;
+}
+
+/* Optional shade behind the title ("Shade Behind Title", off by default). */
+.lst-cslider .lst-cslider__card::after {
+	content: "";
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 1;
+	height: 50%;
+	background: linear-gradient(to top, var(--lst-shade-color, #000), transparent);
+	opacity: var(--lst-shade-opacity, 0);
+	pointer-events: none;
 }
 
 [dir="rtl"] .lst-cslider__card {
@@ -108,6 +154,9 @@
 	border: 0;
 	border-radius: 0;
 	box-shadow: none;
+	/* Site Settings > Images (opacity, CSS filters); the widget's own filters still apply. */
+	opacity: 1;
+	filter: none;
 	object-fit: cover;
 	object-position: center center;
 	pointer-events: none;
@@ -187,6 +236,100 @@
 	cursor: pointer;
 }
 
+/*
+ * Buttons. Shown only while the script runs: the pause button when the strip
+ * moves on its own, previous / next while it stands still (paused, static or
+ * reduced motion) and not every slide fits. Classes are set by the script.
+ */
+.lst-cslider__controls {
+	--_inset: calc(var(--_edge) * var(--_gap) / 2 + 10px);
+	position: absolute;
+	top: var(--_inset);
+	right: var(--_inset);
+	z-index: 3;
+	display: flex;
+	gap: 4px;
+	direction: ltr;
+}
+
+/* Higher specificity than theme and Site Settings button styles. */
+.lst-cslider .lst-cslider__controls button.lst-cslider__button {
+	-webkit-appearance: none;
+	appearance: none;
+	display: none;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	width: 32px;
+	height: 32px;
+	min-width: 0;
+	min-height: 0;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	box-shadow: none;
+	outline: none;
+	background-color: var(--lst-button-bg, rgba(0, 0, 0, 0.6));
+	color: var(--lst-button-color, #fff);
+	font: inherit;
+	line-height: 1;
+	letter-spacing: normal;
+	text-decoration: none;
+	text-transform: none;
+	cursor: pointer;
+	-webkit-tap-highlight-color: transparent;
+	transition: background-color var(--_duration) ease, color var(--_duration) ease;
+}
+
+.lst-cslider.is-ready.is-autoplay .lst-cslider__controls button.lst-cslider__pause,
+.lst-cslider.is-ready.is-overflowing.is-paused .lst-cslider__controls button.lst-cslider__nav,
+.lst-cslider.is-ready.is-overflowing:not(.is-autoplay) .lst-cslider__controls button.lst-cslider__nav {
+	display: flex;
+}
+
+@media (hover: hover) {
+	.lst-cslider .lst-cslider__controls button.lst-cslider__button:hover {
+		background-color: var(--lst-button-hover-bg, #dd191a);
+		color: var(--lst-button-hover-color, var(--lst-button-color, #fff));
+	}
+}
+
+.lst-cslider .lst-cslider__controls button.lst-cslider__button:focus-visible {
+	background-color: var(--lst-button-hover-bg, #dd191a);
+	color: var(--lst-button-hover-color, var(--lst-button-color, #fff));
+	/* Two rings (dark inside, light outside): visible on light and dark images. */
+	outline: 2px solid #fff;
+	outline-offset: 2px;
+	box-shadow: 0 0 0 4px #000;
+}
+
+.lst-cslider .lst-cslider__icon {
+	display: block;
+	width: 16px;
+	height: 16px;
+	fill: currentColor;
+	pointer-events: none;
+}
+
+.lst-cslider.is-paused .lst-cslider__icon-pause,
+.lst-cslider:not(.is-paused) .lst-cslider__icon-play {
+	display: none;
+}
+
+/* "Show Buttons: On hover and keyboard focus" (always shown on touch screens). */
+@media (hover: hover) {
+	.lst-cslider--buttons-on-hover .lst-cslider__controls {
+		opacity: 0;
+		transition: opacity var(--_duration) ease;
+	}
+
+	.lst-cslider--buttons-on-hover:hover .lst-cslider__controls,
+	.lst-cslider--buttons-on-hover:focus-within .lst-cslider__controls {
+		opacity: 1;
+	}
+}
+
 /* Drag / swipe (classes set by the script). */
 .lst-cslider.is-draggable .lst-cslider__viewport {
 	cursor: grab;
@@ -205,5 +348,9 @@
 @media print {
 	.lst-cslider .lst-cslider__track {
 		transform: none !important;
+	}
+
+	.lst-cslider .lst-cslider__controls {
+		display: none;
 	}
 }

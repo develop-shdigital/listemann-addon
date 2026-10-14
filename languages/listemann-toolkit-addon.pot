@@ -1,0 +1,1477 @@
+# Copyright (C) 2026 SH Digital
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Listemann Toolkit Addon 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-10-14T14:07:43+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: listemann-toolkit-addon\n"
+
+#. Plugin Name of the plugin
+#: listemann-toolkit-addon.php
+msgid "Listemann Toolkit Addon"
+msgstr ""
+
+#. Description of the plugin
+#: listemann-toolkit-addon.php
+msgid "Listemann site toolkit: Elementor widgets (continuous slider, menu, header) plus a site-wide contact box, back-to-top button and branded scrollbar, managed under Listemann Toolkit in the dashboard."
+msgstr ""
+
+#. Author of the plugin
+#: listemann-toolkit-addon.php
+msgid "SH Digital"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:122
+msgid "Settings"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:146
+#: includes/admin/class-settings-page.php:147
+msgid "Listemann Toolkit"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:169
+msgid "Listemann Toolkit global features (contact box, back to top, scrollbar)."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:179
+msgid "Contact box"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:183
+#: includes/admin/class-settings-page.php:196
+#: includes/admin/class-settings-page.php:220
+msgid "Enable"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:183
+msgid "Show the contact button and box on every page"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:184
+msgid "Button label"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:184
+msgid "Read by screen readers for the contact button (the button itself only shows an icon)."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:187
+msgid "Sections"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:195
+#: includes/frontend/class-side-dock.php:298
+msgid "Back to top"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:196
+msgid "Show the back-to-top button on every page"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:197
+msgid "Label"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:197
+msgid "Shown next to the arrow on hover. Each line of text becomes a line in the label (three short lines fit best)."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:201
+msgid "Show after scrolling"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:207
+msgid "0 = always visible."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:212
+msgid "Appearance"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:213
+msgid "Brand color"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:213
+msgid "Contact box, contact button and scrollbar."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:214
+msgid "Text color on brand color"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:214
+msgid "Text and icon color in the contact box and button."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:215
+msgid "Back-to-top button color"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:216
+msgid "Back-to-top arrow color"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:219
+msgid "Scrollbar"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:220
+msgid "Color the page scrollbar"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:224
+#: includes/widgets/class-continuous-slider.php:730
+#: includes/widgets/class-continuous-slider.php:770
+#: includes/widgets/class-continuous-slider.php:888
+#: includes/widgets/class-continuous-slider.php:909
+#: includes/widgets/class-header.php:1017
+#: includes/widgets/class-header.php:1034
+#: includes/widgets/class-header.php:1053
+#: includes/widgets/class-header.php:1233
+#: includes/widgets/class-header.php:1242
+#: includes/widgets/class-header.php:1251
+#: includes/widgets/class-header.php:1275
+#: includes/widgets/class-header.php:1351
+#: includes/widgets/class-header.php:1397
+#: includes/widgets/class-header.php:1444
+#: includes/widgets/class-header.php:1591
+#: includes/widgets/class-header.php:1628
+#: includes/widgets/class-header.php:1751
+#: includes/widgets/class-menu.php:361
+#: includes/widgets/class-menu.php:380
+#: includes/widgets/class-menu.php:399
+#: includes/widgets/class-menu.php:508
+#: includes/widgets/class-menu.php:527
+#: includes/widgets/class-menu.php:546
+#: includes/widgets/class-menu.php:773
+#: includes/widgets/class-menu.php:884
+msgid "Color"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:228
+msgid "Leave empty to use the brand color."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:234
+#: includes/widgets/class-header.php:907
+#: includes/widgets/class-header.php:1321
+#: includes/widgets/class-header.php:1455
+#: includes/widgets/class-header.php:1705
+#: includes/widgets/class-menu.php:727
+msgid "Width"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:240
+msgid "Chrome, Edge and Safari use the exact width. Firefox only supports \"thin\" (used up to 8px) and \"auto\" (wider values)."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:272
+#: includes/admin/class-settings-page.php:552
+msgid "(untitled)"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:273
+msgid "Section added."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:274
+msgid "Section removed."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:275
+msgid "Line added."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:276
+msgid "Line removed."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:277
+msgid "Moved up."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:278
+msgid "Moved down."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:295
+msgid "Sorry, you are not allowed to manage these settings."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:302
+msgid "Settings reset to defaults."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:322
+msgid "These features are added automatically to every page of the website: the contact box (opens on click) and the back-to-top button (opens on hover) on the right edge, and the colored scrollbar."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:337
+msgid "Reset all Listemann Toolkit settings to the defaults? Your changes will be lost."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:340
+msgid "Reset to defaults"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:352
+msgid "The red box that slides in from the right edge when the contact button is clicked."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:477
+msgid "Contact box sections"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:479
+msgid "Each section has a title (shown in capitals) and lines. A line can link to a phone number (tel:+41522451850), an e-mail address (mailto:info@example.com) or a web page (https://…); phone numbers and e-mail addresses without prefix are recognized automatically. Leave the link empty for plain text. Empty lines and sections are removed when saving."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:493
+msgid "No sections yet. The contact box is only shown when it has at least one section."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:499
+msgid "Add section"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:544
+msgid "Large – like phone numbers (19px)"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:545
+msgid "Small – like addresses (15px)"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:556
+msgid "Move section up"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:557
+msgid "Move section down"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:560
+msgid "Remove section"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:567
+#: includes/widgets/class-continuous-slider.php:209
+#: includes/widgets/class-continuous-slider.php:871
+msgid "Title"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:571
+msgid "Text size"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:582
+#: includes/admin/class-settings-page.php:622
+msgid "Text"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:583
+#: includes/admin/class-settings-page.php:626
+msgid "Link URL"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:595
+msgid "No lines yet."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:599
+msgid "Add line"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:631
+msgid "Open in new tab"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:635
+msgid "Move line up"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:636
+msgid "Move line down"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:637
+msgid "Remove line"
+msgstr ""
+
+#: includes/class-mega-menu-fields.php:111
+msgid "Mega menu columns (Listemann Header)"
+msgstr ""
+
+#. translators: %d: Highest column count.
+#: includes/class-mega-menu-fields.php:127
+#, php-format
+msgid "Applies to top-level items only: 2–%d shows the dropdown as a multi-column mega panel (each sub item becomes a column). Leave empty or 0 for a normal dropdown."
+msgstr ""
+
+#: includes/class-plugin.php:142
+msgid "Listemann"
+msgstr ""
+
+#: includes/class-plugin.php:231
+msgid "Activate Elementor"
+msgstr ""
+
+#: includes/class-plugin.php:237
+msgid "Install Elementor"
+msgstr ""
+
+#. translators: 1: Plugin name, 2: Elementor.
+#: includes/class-plugin.php:244
+#, php-format
+msgid "%1$s needs %2$s to be installed and active. Its widgets are unavailable until then."
+msgstr ""
+
+#: includes/class-plugin.php:268
+msgid "Update Elementor"
+msgstr ""
+
+#. translators: 1: Plugin name, 2: Elementor, 3: Required Elementor version.
+#: includes/class-plugin.php:275
+#, php-format
+msgid "%1$s needs %2$s version %3$s or newer. Its widgets are unavailable until Elementor is updated."
+msgstr ""
+
+#: includes/frontend/class-side-dock.php:200
+msgid "Contact"
+msgstr ""
+
+#: includes/frontend/class-side-dock.php:278
+msgid "(opens in a new tab)"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:75
+msgid "Continuous Slider"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:190
+#: includes/widgets/class-continuous-slider.php:229
+#: includes/widgets/class-continuous-slider.php:588
+msgid "Slides"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:199
+msgid "Image"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:219
+#: includes/widgets/class-header.php:246
+#: includes/widgets/class-header.php:632
+msgid "Link"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:222
+msgid "https://your-link.com"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:250
+msgid "Title HTML Tag"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:278
+msgid "Slider"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:285
+msgid "Slides per View"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:293
+msgid "Decimals (e.g. 2.5) let the next slide peek in. Left empty, the strip shows 7 slides, 5 below 1300 px and 4 below 1100 px, like the original."
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:303
+msgid "Gap"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:325
+msgid "Gap at the Edges"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:328
+msgid "Half gap"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:329
+msgid "None (flush)"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:332
+msgid "Half gap: each slide plus its gap takes exactly 1 / slides per view of the width, as on the original strip. None: the outer slides touch the edges."
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:346
+#: includes/widgets/class-header.php:827
+#: includes/widgets/class-header.php:923
+msgid "Height"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:380
+msgid "Motion"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:383
+msgid "Continuous glide"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:384
+msgid "Step (one slide at a time)"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:385
+#: includes/widgets/class-continuous-slider.php:504
+msgid "Static"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:389
+msgid "Visitors who prefer reduced motion always get a static strip they can drag or move with the previous / next buttons."
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:399
+msgid "Direction"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:402
+#: includes/widgets/class-continuous-slider.php:1050
+msgid "Left"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:403
+#: includes/widgets/class-continuous-slider.php:1058
+msgid "Right"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:406
+msgid "Applies to continuous and step motion."
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:413
+msgid "Continuous Glide"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:422
+msgid "Seconds per Slide"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:428
+msgid "Time one slide (including the gap) takes to pass. Lower is faster."
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:435
+#: includes/widgets/class-continuous-slider.php:486
+msgid "Pause on Hover"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:444
+#: includes/widgets/class-continuous-slider.php:495
+#: includes/widgets/class-continuous-slider.php:513
+msgid "Allow Drag / Swipe"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:453
+msgid "Step"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:462
+msgid "Interval (ms)"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:474
+msgid "Transition Duration (ms)"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:522
+#: includes/widgets/class-continuous-slider.php:1080
+msgid "Buttons"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:531
+msgid "Pause Button"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:534
+msgid "Lets visitors stop and restart the motion. Accessibility guidelines (WCAG 2.2.2) require it for content that moves on its own."
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:541
+msgid "Previous / Next Buttons"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:544
+msgid "Shown while the strip stands still (paused, static or reduced motion) and not every slide fits, so all slides can be reached without dragging."
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:551
+msgid "Show Buttons"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:554
+msgid "Always"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:555
+msgid "On hover and keyboard focus"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:558
+msgid "Touch screens always show them."
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:566
+msgid "Accessible Label"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:572
+msgid "Name of the carousel announced by screen readers."
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:596
+msgid "Border Radius"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:608
+msgid "Image Position"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:611
+msgid "Center Center"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:612
+msgid "Center Top"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:613
+msgid "Center Bottom"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:614
+msgid "Left Center"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:615
+msgid "Left Top"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:616
+msgid "Left Bottom"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:617
+msgid "Right Center"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:618
+msgid "Right Top"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:619
+msgid "Right Bottom"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:631
+msgid "Image Height"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:656
+msgid "Percentages are relative to the slide height. A taller image is cropped at the bottom: the original strip shows 600 px images in 550 px slides (109 %). The image never gets shorter than the slide."
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:668
+#: includes/widgets/class-continuous-slider.php:723
+#: includes/widgets/class-continuous-slider.php:881
+#: includes/widgets/class-continuous-slider.php:1115
+#: includes/widgets/class-header.php:1014
+#: includes/widgets/class-header.php:1230
+#: includes/widgets/class-menu.php:355
+#: includes/widgets/class-menu.php:502
+msgid "Normal"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:685
+#: includes/widgets/class-continuous-slider.php:763
+#: includes/widgets/class-continuous-slider.php:902
+#: includes/widgets/class-continuous-slider.php:1148
+#: includes/widgets/class-header.php:375
+#: includes/widgets/class-header.php:1239
+#: includes/widgets/class-menu.php:374
+#: includes/widgets/class-menu.php:521
+msgid "Hover"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:713
+msgid "Overlay"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:742
+#: includes/widgets/class-continuous-slider.php:782
+msgid "Opacity"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:805
+msgid "Shade Behind Title"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:816
+msgid "A gradient that darkens the lower half of the slide. On light images, about 0.6 keeps white titles readable (WCAG contrast 4.5:1)."
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:826
+msgid "Shade Color"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:838
+msgid "Transition Duration"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:994
+#: includes/widgets/class-header.php:1133
+msgid "Padding"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:1015
+msgid "Vertical Position"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:1019
+msgid "Top"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:1023
+#: includes/widgets/class-continuous-slider.php:1054
+#: includes/widgets/class-menu.php:252
+msgid "Center"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:1027
+msgid "Bottom"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:1046
+#: includes/widgets/class-menu.php:244
+msgid "Alignment"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:1089
+msgid "Position"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:1092
+msgid "Top Right"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:1093
+msgid "Top Left"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:1094
+msgid "Bottom Right"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:1095
+msgid "Bottom Left"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:1122
+#: includes/widgets/class-continuous-slider.php:1155
+msgid "Icon Color"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:1134
+#: includes/widgets/class-continuous-slider.php:1166
+msgid "Background Color"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:1237
+#: includes/widgets/class-continuous-slider.php:1509
+msgid "carousel"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:1247
+#: includes/widgets/class-continuous-slider.php:1518
+msgid "Previous slide"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:1250
+#: includes/widgets/class-continuous-slider.php:1521
+msgid "Pause carousel"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:1250
+#: includes/widgets/class-continuous-slider.php:1521
+msgid "Play carousel"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:1253
+#: includes/widgets/class-continuous-slider.php:1524
+msgid "Next slide"
+msgstr ""
+
+#: includes/widgets/class-continuous-slider.php:1293
+#: includes/widgets/class-continuous-slider.php:1552
+msgid "slide"
+msgstr ""
+
+#. translators: 1: Slide number, 2: Number of slides.
+#: includes/widgets/class-continuous-slider.php:1295
+#: includes/widgets/class-continuous-slider.php:1495
+#, php-format
+msgid "%1$d of %2$d"
+msgstr ""
+
+#. translators: %s: Menu item title.
+#: includes/widgets/class-header-nav-walker.php:303
+#, php-format
+msgid "%s submenu"
+msgstr ""
+
+#: includes/widgets/class-header.php:119
+msgid "Listemann Header"
+msgstr ""
+
+#: includes/widgets/class-header.php:225
+msgid "Logo"
+msgstr ""
+
+#: includes/widgets/class-header.php:232
+msgid "Logo image"
+msgstr ""
+
+#: includes/widgets/class-header.php:239
+msgid "Defaults to the site logo (Customizer) or the bundled Listemann logo."
+msgstr ""
+
+#: includes/widgets/class-header.php:261
+msgid "Alternative text"
+msgstr ""
+
+#: includes/widgets/class-header.php:272
+#: includes/widgets/class-header.php:1540
+msgid "Logo width"
+msgstr ""
+
+#: includes/widgets/class-header.php:296
+msgid "Main menu"
+msgstr ""
+
+#: includes/widgets/class-header.php:306
+#: includes/widgets/class-header.php:539
+#: includes/widgets/class-header.php:688
+#: includes/widgets/class-header.php:2204
+#: includes/widgets/class-menu.php:148
+#: includes/widgets/class-menu.php:158
+msgid "Menu"
+msgstr ""
+
+#. translators: 1: Link open tag, 2: Link close tag.
+#: includes/widgets/class-header.php:313
+#: includes/widgets/class-menu.php:165
+#, php-format
+msgid "Go to the %1$sMenus screen%2$s to manage your menus."
+msgstr ""
+
+#. translators: 1: Link open tag, 2: Link close tag.
+#: includes/widgets/class-header.php:326
+#: includes/widgets/class-menu.php:178
+#, php-format
+msgid "There are no menus on your site yet. %1$sCreate a menu%2$s in Appearance > Menus, then reload the editor."
+msgstr ""
+
+#: includes/widgets/class-header.php:339
+msgid "Mega menu: second-level items that have sub-items are shown as column headings with their sub-items beneath. To show a dropdown as a multi-column panel, set \"Mega menu columns\" (2–6) on its top-level item in Appearance > Menus."
+msgstr ""
+
+#: includes/widgets/class-header.php:347
+msgid "Mega panel width"
+msgstr ""
+
+#: includes/widgets/class-header.php:350
+msgid "Auto (fit content)"
+msgstr ""
+
+#: includes/widgets/class-header.php:351
+msgid "Full (header content width)"
+msgstr ""
+
+#: includes/widgets/class-header.php:354
+msgid "Applies to items with 2 or more mega menu columns."
+msgstr ""
+
+#: includes/widgets/class-header.php:361
+msgid "Show dropdown chevrons"
+msgstr ""
+
+#: includes/widgets/class-header.php:365
+msgid "When hidden, the dropdown toggle buttons stay available to keyboard users."
+msgstr ""
+
+#: includes/widgets/class-header.php:372
+msgid "Open dropdowns on"
+msgstr ""
+
+#: includes/widgets/class-header.php:376
+msgid "Click"
+msgstr ""
+
+#: includes/widgets/class-header.php:379
+msgid "With \"Click\", the first click on a parent item opens its dropdown and a second click follows its link."
+msgstr ""
+
+#: includes/widgets/class-header.php:386
+#: includes/widgets/class-header.php:647
+#: includes/widgets/class-header.php:685
+#: includes/widgets/class-menu.php:299
+msgid "Accessible label"
+msgstr ""
+
+#: includes/widgets/class-header.php:389
+#: includes/widgets/class-menu.php:302
+msgid "Menu name"
+msgstr ""
+
+#: includes/widgets/class-header.php:390
+#: includes/widgets/class-menu.php:303
+msgid "Label of the navigation landmark for screen readers. Leave empty to use the menu name."
+msgstr ""
+
+#: includes/widgets/class-header.php:405
+#: includes/widgets/class-header.php:1379
+msgid "Language switcher"
+msgstr ""
+
+#: includes/widgets/class-header.php:412
+msgid "Show language switcher (WPML / Polylang)"
+msgstr ""
+
+#: includes/widgets/class-header.php:417
+msgid "Shown only when WPML or Polylang provides two or more languages, and not when WPML / Polylang already adds language items to the selected menu."
+msgstr ""
+
+#: includes/widgets/class-header.php:426
+msgid "Neither WPML nor Polylang is active, so the language switcher is hidden."
+msgstr ""
+
+#: includes/widgets/class-header.php:438
+msgid "Display"
+msgstr ""
+
+#: includes/widgets/class-header.php:441
+msgid "Flag + code"
+msgstr ""
+
+#: includes/widgets/class-header.php:442
+msgid "Code only"
+msgstr ""
+
+#: includes/widgets/class-header.php:443
+msgid "Flag only"
+msgstr ""
+
+#: includes/widgets/class-header.php:455
+msgid "Also show in the off-canvas"
+msgstr ""
+
+#: includes/widgets/class-header.php:459
+msgid "Adds the languages as a group below the last off-canvas menu column (the header switcher is hidden below the collapse breakpoint)."
+msgstr ""
+
+#: includes/widgets/class-header.php:476
+msgid "Hamburger / off-canvas"
+msgstr ""
+
+#: includes/widgets/class-header.php:483
+msgid "Show hamburger"
+msgstr ""
+
+#: includes/widgets/class-header.php:502
+msgid "Off-canvas content"
+msgstr ""
+
+#: includes/widgets/class-header.php:505
+msgid "Menus"
+msgstr ""
+
+#: includes/widgets/class-header.php:506
+msgid "Elementor template"
+msgstr ""
+
+#: includes/widgets/class-header.php:516
+msgid "Template"
+msgstr ""
+
+#: includes/widgets/class-header.php:518
+#: includes/widgets/class-header.php:541
+msgid "— Select —"
+msgstr ""
+
+#. translators: 1: Link open tag, 2: Link close tag.
+#: includes/widgets/class-header.php:522
+#, php-format
+msgid "Saved templates are managed under %1$sTemplates > Saved Templates%2$s."
+msgstr ""
+
+#: includes/widgets/class-header.php:555
+msgid "Menu columns"
+msgstr ""
+
+#: includes/widgets/class-header.php:560
+msgid "Menu column"
+msgstr ""
+
+#: includes/widgets/class-header.php:561
+msgid "Each column shows one menu: top-level items are headings, their sub-items get the red line."
+msgstr ""
+
+#: includes/widgets/class-header.php:571
+msgid "Show logo"
+msgstr ""
+
+#: includes/widgets/class-header.php:585
+msgid "Off-canvas logo"
+msgstr ""
+
+#: includes/widgets/class-header.php:607
+msgid "Network"
+msgstr ""
+
+#: includes/widgets/class-header.php:609
+#: includes/widgets/class-header.php:675
+msgid "Custom icon"
+msgstr ""
+
+#: includes/widgets/class-header.php:617
+msgid "Icon"
+msgstr ""
+
+#: includes/widgets/class-header.php:650
+msgid "Network name"
+msgstr ""
+
+#: includes/widgets/class-header.php:657
+msgid "Social links"
+msgstr ""
+
+#: includes/widgets/class-header.php:689
+msgid "Name of the off-canvas dialog for screen readers."
+msgstr ""
+
+#: includes/widgets/class-header.php:704
+#: includes/widgets/class-menu.php:205
+msgid "Layout"
+msgstr ""
+
+#: includes/widgets/class-header.php:711
+msgid "Collapse breakpoint (px)"
+msgstr ""
+
+#: includes/widgets/class-header.php:717
+msgid "Below this screen width the main menu and the language switcher are hidden; only the logo and the hamburger remain. 0 = never collapse."
+msgstr ""
+
+#: includes/widgets/class-header.php:724
+msgid "Sticky header"
+msgstr ""
+
+#: includes/widgets/class-header.php:729
+msgid "Once the header has scrolled out of view, a compact version stays fixed at the top. It does not work inside a parent that uses CSS transforms."
+msgstr ""
+
+#: includes/widgets/class-header.php:735
+msgid "Sticky height"
+msgstr ""
+
+#: includes/widgets/class-header.php:754
+msgid "Sticky logo width"
+msgstr ""
+
+#: includes/widgets/class-header.php:773
+msgid "Sticky background"
+msgstr ""
+
+#: includes/widgets/class-header.php:787
+msgid "Sticky shadow"
+msgstr ""
+
+#: includes/widgets/class-header.php:820
+msgid "Header bar"
+msgstr ""
+
+#: includes/widgets/class-header.php:843
+#: includes/widgets/class-header.php:899
+#: includes/widgets/class-header.php:1128
+#: includes/widgets/class-header.php:1502
+msgid "Background color"
+msgstr ""
+
+#: includes/widgets/class-header.php:850
+#: includes/widgets/class-header.php:940
+msgid "Side padding"
+msgstr ""
+
+#: includes/widgets/class-header.php:866
+msgid "Max content width"
+msgstr ""
+
+#: includes/widgets/class-header.php:878
+msgid "Empty = full width. The original uses 1280px (padding included)."
+msgstr ""
+
+#: includes/widgets/class-header.php:892
+msgid "Logo box"
+msgstr ""
+
+#: includes/widgets/class-header.php:934
+msgid "May be taller than the header bar: the box then hangs over the content below."
+msgstr ""
+
+#: includes/widgets/class-header.php:956
+msgid "Logo bottom margin"
+msgstr ""
+
+#: includes/widgets/class-header.php:967
+msgid "Defaults match listemann.com, where a 20px (tablet: 10px) margin plus the gap below its inline logo image put the logo 27px (17px) above the box bottom."
+msgstr ""
+
+#: includes/widgets/class-header.php:974
+msgid "Z-index"
+msgstr ""
+
+#: includes/widgets/class-header.php:996
+#: includes/widgets/class-menu.php:717
+msgid "Top-level items"
+msgstr ""
+
+#: includes/widgets/class-header.php:1020
+#: includes/widgets/class-header.php:1037
+msgid "Chevron color"
+msgstr ""
+
+#: includes/widgets/class-header.php:1024
+msgid "Empty = item color."
+msgstr ""
+
+#: includes/widgets/class-header.php:1031
+msgid "Hover / open"
+msgstr ""
+
+#: includes/widgets/class-header.php:1041
+msgid "Empty = item hover color."
+msgstr ""
+
+#: includes/widgets/class-header.php:1048
+#: includes/widgets/class-header.php:1248
+#: includes/widgets/class-menu.php:393
+#: includes/widgets/class-menu.php:540
+msgid "Active"
+msgstr ""
+
+#: includes/widgets/class-header.php:1057
+msgid "Current page and its ancestors."
+msgstr ""
+
+#: includes/widgets/class-header.php:1066
+msgid "Item spacing"
+msgstr ""
+
+#: includes/widgets/class-header.php:1083
+msgid "Chevron width"
+msgstr ""
+
+#: includes/widgets/class-header.php:1100
+#: includes/widgets/class-menu.php:563
+msgid "Transition duration"
+msgstr ""
+
+#: includes/widgets/class-header.php:1123
+msgid "Dropdown"
+msgstr ""
+
+#: includes/widgets/class-header.php:1144
+msgid "The default right padding (56px) reproduces listemann.com, whose dropdown items also kept the 38px item spacing."
+msgstr ""
+
+#: includes/widgets/class-header.php:1161
+msgid "Min width"
+msgstr ""
+
+#: includes/widgets/class-header.php:1177
+msgid "Offset top"
+msgstr ""
+
+#: includes/widgets/class-header.php:1188
+msgid "Distance from the top of the menu item to the panel."
+msgstr ""
+
+#: includes/widgets/class-header.php:1194
+msgid "Mega panel column gap"
+msgstr ""
+
+#: includes/widgets/class-header.php:1211
+msgid "Items"
+msgstr ""
+
+#: includes/widgets/class-header.php:1260
+msgid "Group headings (2nd level items with sub-items)"
+msgstr ""
+
+#: includes/widgets/class-header.php:1276
+#: includes/widgets/class-header.php:1447
+#: includes/widgets/class-header.php:1592
+#: includes/widgets/class-header.php:1629
+#: includes/widgets/class-menu.php:922
+msgid "Hover color"
+msgstr ""
+
+#: includes/widgets/class-header.php:1280
+msgid "Space below heading"
+msgstr ""
+
+#: includes/widgets/class-header.php:1296
+msgid "Space after group"
+msgstr ""
+
+#: includes/widgets/class-header.php:1313
+#: includes/widgets/class-header.php:1697
+#: includes/widgets/class-menu.php:692
+msgid "Line before items"
+msgstr ""
+
+#: includes/widgets/class-header.php:1337
+#: includes/widgets/class-header.php:1737
+#: includes/widgets/class-menu.php:750
+msgid "Thickness"
+msgstr ""
+
+#: includes/widgets/class-header.php:1355
+#: includes/widgets/class-header.php:1755
+#: includes/widgets/class-menu.php:786
+msgid "Gap to text"
+msgstr ""
+
+#: includes/widgets/class-header.php:1401
+msgid "Empty = top-level item color."
+msgstr ""
+
+#: includes/widgets/class-header.php:1406
+msgid "Hover / open color"
+msgstr ""
+
+#: includes/widgets/class-header.php:1410
+msgid "Empty = top-level item hover color."
+msgstr ""
+
+#: includes/widgets/class-header.php:1415
+msgid "Flag width"
+msgstr ""
+
+#: includes/widgets/class-header.php:1439
+msgid "Hamburger"
+msgstr ""
+
+#: includes/widgets/class-header.php:1471
+msgid "Bar thickness"
+msgstr ""
+
+#: includes/widgets/class-header.php:1497
+msgid "Off-canvas"
+msgstr ""
+
+#: includes/widgets/class-header.php:1503
+msgid "Close (X) color"
+msgstr ""
+
+#: includes/widgets/class-header.php:1507
+msgid "Close (X) size"
+msgstr ""
+
+#: includes/widgets/class-header.php:1523
+msgid "Content max width"
+msgstr ""
+
+#: includes/widgets/class-header.php:1554
+msgid "Social icon color"
+msgstr ""
+
+#: includes/widgets/class-header.php:1555
+msgid "Social icon hover color"
+msgstr ""
+
+#: includes/widgets/class-header.php:1560
+msgid "Open / close duration"
+msgstr ""
+
+#: includes/widgets/class-header.php:1576
+msgid "Menu headings"
+msgstr ""
+
+#: includes/widgets/class-header.php:1596
+#: includes/widgets/class-menu.php:415
+msgid "Spacing between groups"
+msgstr ""
+
+#: includes/widgets/class-header.php:1613
+msgid "Menu items"
+msgstr ""
+
+#: includes/widgets/class-header.php:1630
+msgid "Active color"
+msgstr ""
+
+#: includes/widgets/class-header.php:1637
+msgid "Nested items font size"
+msgstr ""
+
+#: includes/widgets/class-header.php:1659
+msgid "Nested items line height"
+msgstr ""
+
+#: includes/widgets/class-header.php:1680
+#: includes/widgets/class-menu.php:602
+msgid "Indent per nested level"
+msgstr ""
+
+#: includes/widgets/class-header.php:1721
+msgid "Width (nested levels)"
+msgstr ""
+
+#: includes/widgets/class-header.php:2049
+#: includes/widgets/class-menu.php:947
+msgid "There are no menus yet. Create one in Appearance > Menus."
+msgstr ""
+
+#: includes/widgets/class-header.php:2051
+#: includes/widgets/class-menu.php:949
+msgid "Please select a menu."
+msgstr ""
+
+#: includes/widgets/class-header.php:2053
+#: includes/widgets/class-menu.php:951
+msgid "The selected menu no longer exists. Please select another menu."
+msgstr ""
+
+#: includes/widgets/class-header.php:2076
+#: includes/widgets/class-menu.php:992
+msgid "The selected menu has no items."
+msgstr ""
+
+#. translators: %s: Name of the current language.
+#: includes/widgets/class-header.php:2110
+#, php-format
+msgid "Change language (current: %s)"
+msgstr ""
+
+#: includes/widgets/class-header.php:2186
+msgid "Open menu"
+msgstr ""
+
+#: includes/widgets/class-header.php:2219
+msgid "Close menu"
+msgstr ""
+
+#: includes/widgets/class-header.php:2289
+msgid "Social link"
+msgstr ""
+
+#: includes/widgets/class-header.php:2326
+msgid "Select a menu for this off-canvas column."
+msgstr ""
+
+#: includes/widgets/class-header.php:2421
+msgid "Language"
+msgstr ""
+
+#: includes/widgets/class-header.php:2437
+msgid "Please select an Elementor template for the off-canvas."
+msgstr ""
+
+#: includes/widgets/class-header.php:2444
+msgid "This template cannot be shown here (it is not published, or it contains this header)."
+msgstr ""
+
+#: includes/widgets/class-menu.php:65
+msgid "Listemann Menu"
+msgstr ""
+
+#: includes/widgets/class-menu.php:190
+msgid "Depth"
+msgstr ""
+
+#: includes/widgets/class-menu.php:193
+msgid "All levels"
+msgstr ""
+
+#: includes/widgets/class-menu.php:194
+msgid "1 level"
+msgstr ""
+
+#: includes/widgets/class-menu.php:195
+msgid "2 levels"
+msgstr ""
+
+#: includes/widgets/class-menu.php:196
+msgid "3 levels"
+msgstr ""
+
+#: includes/widgets/class-menu.php:208
+msgid "Vertical"
+msgstr ""
+
+#: includes/widgets/class-menu.php:209
+msgid "Horizontal"
+msgstr ""
+
+#: includes/widgets/class-menu.php:212
+msgid "Horizontal places the top-level items in a row (e.g. legal links); sub-items stay stacked below their parent."
+msgstr ""
+
+#: includes/widgets/class-menu.php:219
+msgid "Gap between items"
+msgstr ""
+
+#: includes/widgets/class-menu.php:248
+msgid "Start"
+msgstr ""
+
+#: includes/widgets/class-menu.php:256
+msgid "End"
+msgstr ""
+
+#: includes/widgets/class-menu.php:260
+msgid "Space between"
+msgstr ""
+
+#: includes/widgets/class-menu.php:276
+msgid "Top-level items are headings"
+msgstr ""
+
+#: includes/widgets/class-menu.php:281
+msgid "Top-level items that have sub-items use the heading style."
+msgstr ""
+
+#: includes/widgets/class-menu.php:288
+msgid "Show \"#\" links as plain text"
+msgstr ""
+
+#: includes/widgets/class-menu.php:292
+msgid "Items whose URL is empty or \"#\" are rendered as text instead of a link (any level)."
+msgstr ""
+
+#: includes/widgets/class-menu.php:321
+msgid "Headings (top level)"
+msgstr ""
+
+#: includes/widgets/class-menu.php:382
+msgid "Only for headings that are links."
+msgstr ""
+
+#: includes/widgets/class-menu.php:401
+msgid "When the heading or one of its sub-items is the current page."
+msgstr ""
+
+#: includes/widgets/class-menu.php:428
+msgid "Space before and after each group (an item with its sub-items, e.g. a heading with its links), on every level."
+msgstr ""
+
+#: includes/widgets/class-menu.php:439
+msgid "Spacing below heading"
+msgstr ""
+
+#: includes/widgets/class-menu.php:468
+msgid "Items (sub levels)"
+msgstr ""
+
+#: includes/widgets/class-menu.php:549
+msgid "Current page (and parents of the current page)."
+msgstr ""
+
+#: includes/widgets/class-menu.php:579
+msgid "Spacing between items"
+msgstr ""
+
+#: includes/widgets/class-menu.php:615
+msgid "Links directly below a heading are not indented."
+msgstr ""
+
+#: includes/widgets/class-menu.php:625
+msgid "Nested items (3rd level and deeper)"
+msgstr ""
+
+#: includes/widgets/class-menu.php:636
+msgid "Font size"
+msgstr ""
+
+#: includes/widgets/class-menu.php:658
+msgid "Line height"
+msgstr ""
+
+#: includes/widgets/class-menu.php:700
+msgid "Show line"
+msgstr ""
+
+#: includes/widgets/class-menu.php:712
+msgid "Apply to"
+msgstr ""
+
+#: includes/widgets/class-menu.php:715
+msgid "Sub-menu items"
+msgstr ""
+
+#: includes/widgets/class-menu.php:716
+msgid "All items"
+msgstr ""
+
+#: includes/widgets/class-menu.php:809
+msgid "Border radius"
+msgstr ""
+
+#: includes/widgets/class-menu.php:832
+msgid "Vertical offset"
+msgstr ""
+
+#: includes/widgets/class-menu.php:845
+msgid "The line is centred on the first line of text; nudge it up (negative) or down (positive)."
+msgstr ""
+
+#: includes/widgets/class-menu.php:856
+msgid "Width (nested items)"
+msgstr ""
+
+#: includes/widgets/class-menu.php:879
+msgid "Hover effect"
+msgstr ""
+
+#: includes/widgets/class-menu.php:882
+msgid "None"
+msgstr ""
+
+#: includes/widgets/class-menu.php:883
+msgid "Grow"
+msgstr ""
+
+#: includes/widgets/class-menu.php:885
+msgid "Grow and color"
+msgstr ""
+
+#: includes/widgets/class-menu.php:896
+msgid "Grow by"
+msgstr ""
+
+#. translators: 1: Plugin name, 2: Required PHP version, 3: Current PHP version.
+#: listemann-toolkit-addon.php:48
+#, php-format
+msgid "%1$s requires PHP %2$s or newer. This site runs PHP %3$s, so the plugin is inactive."
+msgstr ""

@@ -10,6 +10,7 @@
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       listemann-toolkit-addon
  * Domain Path:       /languages
+ * Update URI:        false
  *
  * Elementor tested up to:     4.3.5
  * Elementor Pro tested up to: 4.3.1
