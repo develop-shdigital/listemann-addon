@@ -92,8 +92,8 @@ final class Mega_Menu_Fields {
 	/**
 	 * Prints the field inside a menu item's settings box.
 	 *
-	 * @param int     $item_id   Menu item ID.
-	 * @param WP_Post $menu_item Menu item data object (unused).
+	 * @param int      $item_id   Menu item ID.
+	 * @param \WP_Post $menu_item Menu item data object (unused).
 	 * @return void
 	 */
 	public static function render_field( $item_id, $menu_item = null ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
@@ -162,10 +162,9 @@ final class Mega_Menu_Fields {
 			return;
 		}
 
-		$raw = $_POST[ self::FIELD_NAME ][ $menu_item_db_id ];
+		// sanitize_text_field() returns '' for arrays, absint() turns that into 0.
+		$value = min( absint( sanitize_text_field( wp_unslash( $_POST[ self::FIELD_NAME ][ $menu_item_db_id ] ) ) ), self::MAX_COLUMNS );
 		// phpcs:enable WordPress.Security.NonceVerification.Missing
-
-		$value = is_scalar( $raw ) ? min( absint( sanitize_text_field( wp_unslash( (string) $raw ) ) ), self::MAX_COLUMNS ) : 0;
 
 		if ( $value > 0 ) {
 			update_post_meta( $menu_item_db_id, self::META_KEY, $value );

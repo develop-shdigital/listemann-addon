@@ -51,6 +51,7 @@
 	const FOCUSABLE = 'a[href], area[href], button, input, select, textarea, iframe, summary, [tabindex], [contenteditable]';
 
 	const DRAG_THRESHOLD = 6; // px a press has to travel before it becomes a drag.
+	const CLICK_SUPPRESS_TIME = 400; // ms after a drag during which a click is swallowed.
 	const FLICK_VELOCITY = 0.3; // px/ms; a faster release moves on to the next slide.
 	const RAMP_DURATION = 600; // ms to ease the glide to a stop and back to full speed.
 	const MAX_FRAME_DELTA = 100; // ms; caps the time step after a stalled frame.
@@ -262,6 +263,7 @@
 			this.stepWidth = 0; // Slide width + gap.
 			this.slideWidth = 0;
 			this.viewportWidth = 0;
+			this.lead = 0; // Space in front of the first slide (edge spacing).
 			this.rendered = null;
 
 			this.glide = 1; // Continuous speed factor (0..1), eased on pause and resume.
@@ -276,7 +278,7 @@
 			this.timer = 0;
 			this.stepStart = 0; // Start time of the running autoplay step.
 			this.drag = null;
-			this.suppressClick = false;
+			this.suppressClickUntil = 0; // Swallow the click that ends a drag until then.
 			this.listeners = [];
 			this.legacyMediaQuery = null;
 			this.resizeObserver = null;
@@ -486,13 +488,17 @@
 			const aligned = Math.ceil( natural * density - 0.001 ) / density;
 
 			if ( aligned - natural > 0.001 ) {
-				this.setSetPadding( aligned - natural );
+				// Layout engines store lengths in fixed point (Blink: 1/64 px,
+				// truncated) and the measurement carries float noise; half a
+				// thousandth more than needed lands on the intended unit.
+				this.setSetPadding( aligned - natural + 0.0005 );
 			}
 
 			this.setWidth = ( this.clones[ 0 ].getBoundingClientRect().left - first ) / scale;
 			this.stepWidth = natural / count;
 			this.slideWidth = slideWidth;
 			this.viewportWidth = viewportWidth;
+			this.lead = Math.max( 0, ( first - this.track.getBoundingClientRect().left ) / scale );
 		}
 
 		/**
@@ -769,7 +775,7 @@
 		/* Pointer: drag, swipe and hover ---------------------------------- */
 
 		onPointerDown( event ) {
-			this.suppressClick = false;
+			this.suppressClickUntil = 0;
 
 			if ( ! this.isDraggable() || ! this.setWidth || false === event.isPrimary ) {
 				return;
@@ -805,14 +811,14 @@
 
 				if ( Math.abs( dx ) < DRAG_THRESHOLD ) {
 					if ( Math.abs( dy ) >= DRAG_THRESHOLD ) {
-						this.drag = null; // Vertical intent: leave the gesture to the page.
+						this.releasePress(); // Vertical intent: leave the gesture to the page.
 					}
 
 					return;
 				}
 
 				if ( Math.abs( dy ) > Math.abs( dx ) ) {
-					this.drag = null;
+					this.releasePress();
 					return;
 				}
 
@@ -836,14 +842,15 @@
 			const drag = this.drag;
 
 			drag.active = true;
-			drag.originX = event.clientX;
+			// Follow the pointer from where it crossed the threshold: no jump, and
+			// a coarse first move (fast flick, low event rate) is not lost.
+			drag.originX = drag.startX + Math.sign( event.clientX - drag.startX ) * DRAG_THRESHOLD;
 			drag.originPos = this.pos;
 			drag.lastX = event.clientX;
 			drag.lastTime = event.timeStamp;
 
 			this.tween = null;
 			this.glide = 0;
-			this.suppressClick = true;
 			this.root.classList.add( CLASS.dragging );
 
 			try {
@@ -865,9 +872,13 @@
 			this.drag = null;
 
 			if ( ! drag.active ) {
+				// A tap or press: let a step timer that fired meanwhile restart.
+				this.update();
 				return;
 			}
 
+			// The pointer moved: the click that may follow must not open a link.
+			this.suppressClickUntil = now() + CLICK_SUPPRESS_TIME;
 			this.root.classList.remove( CLASS.dragging );
 
 			try {
@@ -896,6 +907,15 @@
 			this.update();
 		}
 
+		/**
+		 * Forgets a press that did not turn into a drag (vertical scroll, …) and
+		 * resumes autoplay that waited for it.
+		 */
+		releasePress() {
+			this.drag = null;
+			this.update();
+		}
+
 		onLostPointerCapture( event ) {
 			// Ignore the implicit (touch) capture of a child moving to the viewport.
 			if ( event.target === this.viewport ) {
@@ -904,11 +924,17 @@
 		}
 
 		onClick( event ) {
-			if ( this.suppressClick && 'click' === event.type ) {
-				this.suppressClick = false;
-				event.preventDefault();
-				event.stopPropagation();
-				return;
+			// Keyboard activation (detail 0) is never the end of a drag.
+			if ( 'click' === event.type && this.suppressClickUntil && event.detail > 0 ) {
+				const suppress = now() <= this.suppressClickUntil;
+
+				this.suppressClickUntil = 0;
+
+				if ( suppress ) {
+					event.preventDefault();
+					event.stopPropagation();
+					return;
+				}
 			}
 
 			this.forwardClick( event );
@@ -1028,18 +1054,20 @@
 			}
 
 			// Where the strip comes to rest (a running step transition finishes first).
+			// At offset o a slide starting at `start` is drawn at lead + start - o.
 			const settled = mod( this.tween ? this.tween.to : this.pos, this.setWidth );
 			const start = index * this.stepWidth;
 			const end = start + this.slideWidth;
+			const room = this.viewportWidth - 2 * this.lead;
 
-			if ( start >= settled - 0.5 && end <= settled + this.viewportWidth + 0.5 ) {
+			if ( start + this.lead >= settled - 0.5 && end + this.lead <= settled + this.viewportWidth + 0.5 ) {
 				return;
 			}
 
 			let target = start;
 
 			if ( start > settled ) {
-				target = Math.max( 0, end - this.viewportWidth );
+				target = Math.max( 0, end - room );
 
 				if ( this.isSnapping() ) {
 					target = this.positionOf( this.indexAt( target - 0.5, Math.ceil ) );
@@ -1048,8 +1076,17 @@
 				target = Math.min( start, target ); // A slide wider than the viewport aligns left.
 			}
 
-			this.pos = mod( this.pos, this.setWidth );
-			this.animateTo( target, this.reducedMotion ? 0 : FOCUS_DURATION );
+			// The strip repeats every set width: of all offsets showing the same
+			// picture, travel to the nearest one.
+			const from = mod( this.pos, this.setWidth );
+			let distance = mod( target - from, this.setWidth );
+
+			if ( distance > this.setWidth / 2 ) {
+				distance -= this.setWidth;
+			}
+
+			this.pos = from;
+			this.animateTo( from + distance, this.reducedMotion ? 0 : FOCUS_DURATION );
 		}
 
 		onScroll() {
@@ -1184,7 +1221,7 @@
 	const WIDGET = 'listemann-continuous-slider';
 
 	// Settings that only change CSS custom properties: re-measure instead of re-render.
-	const LAYOUT_SETTING = /^(slides_per_view|gap|height|motion)(_|$)/;
+	const LAYOUT_SETTING = /^(slides_per_view|gap|edge_spacing|height|motion)(_|$)/;
 
 	// Keeps the position across editor re-renders, keyed by element model cid.
 	const editorProgress = new Map();

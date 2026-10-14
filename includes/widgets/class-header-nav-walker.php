@@ -100,9 +100,9 @@ class Header_Nav_Walker extends \Walker_Nav_Menu {
 	 * The first level is the dropdown panel, deeper levels are plain lists
 	 * inside it.
 	 *
-	 * @param string        $output Used to append additional content (passed by reference).
-	 * @param int           $depth  Depth of the parent item.
-	 * @param stdClass|null $args   An object of wp_nav_menu() arguments.
+	 * @param string         $output Used to append additional content (passed by reference).
+	 * @param int            $depth  Depth of the parent item.
+	 * @param \stdClass|null $args   An object of wp_nav_menu() arguments.
 	 */
 	public function start_lvl( &$output, $depth = 0, $args = null ) {
 		$depth   = (int) $depth;
@@ -129,9 +129,9 @@ class Header_Nav_Walker extends \Walker_Nav_Menu {
 	/**
 	 * Ends a sub-menu list.
 	 *
-	 * @param string        $output Used to append additional content (passed by reference).
-	 * @param int           $depth  Depth of the parent item.
-	 * @param stdClass|null $args   An object of wp_nav_menu() arguments.
+	 * @param string         $output Used to append additional content (passed by reference).
+	 * @param int            $depth  Depth of the parent item.
+	 * @param \stdClass|null $args   An object of wp_nav_menu() arguments.
 	 */
 	public function end_lvl( &$output, $depth = 0, $args = null ) {
 		$output .= '</ul>';
@@ -141,11 +141,11 @@ class Header_Nav_Walker extends \Walker_Nav_Menu {
 	 * Starts an element: the `<li>`, its link (or button / text) and, for
 	 * top-level items with children, the dropdown toggle.
 	 *
-	 * @param string        $output            Used to append additional content (passed by reference).
-	 * @param WP_Post       $data_object       Menu item data object.
-	 * @param int           $depth             Depth of the menu item.
-	 * @param stdClass|null $args              An object of wp_nav_menu() arguments.
-	 * @param int           $current_object_id Optional. ID of the current menu item. Default 0.
+	 * @param string         $output            Used to append additional content (passed by reference).
+	 * @param \WP_Post       $data_object       Menu item data object.
+	 * @param int            $depth             Depth of the menu item.
+	 * @param \stdClass|null $args              An object of wp_nav_menu() arguments.
+	 * @param int            $current_object_id Optional. ID of the current menu item. Default 0.
 	 */
 	public function start_el( &$output, $data_object, $depth = 0, $args = null, $current_object_id = 0 ) {
 		$menu_item = $data_object;
@@ -316,10 +316,10 @@ class Header_Nav_Walker extends \Walker_Nav_Menu {
 	/**
 	 * Ends an element.
 	 *
-	 * @param string        $output      Used to append additional content (passed by reference).
-	 * @param WP_Post       $data_object Menu item data object. Not used.
-	 * @param int           $depth       Depth of page. Not used.
-	 * @param stdClass|null $args        An object of wp_nav_menu() arguments.
+	 * @param string         $output      Used to append additional content (passed by reference).
+	 * @param \WP_Post       $data_object Menu item data object. Not used.
+	 * @param int            $depth       Depth of page. Not used.
+	 * @param \stdClass|null $args        An object of wp_nav_menu() arguments.
 	 */
 	public function end_el( &$output, $data_object, $depth = 0, $args = null ) {
 		$output .= '</li>';

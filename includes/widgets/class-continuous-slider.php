@@ -287,6 +287,27 @@ class Continuous_Slider extends Widget_Base {
 		);
 
 		$this->add_responsive_control(
+			'edge_spacing',
+			array(
+				'label'                => esc_html__( 'Gap at the Edges', 'listemann-toolkit-addon' ),
+				'type'                 => Controls_Manager::SELECT,
+				'options'              => array(
+					'half' => esc_html__( 'Half gap', 'listemann-toolkit-addon' ),
+					'none' => esc_html__( 'None (flush)', 'listemann-toolkit-addon' ),
+				),
+				'default'              => 'half',
+				'description'          => esc_html__( 'Half gap: each slide plus its gap takes exactly 1 / slides per view of the width, as on the original strip. None: the outer slides touch the edges.', 'listemann-toolkit-addon' ),
+				'selectors_dictionary' => array(
+					'half' => '1',
+					'none' => '0',
+				),
+				'selectors'            => array(
+					'{{WRAPPER}}' => '--lst-edge: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
 			'height',
 			array(
 				'label'          => esc_html__( 'Height', 'listemann-toolkit-addon' ),

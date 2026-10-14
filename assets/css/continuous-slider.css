@@ -10,6 +10,8 @@
 .lst-cslider {
 	--_spv: var(--lst-spv, 7);
 	--_gap: var(--lst-gap, 15px);
+	/* 1: half a gap before the first and after the last slide in view (as on the original slick strip), 0: flush. */
+	--_edge: var(--lst-edge, 1);
 	--_height: var(--lst-height, 550px);
 	--_mode: var(--lst-mode, continuous);
 	--_image-height: var(--lst-image-height, 109%);
@@ -44,8 +46,11 @@
 .lst-cslider__track {
 	display: flex;
 	gap: var(--_gap);
+	box-sizing: content-box;
+	/* Percentages of the slides resolve against this width; the edge padding comes on top. */
+	width: 100%;
 	margin: 0;
-	padding: 0;
+	padding: 0 0 0 calc(var(--_edge) * var(--_gap) / 2);
 	direction: ltr;
 }
 
@@ -55,7 +60,8 @@
 
 .lst-cslider__slide {
 	position: relative;
-	flex: 0 0 calc((100% - (var(--_spv) - 1) * var(--_gap)) / var(--_spv));
+	/* Slides per view fill the width: (spv - 1) gaps between them plus, with edge spacing, two half gaps. */
+	flex: 0 0 calc((100% - (var(--_spv) - 1 + var(--_edge)) * var(--_gap)) / var(--_spv));
 	min-width: 0;
 	height: var(--_height);
 }

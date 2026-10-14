@@ -35,6 +35,7 @@ final class Plugin {
 	const WIDGETS = array(
 		Widgets\Continuous_Slider::class,
 		Widgets\Menu::class,
+		Widgets\Header::class,
 	);
 
 	/**
@@ -42,6 +43,7 @@ final class Plugin {
 	 */
 	const SCRIPTS = array(
 		'listemann-toolkit-continuous-slider' => array( 'assets/js/continuous-slider.js', array( 'elementor-frontend' ) ),
+		'listemann-toolkit-header'            => array( 'assets/js/header.js', array() ),
 	);
 
 	/**
@@ -50,6 +52,7 @@ final class Plugin {
 	const STYLES = array(
 		'listemann-toolkit-continuous-slider' => array( 'assets/css/continuous-slider.css', array() ),
 		'listemann-toolkit-menu'              => array( 'assets/css/menu.css', array() ),
+		'listemann-toolkit-header'            => array( 'assets/css/header.css', array( 'listemann-toolkit-menu' ) ),
 	);
 
 	/**
@@ -81,6 +84,7 @@ final class Plugin {
 		// Site-wide features, independent of Elementor.
 		Frontend\Side_Dock::init();
 		Frontend\Scrollbar::init();
+		Mega_Menu_Fields::init();
 
 		if ( is_admin() ) {
 			Admin\Settings_Page::init( plugin_basename( LISTEMANN_TOOLKIT_FILE ) );

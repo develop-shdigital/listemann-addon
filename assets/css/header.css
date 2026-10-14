@@ -1,0 +1,895 @@
+/**
+ * Listemann Header widget.
+ *
+ * Values that the widget controls change are CSS custom properties set by
+ * Elementor on the widget wrapper ({{WRAPPER}}) or, for the off-canvas, on
+ * `.lst-oc-{element id}` (the script moves the off-canvas to <body>). The
+ * fallbacks below are the control defaults (listemann.com). Nothing here
+ * relies on `.elementor-widget-container` (works with Elementor's optimized
+ * markup on and off).
+ *
+ * Header:     --lst-hdr-h, -bg, -pad-x, -max-w, -gap, -transition
+ * Logo box:   --lst-hdr-logo-box-w / -h / -bg / -pad-x, --lst-hdr-logo-w, -logo-mb, -logo-z
+ * Items:      --lst-hdr-top-color / -hover-color / -active-color, --lst-hdr-chevron-*
+ * Dropdown:   --lst-hdr-dd-bg / -pad / -min-w / -top / -color / -hover-color / -active-color,
+ *             --lst-hdr-group-*, --lst-hdr-line-w / -h / -color / -gap, --lst-hdr-mega-*
+ * Language:   --lst-hdr-lang-color / -hover-color, --lst-hdr-flag-w
+ * Hamburger:  --lst-hdr-burger-display / -color / -hover-color / -w / -h
+ * Sticky:     --lst-hdr-sticky-h / -bg / -shadow / -logo-w (+ -left / -width set by the script)
+ * Off-canvas: --lst-oc-bg / -close-color / -close-w / -max-w / -logo-w / -social-color /
+ *             -social-hover-color / -duration, plus the --lst-menu-* properties of menu.css
+ *
+ * The collapse breakpoint (menu hidden, hamburger only) is a media query
+ * printed by the widget, scoped to `.lst-hdr-{element id}`.
+ */
+
+/* Screen-reader text (also used inside the off-canvas, outside .lst-header). */
+.lst-header__sr {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	clip-path: inset(50%);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* Root and bar ------------------------------------------------------------ */
+
+.lst-header {
+	position: relative;
+	min-height: var(--lst-hdr-h, 170px); /* Keeps the space while the bar is sticky. */
+	text-align: start;
+}
+
+.lst-header__bar {
+	position: relative;
+	background-color: var(--lst-hdr-bg, transparent);
+}
+
+.lst-header__inner {
+	display: flex;
+	align-items: stretch;
+	justify-content: space-between;
+	box-sizing: border-box;
+	height: var(--lst-hdr-h, 170px);
+	max-width: var(--lst-hdr-max-w, none);
+	margin-inline: auto;
+	padding-inline: var(--lst-hdr-pad-x, 50px);
+}
+
+/* Buttons: neutralise theme / kit button styles (incl. their hover states). */
+.lst-header button.lst-header__toggle,
+.lst-header button.lst-header__toggle-label,
+.lst-header button.lst-header__burger,
+.lst-header button.lst-header__toggle:hover,
+.lst-header button.lst-header__toggle-label:hover,
+.lst-header button.lst-header__burger:hover,
+.lst-header button.lst-header__toggle:focus,
+.lst-header button.lst-header__toggle-label:focus,
+.lst-header button.lst-header__burger:focus,
+.lst-offcanvas button.lst-offcanvas__close,
+.lst-offcanvas button.lst-offcanvas__close:hover,
+.lst-offcanvas button.lst-offcanvas__close:focus {
+	-webkit-appearance: none;
+	appearance: none;
+	min-width: 0;
+	min-height: 0;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	box-shadow: none;
+	font-family: inherit;
+	text-decoration: none;
+	cursor: pointer;
+	transition: none; /* Themes often set `transition: all`, which would also delay visibility. */
+}
+
+/* Logo box ---------------------------------------------------------------- */
+
+.lst-header__brand {
+	position: relative;
+	flex: 0 0 auto;
+	width: var(--lst-hdr-logo-box-w, 234px);
+}
+
+.lst-header__logo-box {
+	position: absolute;
+	top: 0;
+	inset-inline-start: 0;
+	z-index: var(--lst-hdr-logo-z, 999);
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+	box-sizing: border-box;
+	width: 100%;
+	height: var(--lst-hdr-logo-box-h, 200px);
+	padding-inline: var(--lst-hdr-logo-box-pad-x, 0px);
+	background-color: var(--lst-hdr-logo-box-bg, #eee);
+}
+
+.lst-header .lst-header__logo {
+	display: block;
+	width: var(--lst-hdr-logo-w, 165px);
+	max-width: 100%;
+	margin-bottom: var(--lst-hdr-logo-mb, 27px);
+	line-height: 0;
+}
+
+.lst-header .lst-header__logo-img {
+	display: block;
+	width: 100%;
+	max-width: none;
+	height: auto;
+}
+
+/* End area: menu, language switcher, hamburger ----------------------------- */
+
+.lst-header__end {
+	display: flex;
+	align-items: center;
+	gap: var(--lst-hdr-gap, 38px);
+	min-width: 0;
+	margin-inline-start: auto;
+}
+
+.lst-header__nav,
+.lst-header__lang {
+	display: flex;
+}
+
+.lst-header .lst-header__menu {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--lst-hdr-gap, 38px);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.lst-header .lst-header__item--top {
+	position: relative;
+	display: flex;
+	align-items: center;
+	box-sizing: content-box;
+	min-height: 24px; /* listemann.com: the 17px label sits in a 24px line box. */
+	margin: 10px 0 0;
+	padding: 0 0 10px;
+	list-style: none;
+}
+
+.lst-header .lst-header__item--top::before,
+.lst-header .lst-header__item--top::after,
+.lst-header .lst-header__dropdown li::before,
+.lst-header .lst-header__dropdown li::after {
+	content: none; /* Neutralise theme list markers. */
+}
+
+/* Top-level labels (links, "#" items rendered as buttons, plain text). */
+.lst-header .lst-header__item--top > .lst-header__link--top {
+	display: inline-flex;
+	align-items: center;
+	font-family: inherit;
+	font-style: inherit;
+	letter-spacing: inherit;
+	font-size: 15px;
+	font-weight: 700;
+	line-height: 17px;
+	text-transform: uppercase;
+	color: var(--lst-hdr-top-color, #626262);
+	text-decoration: none;
+	white-space: nowrap;
+	transition: color var(--lst-hdr-transition, 300ms) ease;
+}
+
+.lst-header .lst-header__item--top:hover > .lst-header__link--top,
+.lst-header .lst-header__item--top.is-open > .lst-header__link--top,
+.lst-header .lst-header__item--top > .lst-header__link--top:focus-visible {
+	color: var(--lst-hdr-top-hover-color, #dd191a);
+}
+
+.lst-header .lst-header__item--top.current-menu-item > .lst-header__link--top,
+.lst-header .lst-header__item--top.current-menu-ancestor > .lst-header__link--top,
+.lst-header .lst-header__item--top.current-menu-parent > .lst-header__link--top {
+	color: var(--lst-hdr-top-active-color, #dd191a);
+}
+
+.lst-header .lst-header__link--top.lst-header__text {
+	cursor: default;
+}
+
+.lst-header .lst-header__item--top > .lst-header__link--top:focus-visible,
+.lst-header .lst-header__toggle:focus-visible,
+.lst-header .lst-header__burger:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: 4px;
+}
+
+/* Language switcher label colors. */
+.lst-header .lst-header__item--lang > .lst-header__link--top {
+	color: var(--lst-hdr-lang-color, var(--lst-hdr-top-color, #626262));
+}
+
+.lst-header .lst-header__item--lang:hover > .lst-header__link--top,
+.lst-header .lst-header__item--lang.is-open > .lst-header__link--top {
+	color: var(--lst-hdr-lang-hover-color, var(--lst-hdr-top-hover-color, #dd191a));
+}
+
+.lst-header .lst-header__label {
+	display: inline-flex;
+	align-items: center;
+	vertical-align: top; /* No extra baseline space in 34px dropdown rows (flags). */
+}
+
+.lst-header .lst-header__flag,
+.lst-offcanvas .lst-header__flag {
+	display: inline-block;
+	flex: none;
+	width: var(--lst-hdr-flag-w, 18px);
+	max-width: none;
+	height: auto;
+	margin-inline-end: 5px;
+	border-radius: 0;
+}
+
+.lst-header .lst-header__flag:last-child {
+	margin-inline-end: 0;
+}
+
+/* Chevrons and dropdown toggles ------------------------------------------- */
+
+/* The chevron sits in the gap after the label and takes no space (as on listemann.com). */
+.lst-header .lst-header__chevron {
+	display: block;
+	flex: none;
+	width: var(--lst-hdr-chevron-w, 10px);
+	height: auto;
+	margin-top: 2px;
+	color: var(--lst-hdr-chevron-color, var(--lst-hdr-top-color, #626262));
+	transition: color var(--lst-hdr-transition, 300ms) ease, transform var(--lst-hdr-transition, 300ms) ease;
+}
+
+.lst-header .lst-header__toggle-label .lst-header__chevron {
+	margin-inline-start: 5px;
+	margin-inline-end: calc(-5px - var(--lst-hdr-chevron-w, 10px));
+}
+
+.lst-header .lst-header__item--lang > .lst-header__toggle-label .lst-header__chevron {
+	color: var(--lst-hdr-chevron-color, var(--lst-hdr-lang-color, var(--lst-hdr-top-color, #626262)));
+}
+
+.lst-header .lst-header__item--top:hover .lst-header__chevron,
+.lst-header .lst-header__item--top.is-open .lst-header__chevron,
+.lst-header .lst-header__toggle:focus-visible .lst-header__chevron,
+.lst-header .lst-header__toggle-label:focus-visible .lst-header__chevron {
+	color: var(--lst-hdr-chevron-hover-color, var(--lst-hdr-top-hover-color, #dd191a));
+}
+
+.lst-header .lst-header__item--top.current-menu-item .lst-header__chevron,
+.lst-header .lst-header__item--top.current-menu-ancestor .lst-header__chevron,
+.lst-header .lst-header__item--top.current-menu-parent .lst-header__chevron {
+	color: var(--lst-hdr-chevron-hover-color, var(--lst-hdr-top-active-color, #dd191a));
+}
+
+.lst-header .lst-header__dropdown .lst-header__chevron {
+	display: none;
+}
+
+/* Separate toggle next to a link: a real button with a larger hit area. */
+.lst-header button.lst-header__toggle {
+	position: relative;
+	display: inline-flex;
+	flex: none;
+	align-items: center;
+	justify-content: center;
+	align-self: stretch;
+	width: var(--lst-hdr-chevron-w, 10px);
+	margin-inline-start: 5px;
+	margin-inline-end: calc(-5px - var(--lst-hdr-chevron-w, 10px));
+	color: inherit;
+}
+
+.lst-header button.lst-header__toggle::after {
+	content: "";
+	position: absolute;
+	inset: -10px -8px;
+}
+
+/* Without chevrons the toggle stays reachable by keyboard and shows up on focus. */
+.lst-header--no-chevrons .lst-header__toggle-label .lst-header__chevron {
+	display: none;
+}
+
+.lst-header--no-chevrons button.lst-header__toggle:not(:focus-visible) {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: 0;
+	overflow: hidden;
+	clip-path: inset(50%);
+}
+
+/* Dropdown panels ----------------------------------------------------------- */
+
+.lst-header .lst-header__sub {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.lst-header .lst-header__dropdown {
+	position: absolute;
+	top: var(--lst-hdr-dd-top, 25px);
+	inset-inline-start: 0;
+	z-index: calc(var(--lst-hdr-logo-z, 999) + 1);
+	box-sizing: border-box;
+	width: max-content;
+	min-width: var(--lst-hdr-dd-min-w, 0px);
+	max-width: calc(100vw - 20px);
+	margin: 0;
+	padding: var(--lst-hdr-dd-pad, 28px 56px 28px 28px);
+	list-style: none;
+	background-color: var(--lst-hdr-dd-bg, #fff);
+	text-align: start;
+	display: none; /* Closed panels take no space (no horizontal scrollbar from hidden panels). */
+}
+
+.lst-header .lst-header__dropdown.is-flipped {
+	inset-inline-start: auto;
+	inset-inline-end: 0;
+}
+
+/* Open: JS state, plus hover / keyboard focus (also while the script is not running). */
+.lst-header .lst-header__item--top.is-open > .lst-header__dropdown,
+.lst-header:not(.is-ready) .lst-header__item--top:hover > .lst-header__dropdown,
+.lst-header--open-hover .lst-header__item--top:focus-within:not(.is-dismissed) > .lst-header__dropdown {
+	display: var(--lst-hdr-dd-display, block);
+}
+
+.lst-header .lst-header__dropdown li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+/* Deeper levels (4th level and below) are indented. */
+.lst-header .lst-header__sub .lst-header__sub .lst-header__sub {
+	padding-inline-start: 25px;
+}
+
+/* Dropdown items with the red line. */
+.lst-header .lst-header__sublink {
+	position: relative;
+	display: block;
+	width: fit-content;
+	max-width: 100%;
+	padding-inline-start: calc(var(--lst-hdr-line-w, 30px) + var(--lst-hdr-line-gap, 5px));
+	font-size: 15px;
+	font-weight: 400;
+	line-height: 34px;
+	text-transform: none;
+	color: var(--lst-hdr-dd-color, #626262);
+	text-decoration: none;
+	transition: color var(--lst-hdr-transition, 300ms) ease;
+}
+
+/* Centred on the first text line (0.5lh); older browsers use the middle. */
+.lst-header .lst-header__sublink::before {
+	content: "";
+	position: absolute;
+	inset-inline-start: 0;
+	top: calc(50% - var(--lst-hdr-line-h, 2px) / 2);
+	top: calc(0.5lh - var(--lst-hdr-line-h, 2px) / 2);
+	width: var(--lst-hdr-line-w, 30px);
+	height: var(--lst-hdr-line-h, 2px);
+	background-color: var(--lst-hdr-line-color, #dd191a);
+	pointer-events: none;
+}
+
+.lst-header a.lst-header__sublink:hover,
+.lst-header a.lst-header__sublink:focus-visible {
+	color: var(--lst-hdr-dd-hover-color, #dd191a);
+}
+
+.lst-header .current-menu-item > .lst-header__sublink,
+.lst-header .current-menu-ancestor > .lst-header__sublink {
+	color: var(--lst-hdr-dd-active-color, #dd191a);
+}
+
+.lst-header .lst-header__sublink.lst-header__text {
+	cursor: default;
+}
+
+.lst-header .lst-header__dropdown a:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
+}
+
+/* Group headings: 2nd level items with sub-items (the "mega" part). */
+.lst-header .lst-header__group-title {
+	display: block;
+	width: fit-content;
+	max-width: 100%;
+	padding-block: 4px; /* listemann.com: 17px text in a 25px line box. */
+	font-size: 15px;
+	font-weight: 700;
+	line-height: 17px;
+	text-transform: uppercase;
+	color: var(--lst-hdr-group-color, #626262);
+	text-decoration: none;
+	transition: color var(--lst-hdr-transition, 300ms) ease;
+}
+
+.lst-header a.lst-header__group-title:hover,
+.lst-header a.lst-header__group-title:focus-visible {
+	color: var(--lst-hdr-group-hover-color, #dd191a);
+}
+
+.lst-header .lst-header__group-title.lst-header__text {
+	cursor: default;
+}
+
+.lst-header .lst-header__item--group > .lst-header__sub {
+	padding-block: var(--lst-hdr-group-gap-top, 14px) var(--lst-hdr-group-gap-bottom, 28px);
+}
+
+.lst-header .lst-header__dropdown > .lst-header__item--group:last-child > .lst-header__sub {
+	padding-bottom: 0;
+}
+
+/* Mega panels: one column per 2nd level item. */
+.lst-header .lst-header__item--mega > .lst-header__dropdown {
+	--lst-hdr-dd-display: grid;
+	grid-template-columns: repeat(var(--lst-hdr-mega-cols, 2), max-content);
+	align-items: start;
+	column-gap: var(--lst-hdr-mega-gap, 40px);
+	row-gap: 0;
+}
+
+/* Rows of groups are separated like groups in a normal dropdown; rows of plain items keep the 34px rhythm. */
+.lst-header .lst-header__item--mega > .lst-header__dropdown:has(> .lst-header__item--group) {
+	row-gap: var(--lst-hdr-group-gap-bottom, 28px);
+}
+
+.lst-header .lst-header__item--mega > .lst-header__dropdown > .lst-header__item--group > .lst-header__sub {
+	padding-bottom: 0;
+}
+
+/*
+ * Full width: the script sets the panel's offsets and width so that it spans
+ * the header content box right below the bar (it would otherwise run into
+ * the logo box), plus an invisible hover bridge from the item to the panel.
+ */
+.lst-header--mega-full .lst-header__item--mega > .lst-header__dropdown {
+	top: var(--lst-hdr-mega-top, var(--lst-hdr-dd-top, 25px));
+	left: var(--lst-hdr-mega-left, 0px);
+	right: auto;
+	width: var(--lst-hdr-mega-w, max-content);
+	max-width: none;
+	grid-template-columns: repeat(var(--lst-hdr-mega-cols, 2), minmax(0, 1fr));
+}
+
+.lst-header--mega-full .lst-header__item--mega > .lst-header__dropdown::before {
+	content: "";
+	position: absolute;
+	bottom: 100%;
+	left: var(--lst-hdr-mega-bridge-left, 0px);
+	width: var(--lst-hdr-mega-bridge-w, 0px);
+	height: var(--lst-hdr-mega-bridge-h, 0px);
+}
+
+/* Hamburger ------------------------------------------------------------------ */
+
+.lst-header button.lst-header__burger {
+	position: relative;
+	display: var(--lst-hdr-burger-display, inline-flex);
+	flex: none;
+	align-items: center;
+	justify-content: flex-end;
+	width: var(--lst-hdr-burger-w, 27px);
+	height: calc(var(--lst-hdr-burger-h, 3px) * 3 + 14px);
+	color: var(--lst-hdr-burger-color, #dd191a);
+	transition: color var(--lst-hdr-transition, 300ms) ease;
+}
+
+.lst-header button.lst-header__burger::after {
+	content: "";
+	position: absolute;
+	inset: -8px;
+}
+
+.lst-header button.lst-header__burger:hover,
+.lst-header button.lst-header__burger:focus-visible {
+	color: var(--lst-hdr-burger-hover-color, var(--lst-hdr-burger-color, #dd191a));
+}
+
+/* Middle bar: 5px shorter and right-aligned; the outer bars meet it on hover. */
+.lst-header .lst-header__burger-bar,
+.lst-header .lst-header__burger-bar::before,
+.lst-header .lst-header__burger-bar::after {
+	display: block;
+	height: var(--lst-hdr-burger-h, 3px);
+	background-color: currentColor;
+}
+
+.lst-header .lst-header__burger-bar {
+	position: relative;
+	width: calc(var(--lst-hdr-burger-w, 27px) - 5px);
+}
+
+.lst-header .lst-header__burger-bar::before,
+.lst-header .lst-header__burger-bar::after {
+	content: "";
+	position: absolute;
+	inset-inline-end: 0;
+	width: var(--lst-hdr-burger-w, 27px);
+	transition: transform var(--lst-hdr-transition, 300ms) ease;
+}
+
+.lst-header .lst-header__burger-bar::before {
+	transform: translateY(calc(-1 * (var(--lst-hdr-burger-h, 3px) + 4px)));
+}
+
+.lst-header .lst-header__burger-bar::after {
+	transform: translateY(calc(var(--lst-hdr-burger-h, 3px) + 4px));
+}
+
+.lst-header .lst-header__burger:hover .lst-header__burger-bar::before,
+.lst-header .lst-header__burger:hover .lst-header__burger-bar::after,
+.lst-header .lst-header__burger:focus-visible .lst-header__burger-bar::before,
+.lst-header .lst-header__burger:focus-visible .lst-header__burger-bar::after {
+	transform: none;
+}
+
+/* Sticky ---------------------------------------------------------------------- */
+
+.lst-header--sticky.is-sticky .lst-header__bar {
+	position: fixed;
+	top: 0;
+	left: var(--lst-hdr-sticky-left, 0px);
+	z-index: 9990;
+	width: var(--lst-hdr-sticky-width, 100%);
+	background-color: var(--lst-hdr-sticky-bg, #fff);
+	box-shadow: var(--lst-hdr-sticky-shadow, 0 2px 12px rgba(0, 0, 0, 0.08));
+	animation: lst-hdr-sticky-in 300ms ease-out both;
+}
+
+.admin-bar .lst-header--sticky.is-sticky .lst-header__bar {
+	top: var(--wp-admin--admin-bar--height, 32px);
+}
+
+@media (max-width: 600px) {
+	.admin-bar .lst-header--sticky.is-sticky .lst-header__bar {
+		top: 0; /* The admin bar scrolls away on small screens. */
+	}
+}
+
+.lst-header--sticky.is-sticky .lst-header__inner {
+	height: var(--lst-hdr-sticky-h, 90px);
+}
+
+.lst-header--sticky.is-sticky .lst-header__logo-box {
+	height: 100%;
+}
+
+.lst-header--sticky.is-sticky .lst-header__logo {
+	width: var(--lst-hdr-sticky-logo-w, 110px);
+	margin-bottom: 10px;
+}
+
+@keyframes lst-hdr-sticky-in {
+	from {
+		transform: translateY(-100%);
+	}
+
+	to {
+		transform: none;
+	}
+}
+
+/* Off-canvas (a direct child of <body> once the script runs) ----------------- */
+
+/* Defaults of the --lst-menu-* properties used by menu.css (zero specificity). */
+:where(.lst-offcanvas) {
+	--lst-menu-heading-color: #626262;
+	--lst-menu-heading-hover-color: #dd191a;
+	--lst-menu-item-color: #626262;
+	--lst-menu-item-hover-color: #dd191a;
+	--lst-menu-item-active-color: #dd191a;
+}
+
+.lst-offcanvas {
+	position: fixed;
+	inset: 0;
+	z-index: 999999;
+	box-sizing: border-box;
+	width: 100%;
+	height: 100vh;
+	height: 100dvh;
+	background-color: var(--lst-oc-bg, #fff);
+	color: #626262;
+	text-align: start;
+	visibility: hidden;
+	transform: translateY(-300%);
+	transition:
+		transform var(--lst-oc-duration, 750ms) ease-out,
+		visibility 0s linear var(--lst-oc-duration, 750ms);
+}
+
+.lst-offcanvas.is-open {
+	visibility: visible;
+	transform: none;
+	transition:
+		transform var(--lst-oc-duration, 750ms) ease-out,
+		visibility 0s linear 0s;
+}
+
+.lst-offcanvas *,
+.lst-offcanvas *::before,
+.lst-offcanvas *::after {
+	box-sizing: border-box;
+}
+
+.lst-offcanvas__scroll {
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	-webkit-overflow-scrolling: touch;
+}
+
+/* Close button: two bars crossed at ±45°, straightened on hover. */
+.lst-offcanvas button.lst-offcanvas__close {
+	position: absolute;
+	top: 3%;
+	right: 3%;
+	z-index: 2;
+	width: 30px;
+	height: 30px;
+	transform: translate(5%, 5%);
+}
+
+.lst-offcanvas .lst-offcanvas__close::before,
+.lst-offcanvas .lst-offcanvas__close::after {
+	content: "";
+	position: absolute;
+	top: 15px;
+	left: 0;
+	width: var(--lst-oc-close-w, 27px);
+	height: 2px;
+	background-color: var(--lst-oc-close-color, #dd191a);
+	transition: transform 300ms ease;
+}
+
+.lst-offcanvas .lst-offcanvas__close::before {
+	transform: rotate(45deg);
+}
+
+.lst-offcanvas .lst-offcanvas__close::after {
+	transform: rotate(-45deg);
+}
+
+.lst-offcanvas .lst-offcanvas__close:hover::before,
+.lst-offcanvas .lst-offcanvas__close:hover::after,
+.lst-offcanvas .lst-offcanvas__close:focus-visible::before,
+.lst-offcanvas .lst-offcanvas__close:focus-visible::after {
+	transform: rotate(0);
+}
+
+.lst-offcanvas .lst-offcanvas__close:focus-visible {
+	outline: 2px solid var(--lst-oc-close-color, #dd191a);
+	outline-offset: 4px;
+}
+
+/* Layout: logo column + menu columns, evenly spaced. */
+.lst-offcanvas__inner {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-evenly;
+	max-width: var(--lst-oc-max-w, 1280px);
+	margin-inline: auto;
+	padding-block: 50px;
+}
+
+.lst-offcanvas__template {
+	padding-block: 50px;
+}
+
+.lst-offcanvas__brand {
+	display: flex;
+	flex: none;
+	flex-direction: column;
+	align-items: center;
+}
+
+.lst-offcanvas__logo {
+	width: var(--lst-oc-logo-w, 190px);
+	max-width: 100%;
+	line-height: 0;
+}
+
+.lst-offcanvas .lst-offcanvas__logo-img {
+	display: block;
+	width: 100%;
+	max-width: none;
+	height: auto;
+}
+
+.lst-offcanvas .lst-offcanvas__social {
+	display: flex;
+	align-items: center;
+	margin: 0;
+	padding: 40px 0 0;
+	list-style: none;
+}
+
+.lst-offcanvas .lst-offcanvas__social li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.lst-offcanvas .lst-offcanvas__social-link {
+	display: flex;
+	align-items: center;
+	padding: 0 10px;
+	font-size: 22px;
+	line-height: 1;
+	color: var(--lst-oc-social-color, #a8a8a8);
+	text-decoration: none;
+	transition: transform 300ms ease, color 300ms ease;
+}
+
+.lst-offcanvas .lst-offcanvas__social-link:hover,
+.lst-offcanvas .lst-offcanvas__social-link:focus-visible {
+	color: var(--lst-oc-social-hover-color, var(--lst-oc-social-color, #a8a8a8));
+	transform: scale(1.25);
+}
+
+.lst-offcanvas .lst-offcanvas__social-link svg {
+	display: block;
+	fill: currentColor;
+}
+
+.lst-offcanvas__col {
+	flex: none;
+	min-width: 0;
+	max-width: 100%;
+}
+
+/* Menu columns use menu.css; typography fallbacks (Elementor's CSS overrides them). */
+:where(.lst-offcanvas) .lst-menu__link {
+	font-size: 15px;
+	font-weight: 400;
+	line-height: 34px;
+}
+
+:where(.lst-offcanvas) .lst-menu__item--heading > .lst-menu__link {
+	font-size: 18px;
+	font-weight: 700;
+	line-height: 34px;
+	text-transform: uppercase;
+}
+
+:where(.lst-offcanvas) .lst-menu__sub .lst-menu__sub > .lst-menu__item:not(.lst-menu__item--heading) > .lst-menu__link {
+	font-size: 13px;
+	line-height: 24px;
+}
+
+/* As on listemann.com, a nested group gets space above it but not below it. */
+.lst-offcanvas .lst-menu .lst-menu__sub > .lst-menu__item--has-sub + .lst-menu__item:not(.lst-menu__item--has-sub) {
+	margin-top: var(--lst-menu-item-gap, 0px);
+}
+
+/* Columns are as far apart as groups within a column. */
+.lst-offcanvas__col > .lst-menu + .lst-menu {
+	margin-top: var(--lst-menu-group-gap, 25px);
+}
+
+.lst-offcanvas .lst-menu__label .lst-header__flag {
+	margin-inline-end: 5px;
+}
+
+.lst-offcanvas .lst-menu__label {
+	display: inline-flex;
+	align-items: center;
+	vertical-align: top;
+}
+
+.lst-offcanvas a:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
+}
+
+/* Below 1280px: logo row on top, menu columns wrap. */
+@media (max-width: 1279.98px) {
+	.lst-offcanvas__inner {
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: 30px 50px;
+		padding-inline: 50px;
+	}
+
+	.lst-offcanvas__brand {
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		margin-bottom: -5px; /* 25px to the menus. */
+	}
+
+	.lst-offcanvas .lst-offcanvas__social {
+		padding-top: 0;
+	}
+}
+
+/* Phones: one column, logo centred, social icons below it. */
+@media (max-width: 767.98px) {
+	.lst-offcanvas__inner {
+		flex-direction: column;
+		flex-wrap: nowrap;
+		align-items: stretch;
+		padding-inline: 15px;
+	}
+
+	.lst-offcanvas__brand {
+		flex-direction: column;
+		justify-content: flex-start;
+	}
+
+	.lst-offcanvas .lst-offcanvas__social {
+		padding-top: 25px;
+	}
+
+	.lst-offcanvas__col {
+		width: 100%;
+	}
+}
+
+/* Scroll lock while the off-canvas is open (padding compensation is set by the script). */
+html.lst-scroll-locked,
+html.lst-scroll-locked body {
+	overflow: hidden;
+}
+
+/* Reduced motion ------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+	.lst-offcanvas,
+	.lst-offcanvas.is-open {
+		transform: none;
+		transition: none;
+	}
+
+	.lst-header .lst-header__burger-bar::before,
+	.lst-header .lst-header__burger-bar::after,
+	.lst-header .lst-header__chevron,
+	.lst-header .lst-header__link--top,
+	.lst-header .lst-header__sublink,
+	.lst-header .lst-header__group-title,
+	.lst-offcanvas .lst-offcanvas__close::before,
+	.lst-offcanvas .lst-offcanvas__close::after,
+	.lst-offcanvas .lst-offcanvas__social-link {
+		transition: none;
+	}
+
+	.lst-header--sticky.is-sticky .lst-header__bar {
+		animation: none;
+	}
+}
+
+/* Editor-only notice ------------------------------------------------------- */
+
+.lst-header-notice {
+	padding: 8px 12px;
+	border: 1px dashed #c2c7cd;
+	background: #f9fafa;
+	color: #515962;
+	font-size: 13px;
+	line-height: 1.5;
+}
