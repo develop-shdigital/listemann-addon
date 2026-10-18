@@ -73,6 +73,48 @@
 		document.body.style.paddingRight = savedPadding;
 	}
 
+	/* Scroll padding for sticky headers (shared by all instances) ------------ */
+
+	// While a sticky header is configured, anchors and focused elements scrolled
+	// to the top of the viewport would end up under the fixed bar (WCAG 2.4.11),
+	// so <html> gets a scroll-padding-top of the bar height (plus the admin bar).
+	let paddingSet = false;
+	let paddingSaved = '';
+	let paddingValue = '';
+
+	function updateScrollPadding() {
+		let offset = 0;
+
+		instances.forEach( ( instance ) => {
+			offset = Math.max( offset, instance.getScrollOffset() );
+		} );
+
+		const style = document.documentElement.style;
+
+		if ( offset > 0 ) {
+			if ( ! paddingSet ) {
+				paddingSaved = style.scrollPaddingTop;
+				paddingSet = true;
+			}
+
+			paddingValue = Math.ceil( offset ) + 'px';
+			style.scrollPaddingTop = paddingValue;
+			return;
+		}
+
+		if ( ! paddingSet ) {
+			return;
+		}
+
+		// Leave a value that something else set in the meantime alone.
+		if ( style.scrollPaddingTop === paddingValue ) {
+			style.scrollPaddingTop = paddingSaved;
+		}
+
+		paddingSet = false;
+		paddingValue = '';
+	}
+
 	/* Helpers -------------------------------------------------------------- */
 
 	function parseConfig( root ) {
@@ -128,6 +170,7 @@
 			this.ocOpen = false;
 			this.stuck = false;
 			this.frame = 0;
+			this.resized = false;
 			this.mql = null;
 			this.destroyed = false;
 
@@ -135,7 +178,7 @@
 			this.setupOffcanvas();
 			this.setupSticky();
 
-			this.on( window, 'resize', () => this.schedule() );
+			this.on( window, 'resize', () => this.schedule( true ) );
 
 			root.classList.add( 'is-ready' );
 		}
@@ -195,7 +238,8 @@
 				this.pointerDownAt = Date.now();
 			} );
 
-			this.on( this.root, 'keydown', ( e ) => this.onKeyDown( e ) );
+			// On the document: panels opened by hovering must also close when focus is elsewhere.
+			this.on( document, 'keydown', ( e ) => this.onKeyDown( e ) );
 
 			this.on( document, 'pointerdown', ( e ) => {
 				if ( ! this.root.contains( e.target ) ) {
@@ -312,6 +356,12 @@
 		}
 
 		onLinkClick( item, e ) {
+			// Keyboard / assistive technology (no pointer, detail 0): always follow the link;
+			// the chevron button next to it opens the panel.
+			if ( 0 === e.detail ) {
+				return;
+			}
+
 			// Touch (hover mode) and click mode: the first click opens, the second follows the link.
 			const firstOpens = 'click' === this.config.openOn || 'touch' === this.lastPointer || 'pen' === this.lastPointer;
 
@@ -327,6 +377,10 @@
 			}
 
 			const item = this.items.find( ( candidate ) => candidate.li.contains( e.target ) && ( this.isOpen( candidate ) || candidate.li.matches( ':focus-within' ) ) );
+
+			// Panels opened by hovering while focus is elsewhere close too, focus stays
+			// where it is (WCAG 1.4.13: dismissible without moving the pointer).
+			this.items.filter( ( candidate ) => candidate !== item && this.isOpen( candidate ) ).forEach( ( candidate ) => this.close( candidate ) );
 
 			if ( ! item ) {
 				return;
@@ -568,6 +622,24 @@
 			this.updateSticky();
 		}
 
+		/**
+		 * Space the stuck bar takes at the top of the viewport (0 when the
+		 * header is not sticky or not shown at the current screen size).
+		 *
+		 * @return {number} Pixels.
+		 */
+		getScrollOffset() {
+			if ( this.destroyed || ! this.config.sticky || ! this.bar || ! this.root.getClientRects().length ) {
+				return 0;
+			}
+
+			// The height of the stuck bar (Elementor sets it per device), also while not stuck yet:
+			// a jump to an anchor further down makes the bar stick.
+			const height = parseFloat( window.getComputedStyle( this.root ).getPropertyValue( '--lst-hdr-sticky-h' ) );
+
+			return adminBarOffset() + ( height > 0 ? height : 90 );
+		}
+
 		updateSticky() {
 			if ( ! this.config.sticky || ! this.bar ) {
 				return;
@@ -589,11 +661,18 @@
 			this.stuck = stick;
 			this.closeAll();
 			this.root.classList.toggle( 'is-sticky', stick );
+
+			// Picks up a sticky height from CSS that loaded after the script started.
+			if ( instances.has( this ) ) {
+				updateScrollPadding();
+			}
 		}
 
 		/* Resize / scroll ------------------------------------------------- */
 
-		schedule() {
+		schedule( resized = false ) {
+			this.resized = this.resized || resized;
+
 			if ( this.frame ) {
 				return;
 			}
@@ -603,6 +682,14 @@
 
 				if ( this.destroyed ) {
 					return;
+				}
+
+				if ( this.resized ) {
+					this.resized = false;
+
+					if ( this.config.sticky ) {
+						updateScrollPadding();
+					}
 				}
 
 				this.updateSticky();
@@ -657,6 +744,10 @@
 
 			instances.delete( this );
 			byRoot.delete( this.root );
+
+			if ( this.config.sticky ) {
+				updateScrollPadding();
+			}
 		}
 	}
 
@@ -685,6 +776,10 @@
 
 		instances.add( instance );
 		byRoot.set( root, instance );
+
+		if ( instance.config.sticky ) {
+			updateScrollPadding();
+		}
 
 		return instance;
 	}
@@ -715,6 +810,15 @@
 	} else {
 		initAll( document );
 	}
+
+	// Leaving the page (e.g. through a link in the off-canvas): close everything, so a
+	// page restored from the back/forward cache is not covered by an open, scroll-locked menu.
+	window.addEventListener( 'pagehide', () => {
+		instances.forEach( ( instance ) => {
+			instance.closeOffcanvas( false );
+			instance.closeAll();
+		} );
+	} );
 
 	function registerElementorHandler() {
 		const frontend = window.elementorFrontend;

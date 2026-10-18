@@ -669,9 +669,10 @@ class Menu extends Widget_Base {
 						'step' => 0.1,
 					),
 				),
+				// 24px, not listemann.com's 22px: the stacked links stay WCAG 2.5.8 sized targets.
 				'default'    => array(
 					'unit' => 'px',
-					'size' => 22,
+					'size' => 24,
 				),
 				'selectors'  => array(
 					$nested_selector => 'line-height: {{SIZE}}{{UNIT}};',

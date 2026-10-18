@@ -79,6 +79,22 @@ class Header extends Widget_Base {
 	const SOCIAL_NETWORKS = array( 'linkedin', 'facebook', 'youtube', 'instagram', 'xing', 'x' );
 
 	/**
+	 * Prefix of the option keys of the menu controls ("menu-15").
+	 *
+	 * The editor receives SELECT options as a JavaScript object, which lists
+	 * integer-like keys first and in ascending order: bare IDs would sort the
+	 * menus by ID instead of by name and move "— Select —" to the end.
+	 * Settings saved as a bare ID (older versions) still work.
+	 */
+	const MENU_KEY_PREFIX = 'menu-';
+
+	/**
+	 * Prefix of the option keys of the template control ("template-260"),
+	 * see MENU_KEY_PREFIX.
+	 */
+	const TEMPLATE_KEY_PREFIX = 'template-';
+
+	/**
 	 * Instance keys already used during this request (keeps ids unique when
 	 * the same element is rendered more than once on a page).
 	 *
@@ -189,6 +205,68 @@ class Header extends Widget_Base {
 	 * Keep the header out of the plain-text post content Elementor saves.
 	 */
 	public function render_plain_content() {}
+
+	/**
+	 * Element data for the editor (and for saving): menu and template IDs
+	 * saved by older versions as bare numbers get the option key prefix, so
+	 * the editor's selects show them as selected.
+	 *
+	 * @param bool $with_html_content Whether to include the rendered HTML.
+	 * @return array
+	 */
+	public function get_raw_data( $with_html_content = false ) {
+		$data = parent::get_raw_data( $with_html_content );
+
+		if ( empty( $data['settings'] ) || ! is_array( $data['settings'] ) ) {
+			return $data;
+		}
+
+		$settings = $this->prefix_legacy_id( $data['settings'], 'menu', self::MENU_KEY_PREFIX );
+		$settings = $this->prefix_legacy_id( $settings, 'offcanvas_template', self::TEMPLATE_KEY_PREFIX );
+
+		if ( isset( $settings['offcanvas_columns'] ) && is_array( $settings['offcanvas_columns'] ) ) {
+			foreach ( $settings['offcanvas_columns'] as $index => $column ) {
+				if ( is_array( $column ) ) {
+					$settings['offcanvas_columns'][ $index ] = $this->prefix_legacy_id( $column, 'menu', self::MENU_KEY_PREFIX );
+				}
+			}
+		}
+
+		$data['settings'] = $settings;
+
+		return $data;
+	}
+
+	/**
+	 * Adds an option key prefix to a setting saved as a bare ID.
+	 *
+	 * @param array  $settings Settings (or a repeater row).
+	 * @param string $key      Setting key.
+	 * @param string $prefix   Option key prefix.
+	 * @return array
+	 */
+	private function prefix_legacy_id( array $settings, $key, $prefix ) {
+		if ( isset( $settings[ $key ] ) && is_scalar( $settings[ $key ] ) && preg_match( '/^[1-9]\d*$/', (string) $settings[ $key ] ) ) {
+			$settings[ $key ] = $prefix . $settings[ $key ];
+		}
+
+		return $settings;
+	}
+
+	/**
+	 * Extracts the ID from an option key ("menu-15") or a bare ID ("15").
+	 *
+	 * @param mixed  $value  Saved setting.
+	 * @param string $prefix Option key prefix.
+	 * @return int ID, 0 when the value is neither.
+	 */
+	private function get_id_from_key( $value, $prefix ) {
+		if ( ! is_scalar( $value ) || ! preg_match( '/^(?:' . preg_quote( $prefix, '/' ) . ')?(\d+)$/', (string) $value, $matches ) ) {
+			return 0;
+		}
+
+		return absint( $matches[1] );
+	}
 
 	/**
 	 * Register the widget controls.
@@ -477,15 +555,23 @@ class Header extends Widget_Base {
 			)
 		);
 
+		// Every device needs a default: a switcher without one is '' (off), and
+		// the dictionary would turn that into `none` on any additional
+		// breakpoint the site enables (Laptop, Tablet Extra, Widescreen ...).
 		$this->add_responsive_control(
 			'show_hamburger',
 			array(
 				'label'                => esc_html__( 'Show hamburger', 'listemann-toolkit-addon' ),
 				'type'                 => Controls_Manager::SWITCHER,
 				'default'              => 'yes',
+				'widescreen_default'   => 'yes',
+				'laptop_default'       => 'yes',
+				'tablet_extra_default' => 'yes',
 				'tablet_default'       => 'yes',
+				'mobile_extra_default' => 'yes',
 				'mobile_default'       => 'yes',
 				'return_value'         => 'yes',
+				'description'          => esc_html__( 'Below the collapse breakpoint (Layout section) the hamburger is always shown, because it is then the only way to reach the menu.', 'listemann-toolkit-addon' ),
 				'selectors_dictionary' => array(
 					'yes' => 'inline-flex',
 					''    => 'none',
@@ -543,6 +629,17 @@ class Header extends Widget_Base {
 			)
 		);
 
+		$columns->add_control(
+			'label',
+			array(
+				'label'       => esc_html__( 'Accessible label', 'listemann-toolkit-addon' ),
+				'type'        => Controls_Manager::TEXT,
+				'default'     => '',
+				'placeholder' => esc_html__( 'Menu name', 'listemann-toolkit-addon' ),
+				'description' => esc_html__( 'Label of the navigation landmark for screen readers. Leave empty to use the menu name.', 'listemann-toolkit-addon' ),
+			)
+		);
+
 		$column_defaults = array();
 
 		foreach ( array_slice( array_keys( $menus ), 0, 3 ) as $menu_id ) {
@@ -557,7 +654,7 @@ class Header extends Widget_Base {
 				'fields'        => $columns->get_controls(),
 				'default'       => $column_defaults,
 				'prevent_empty' => false,
-				'title_field'   => '<# var lstMenus = ' . wp_json_encode( (object) $menus, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT ) . '; #>{{{ lstMenus[ menu ] || "' . esc_js( __( 'Menu column', 'listemann-toolkit-addon' ) ) . '" }}}',
+				'title_field'   => '<# var lstMenus = ' . wp_json_encode( (object) $menus, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT ) . '; #>{{{ lstMenus[ menu ] || lstMenus[ "' . self::MENU_KEY_PREFIX . '" + menu ] || "' . esc_js( __( 'Menu column', 'listemann-toolkit-addon' ) ) . '" }}}',
 				'description'   => esc_html__( 'Each column shows one menu: top-level items are headings, their sub-items get the red line.', 'listemann-toolkit-addon' ),
 				'condition'     => array(
 					'offcanvas_source' => 'menus',
@@ -875,7 +972,7 @@ class Header extends Widget_Base {
 						'max' => 2600,
 					),
 				),
-				'description' => esc_html__( 'Empty = full width. The original uses 1280px (padding included).', 'listemann-toolkit-addon' ),
+				'description' => esc_html__( 'Empty = full width. The original uses 1280px (padding included) and 1640px on screens 1640px and wider: enable Elementor\'s Widescreen breakpoint at 1640px (Site Settings > Layout > Breakpoints) and set 1640px there.', 'listemann-toolkit-addon' ),
 			)
 		);
 
@@ -1551,7 +1648,8 @@ class Header extends Widget_Base {
 			)
 		);
 
-		$this->add_color_var_control( 'oc_social_color', esc_html__( 'Social icon color', 'listemann-toolkit-addon' ), '--lst-oc-social-color', $oc, '#a8a8a8' );
+		// listemann.com uses #a8a8a8 (2.4:1 on white); #949494 is the lightest grey with the 3:1 that icons and their focus outline need (WCAG 1.4.11).
+		$this->add_color_var_control( 'oc_social_color', esc_html__( 'Social icon color', 'listemann-toolkit-addon' ), '--lst-oc-social-color', $oc, '#949494' );
 		$this->add_color_var_control( 'oc_social_hover_color', esc_html__( 'Social icon hover color', 'listemann-toolkit-addon' ), '--lst-oc-social-hover-color', $oc, '' );
 
 		$this->add_control(
@@ -1970,12 +2068,18 @@ class Header extends Widget_Base {
 
 	/**
 	 * Prints the media query that hides the menu and the language switcher
-	 * below the collapse breakpoint.
+	 * below the collapse breakpoint, and always shows the hamburger there.
 	 *
 	 * Elementor cannot generate custom media queries, and a container query
 	 * would measure the widget instead of the screen (a header in a boxed
 	 * section would always collapse), so a small `<style>` scoped to this
 	 * element is printed.
+	 *
+	 * The "Show hamburger" switch follows Elementor's device ranges, which do
+	 * not line up with this breakpoint (desktop starts at 1025px, the default
+	 * breakpoint is 1280px). Setting the property on the root, which sits
+	 * inside the widget wrapper where Elementor sets it, keeps the hamburger
+	 * whenever the menu is hidden.
 	 *
 	 * @param string $el_id      Sanitized element id.
 	 * @param int    $breakpoint Breakpoint in px (0 = never collapse).
@@ -1986,7 +2090,7 @@ class Header extends Widget_Base {
 		}
 
 		printf(
-			'<style>@media (max-width:%1$spx){.lst-hdr-%2$s .lst-header__nav,.lst-hdr-%2$s .lst-header__lang{display:none}}</style>',
+			'<style>@media (max-width:%1$spx){.lst-hdr-%2$s .lst-header__nav,.lst-hdr-%2$s .lst-header__lang{display:none}.lst-hdr-%2$s{--lst-hdr-burger-display:inline-flex}}</style>',
 			esc_html( number_format( $breakpoint - 0.02, 2, '.', '' ) ),
 			esc_html( $el_id )
 		);
@@ -2111,14 +2215,20 @@ class Header extends Widget_Base {
 			$current['name']
 		);
 
+		// The visible code ("DE") starts the accessible name (WCAG 2.5.3), so
+		// the description is screen-reader text after it, not an aria-label.
+		if ( $this->shows_language_code( $current, $display ) ) {
+			$label = ' – ' . $label;
+		}
+
 		echo '<div class="lst-header__lang"><ul class="lst-header__menu lst-header__menu--lang">';
 		echo '<li class="lst-header__item lst-header__item--top lst-header__item--has-sub lst-header__item--lang menu-item-has-children">';
 
 		printf(
-			'<button type="button" class="lst-header__link lst-header__link--top lst-header__toggle-label lst-header__lang-toggle" aria-expanded="false" aria-controls="%1$s" aria-label="%2$s"><span class="lst-header__label">%3$s</span>%4$s</button>',
+			'<button type="button" class="lst-header__link lst-header__link--top lst-header__toggle-label lst-header__lang-toggle" aria-expanded="false" aria-controls="%1$s"><span class="lst-header__label">%2$s</span><span class="lst-header__sr">%3$s</span>%4$s</button>',
 			esc_attr( $id ),
-			esc_attr( $label ),
 			$this->get_language_label_html( $current, $display ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in get_language_label_html().
+			esc_html( $label ),
 			Header_Nav_Walker::CHEVRON // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Static SVG markup.
 		);
 
@@ -2140,13 +2250,17 @@ class Header extends Widget_Base {
 	 * Label of a language: flag and/or code, plus the full name for screen
 	 * readers where the visible text is not enough.
 	 *
+	 * The visible code stays in the accessible name and comes first ("PL
+	 * Polski"), so speech input users can say what they see (WCAG 2.5.3).
+	 *
 	 * @param array  $language    Normalized language.
 	 * @param string $display     flag_code, code or flag.
 	 * @param bool   $with_sr_name Whether to add the full name for screen readers.
 	 * @return string Escaped HTML.
 	 */
 	private function get_language_label_html( array $language, $display, $with_sr_name = false ) {
-		$html = '';
+		$html      = '';
+		$show_code = $this->shows_language_code( $language, $display );
 
 		if ( 'code' !== $display && '' !== $language['flag'] ) {
 			$html .= sprintf(
@@ -2155,23 +2269,34 @@ class Header extends Widget_Base {
 			);
 		}
 
-		if ( 'flag' !== $display || '' === $language['flag'] ) {
+		if ( $show_code ) {
 			$html .= sprintf(
-				'<span class="lst-header__lang-code"%2$s>%1$s</span>',
-				esc_html( strtoupper( $language['code'] ) ),
-				$with_sr_name ? ' aria-hidden="true"' : ''
+				'<span class="lst-header__lang-code">%s</span>',
+				esc_html( strtoupper( $language['code'] ) )
 			);
 		}
 
 		if ( $with_sr_name ) {
 			$html .= sprintf(
-				'<span class="lst-header__sr" lang="%1$s">%2$s</span>',
+				'<span class="lst-header__sr" lang="%1$s">%2$s%3$s</span>',
 				esc_attr( $language['code'] ),
+				$show_code ? ' ' : '',
 				esc_html( $language['name'] )
 			);
 		}
 
 		return $html;
+	}
+
+	/**
+	 * Whether a language label shows the language code as text.
+	 *
+	 * @param array  $language Normalized language.
+	 * @param string $display  flag_code, code or flag.
+	 * @return bool
+	 */
+	private function shows_language_code( array $language, $display ) {
+		return 'flag' !== $display || '' === $language['flag'];
 	}
 
 	/**
@@ -2363,9 +2488,15 @@ class Header extends Widget_Base {
 
 			$has_wpml_items = $has_wpml_items || $this->has_language_items( $html );
 
+			$label = isset( $column['label'] ) && is_string( $column['label'] ) ? trim( $column['label'] ) : '';
+
+			if ( '' === $label ) {
+				$label = wp_specialchars_decode( $menu->name, ENT_QUOTES );
+			}
+
 			$output[] = sprintf(
 				'<nav class="lst-menu lst-menu--vertical lst-menu--headings lst-menu--line-sub" aria-label="%1$s">%2$s</nav>',
-				esc_attr( wp_specialchars_decode( $menu->name, ENT_QUOTES ) ),
+				esc_attr( $label ),
 				$html
 			);
 		}
@@ -2431,7 +2562,7 @@ class Header extends Widget_Base {
 	 * @return string HTML.
 	 */
 	private function get_template_html( $template_id ) {
-		$template_id = absint( $template_id );
+		$template_id = $this->get_id_from_key( $template_id, self::TEMPLATE_KEY_PREFIX );
 
 		if ( ! $template_id ) {
 			return $this->get_editor_notice( __( 'Please select an Elementor template for the off-canvas.', 'listemann-toolkit-addon' ) );
@@ -2567,7 +2698,8 @@ class Header extends Widget_Base {
 	}
 
 	/**
-	 * Options for the menu controls: term ID => menu name.
+	 * Options for the menu controls: "menu-{term ID}" => menu name, sorted by
+	 * name (see MENU_KEY_PREFIX).
 	 *
 	 * @return string[]
 	 */
@@ -2575,14 +2707,15 @@ class Header extends Widget_Base {
 		$options = array();
 
 		foreach ( wp_get_nav_menus() as $menu ) {
-			$options[ (string) $menu->term_id ] = esc_html( $menu->name );
+			$options[ self::MENU_KEY_PREFIX . $menu->term_id ] = esc_html( $menu->name );
 		}
 
 		return $options;
 	}
 
 	/**
-	 * Resolve a saved menu setting (term ID, or a slug for imported data).
+	 * Resolve a saved menu setting: an option key ("menu-15"), a bare term ID
+	 * (older versions) or a slug (imported data).
 	 *
 	 * Deliberately does not fall back to another menu: wp_nav_menu() would
 	 * silently render the first non-empty menu when the requested one is
@@ -2597,7 +2730,12 @@ class Header extends Widget_Base {
 		}
 
 		$value = (string) $value;
-		$menu  = preg_match( '/^\d+$/', $value ) ? wp_get_nav_menu_object( (int) $value ) : get_term_by( 'slug', $value, 'nav_menu' );
+		$id    = $this->get_id_from_key( $value, self::MENU_KEY_PREFIX );
+		$menu  = $id ? wp_get_nav_menu_object( $id ) : false;
+
+		if ( ! $menu && ! preg_match( '/^\d+$/', $value ) ) {
+			$menu = get_term_by( 'slug', $value, 'nav_menu' );
+		}
 
 		return $menu instanceof \WP_Term ? $menu : false;
 	}
@@ -2606,7 +2744,8 @@ class Header extends Widget_Base {
 	 * Options for the template control (editor only: the list is not
 	 * needed to render the page, so the front end skips the query).
 	 *
-	 * @return string[] Post ID => title (type).
+	 * @return string[] "template-{post ID}" => title (type), sorted by title
+	 *                  (see MENU_KEY_PREFIX).
 	 */
 	private function get_template_options() {
 		if ( ! is_admin() ) {
@@ -2637,7 +2776,7 @@ class Header extends Widget_Base {
 			$type  = (string) get_post_meta( $post->ID, '_elementor_template_type', true );
 			$title = '' !== $post->post_title ? $post->post_title : sprintf( '#%d', $post->ID );
 
-			$options[ (string) $post->ID ] = esc_html( '' !== $type ? sprintf( '%1$s (%2$s)', $title, $type ) : $title );
+			$options[ self::TEMPLATE_KEY_PREFIX . $post->ID ] = esc_html( '' !== $type ? sprintf( '%1$s (%2$s)', $title, $type ) : $title );
 		}
 
 		return $options;

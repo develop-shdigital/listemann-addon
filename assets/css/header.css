@@ -86,6 +86,8 @@
 	box-shadow: none;
 	font-family: inherit;
 	text-decoration: none;
+	text-shadow: none;
+	word-spacing: normal;
 	cursor: pointer;
 	transition: none; /* Themes often set `transition: all`, which would also delay visibility. */
 }
@@ -369,6 +371,9 @@
 	width: fit-content;
 	max-width: 100%;
 	padding-inline-start: calc(var(--lst-hdr-line-w, 30px) + var(--lst-hdr-line-gap, 5px));
+	font-family: inherit; /* Not the kit's link font (like the top-level items). */
+	font-style: inherit;
+	letter-spacing: inherit;
 	font-size: 15px;
 	font-weight: 400;
 	line-height: 34px;
@@ -416,6 +421,9 @@
 	width: fit-content;
 	max-width: 100%;
 	padding-block: 4px; /* listemann.com: 17px text in a 25px line box. */
+	font-family: inherit;
+	font-style: inherit;
+	letter-spacing: inherit;
 	font-size: 15px;
 	font-weight: 700;
 	line-height: 17px;
@@ -740,14 +748,14 @@
 	padding: 0 10px;
 	font-size: 22px;
 	line-height: 1;
-	color: var(--lst-oc-social-color, #a8a8a8);
+	color: var(--lst-oc-social-color, #949494);
 	text-decoration: none;
 	transition: transform 300ms ease, color 300ms ease;
 }
 
 .lst-offcanvas .lst-offcanvas__social-link:hover,
 .lst-offcanvas .lst-offcanvas__social-link:focus-visible {
-	color: var(--lst-oc-social-hover-color, var(--lst-oc-social-color, #a8a8a8));
+	color: var(--lst-oc-social-hover-color, var(--lst-oc-social-color, #949494));
 	transform: scale(1.25);
 }
 
@@ -880,6 +888,42 @@ html.lst-scroll-locked body {
 
 	.lst-header--sticky.is-sticky .lst-header__bar {
 		animation: none;
+	}
+}
+
+/* Forced colors (Windows High Contrast) ------------------------------------- */
+
+/* The hamburger and close (X) bars are backgrounds, which forced colors would paint in the page colour. */
+@media (forced-colors: active) {
+	.lst-header .lst-header__burger-bar,
+	.lst-header .lst-header__burger-bar::before,
+	.lst-header .lst-header__burger-bar::after,
+	.lst-offcanvas .lst-offcanvas__close::before,
+	.lst-offcanvas .lst-offcanvas__close::after {
+		forced-color-adjust: none;
+		background-color: ButtonText;
+	}
+}
+
+/* Print ---------------------------------------------------------------------- */
+
+@media print {
+	/* A stuck bar would repeat on every printed page, over the text. */
+	.lst-header--sticky.is-sticky .lst-header__bar {
+		position: static;
+		width: auto;
+		box-shadow: none;
+		animation: none;
+	}
+
+	.lst-header .lst-header__burger,
+	.lst-offcanvas {
+		display: none !important;
+	}
+
+	html.lst-scroll-locked,
+	html.lst-scroll-locked body {
+		overflow: visible;
 	}
 }
 

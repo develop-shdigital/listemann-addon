@@ -11,152 +11,163 @@
 ( function () {
 	'use strict';
 
-	const dock = document.querySelector( '[data-lst-dock]' );
+	const init = () => {
+		const dock = document.querySelector( '[data-lst-dock]' );
 
-	if ( ! dock || dock.classList.contains( 'is-ready' ) ) {
-		return;
-	}
-
-	const motionQuery = window.matchMedia ? window.matchMedia( '(prefers-reduced-motion: reduce)' ) : null;
-	const prefersReducedMotion = () => !! ( motionQuery && motionQuery.matches );
-
-	/* Contact box --------------------------------------------------------- */
-
-	const box = dock.querySelector( '[data-lst-contact]' );
-	const toggle = box ? box.querySelector( '[data-lst-toggle]' ) : null;
-	const panel = box ? box.querySelector( '[data-lst-panel]' ) : null;
-
-	const isOpen = () => !! box && box.classList.contains( 'is-open' );
-
-	const setOpen = ( open, options = {} ) => {
-		if ( ! box || ! toggle || ! panel ) {
+		if ( ! dock || dock.classList.contains( 'is-ready' ) ) {
 			return;
 		}
 
-		const focusWasInside = panel.contains( document.activeElement );
+		const motionQuery = window.matchMedia ? window.matchMedia( '(prefers-reduced-motion: reduce)' ) : null;
+		const prefersReducedMotion = () => !! ( motionQuery && motionQuery.matches );
 
-		box.classList.toggle( 'is-open', open );
-		toggle.setAttribute( 'aria-expanded', open ? 'true' : 'false' );
-		panel.inert = ! open;
+		/* Contact box --------------------------------------------------------- */
 
-		if ( ! open && ( options.returnFocus || focusWasInside ) ) {
-			toggle.focus( { preventScroll: true } );
-		}
-	};
+		const box = dock.querySelector( '[data-lst-contact]' );
+		const toggle = box ? box.querySelector( '[data-lst-toggle]' ) : null;
+		const panel = box ? box.querySelector( '[data-lst-panel]' ) : null;
 
-	if ( box && toggle && panel ) {
-		panel.inert = true;
+		const isOpen = () => !! box && box.classList.contains( 'is-open' );
 
-		toggle.addEventListener( 'click', () => {
-			setOpen( ! isOpen() );
-		} );
-
-		document.addEventListener( 'keydown', ( event ) => {
-			if ( 'Escape' !== event.key || ! isOpen() ) {
+		const setOpen = ( open, options = {} ) => {
+			if ( ! box || ! toggle || ! panel ) {
 				return;
 			}
 
-			setOpen( false, { returnFocus: box.contains( document.activeElement ) } );
-		} );
+			const focusWasInside = panel.contains( document.activeElement );
 
-		// Pointer press outside closes (pointerdown also fires on iOS, where
-		// delegated "click" events on non-interactive elements do not).
-		document.addEventListener( 'pointerdown', ( event ) => {
-			if ( isOpen() && ! box.contains( event.target ) ) {
-				setOpen( false );
+			box.classList.toggle( 'is-open', open );
+			toggle.setAttribute( 'aria-expanded', open ? 'true' : 'false' );
+			panel.inert = ! open;
+
+			if ( ! open && ( options.returnFocus || focusWasInside ) ) {
+				toggle.focus( { preventScroll: true } );
 			}
-		} );
+		};
 
-		box.addEventListener( 'focusout', ( event ) => {
-			const next = event.relatedTarget;
+		if ( box && toggle && panel ) {
+			panel.inert = true;
 
-			if ( isOpen() && next && ! box.contains( next ) ) {
-				setOpen( false );
-			}
-		} );
-	}
+			toggle.addEventListener( 'click', () => {
+				setOpen( ! isOpen() );
+			} );
 
-	/* Back to top -------------------------------------------------------- */
-
-	const topWrap = dock.querySelector( '[data-lst-top]' );
-	const topButton = topWrap ? topWrap.querySelector( '[data-lst-top-button]' ) : null;
-	const offset = Math.max( 0, parseInt( dock.getAttribute( 'data-lst-offset' ) || '0', 10 ) || 0 );
-	let activeTimer = 0;
-
-	const scrollToTop = () => {
-		const behavior = prefersReducedMotion() ? 'instant' : 'smooth';
-
-		try {
-			window.scrollTo( { top: 0, left: 0, behavior } );
-		} catch ( error ) {
-			window.scrollTo( 0, 0 );
-		}
-	};
-
-	// Move focus to the start of the document so the next Tab starts at the top.
-	const focusDocumentStart = () => {
-		const body = document.body;
-		const hadTabindex = body.hasAttribute( 'tabindex' );
-
-		if ( ! hadTabindex ) {
-			body.setAttribute( 'tabindex', '-1' );
-		}
-
-		body.setAttribute( 'data-lst-dock-focus', '' );
-		body.focus( { preventScroll: true } );
-
-		body.addEventListener(
-			'blur',
-			() => {
-				body.removeAttribute( 'data-lst-dock-focus' );
-
-				if ( ! hadTabindex ) {
-					body.removeAttribute( 'tabindex' );
+			document.addEventListener( 'keydown', ( event ) => {
+				if ( 'Escape' !== event.key || ! isOpen() ) {
+					return;
 				}
-			},
-			{ once: true }
-		);
-	};
 
-	if ( topWrap && topButton ) {
-		topButton.addEventListener( 'click', () => {
-			// Briefly show the label (feedback on touch devices without hover).
-			topWrap.classList.add( 'is-active' );
-			window.clearTimeout( activeTimer );
-			activeTimer = window.setTimeout( () => topWrap.classList.remove( 'is-active' ), 900 );
+				setOpen( false, { returnFocus: box.contains( document.activeElement ) } );
+			} );
 
-			if ( isOpen() ) {
-				setOpen( false );
+			// Pointer press outside closes (pointerdown also fires on iOS, where
+			// delegated "click" events on non-interactive elements do not).
+			document.addEventListener( 'pointerdown', ( event ) => {
+				if ( isOpen() && ! box.contains( event.target ) ) {
+					setOpen( false );
+				}
+			} );
+
+			box.addEventListener( 'focusout', ( event ) => {
+				const next = event.relatedTarget;
+
+				if ( isOpen() && next && ! box.contains( next ) ) {
+					setOpen( false );
+				}
+			} );
+		}
+
+		/* Back to top -------------------------------------------------------- */
+
+		const topWrap = dock.querySelector( '[data-lst-top]' );
+		const topButton = topWrap ? topWrap.querySelector( '[data-lst-top-button]' ) : null;
+		const offset = Math.max( 0, parseInt( dock.getAttribute( 'data-lst-offset' ) || '0', 10 ) || 0 );
+		let activeTimer = 0;
+
+		const scrollToTop = () => {
+			const behavior = prefersReducedMotion() ? 'instant' : 'smooth';
+
+			try {
+				window.scrollTo( { top: 0, left: 0, behavior } );
+			} catch ( error ) {
+				window.scrollTo( 0, 0 );
+			}
+		};
+
+		// Move focus to the start of the document so the next Tab starts at the top.
+		const focusDocumentStart = () => {
+			const body = document.body;
+			const hadTabindex = body.hasAttribute( 'tabindex' );
+
+			if ( ! hadTabindex ) {
+				body.setAttribute( 'tabindex', '-1' );
 			}
 
-			scrollToTop();
-			focusDocumentStart();
-		} );
+			body.setAttribute( 'data-lst-dock-focus', '' );
+			body.focus( { preventScroll: true } );
 
-		if ( offset > 0 ) {
-			let ticking = false;
-
-			const update = () => {
-				ticking = false;
-				topWrap.classList.toggle( 'is-hidden', ( window.scrollY || window.pageYOffset || 0 ) <= offset );
-			};
-
-			window.addEventListener(
-				'scroll',
+			body.addEventListener(
+				'blur',
 				() => {
-					if ( ! ticking ) {
-						ticking = true;
-						window.requestAnimationFrame( update );
+					body.removeAttribute( 'data-lst-dock-focus' );
+
+					if ( ! hadTabindex ) {
+						body.removeAttribute( 'tabindex' );
 					}
 				},
-				{ passive: true }
+				{ once: true }
 			);
+		};
 
-			update();
-		} else {
-			topWrap.classList.remove( 'is-hidden' );
+		if ( topWrap && topButton ) {
+			topButton.addEventListener( 'click', () => {
+				// Briefly show the label (feedback on touch devices without hover).
+				topWrap.classList.add( 'is-active' );
+				window.clearTimeout( activeTimer );
+				activeTimer = window.setTimeout( () => topWrap.classList.remove( 'is-active' ), 900 );
+
+				if ( isOpen() ) {
+					setOpen( false );
+				}
+
+				scrollToTop();
+				focusDocumentStart();
+			} );
+
+			if ( offset > 0 ) {
+				let ticking = false;
+
+				const update = () => {
+					ticking = false;
+					topWrap.classList.toggle( 'is-hidden', ( window.scrollY || window.pageYOffset || 0 ) <= offset );
+				};
+
+				window.addEventListener(
+					'scroll',
+					() => {
+						if ( ! ticking ) {
+							ticking = true;
+							window.requestAnimationFrame( update );
+						}
+					},
+					{ passive: true }
+				);
+
+				update();
+			} else {
+				topWrap.classList.remove( 'is-hidden' );
+			}
 		}
-	}
 
-	dock.classList.add( 'is-ready' );
+		dock.classList.add( 'is-ready' );
+	};
+
+	// The script is deferred and printed before the dock markup (both run in
+	// wp_footer); wait for the DOM if it runs early anyway (e.g. `defer`
+	// dropped by WordPress or an optimization plugin).
+	if ( 'loading' === document.readyState ) {
+		document.addEventListener( 'DOMContentLoaded', init );
+	} else {
+		init();
+	}
 }() );

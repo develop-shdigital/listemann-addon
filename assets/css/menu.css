@@ -89,6 +89,11 @@
 
 /* Links and plain-text items ----------------------------------------------- */
 
+/*
+ * Font properties the typography controls leave unset are inherited, so the
+ * kit's Link typography (`.elementor-kit-N a`) does not give linked items a
+ * different font than plain-text ones (`span`). The controls still win.
+ */
 .lst-menu .lst-menu__link {
 	--lst-menu-line-w-item: var(--lst-menu-line-w, 30px);
 	position: relative;
@@ -96,6 +101,10 @@
 	width: fit-content;
 	max-width: 100%;
 	color: var(--lst-menu-item-color, inherit);
+	font-family: inherit;
+	font-style: inherit;
+	letter-spacing: inherit;
+	word-spacing: inherit;
 	text-decoration: none;
 	overflow-wrap: break-word;
 	transition: color var(--lst-menu-transition, 300ms) ease;

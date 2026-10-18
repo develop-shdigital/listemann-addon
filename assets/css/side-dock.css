@@ -1,12 +1,14 @@
 /**
  * Listemann Toolkit – side dock (contact box + back to top).
  *
- * Layout: a fixed dock anchored bottom-right contains the contact box (height
- * auto, min 200px) and the back-to-top button. The contact toggle hangs off
- * the box's top-left corner and the back-to-top button is positioned relative
- * to the dock top, so it always sits right below the toggle (4px gap) however
- * tall the box is. The dock itself ignores the pointer; only its controls
- * and the open box receive events.
+ * Layout: a fixed dock anchored bottom-right contains the contact box and the
+ * back-to-top button. The closed box is 200px high like the original (toggle
+ * 200px above the viewport bottom, so it never rises over the header on short
+ * viewports); the open box grows with its content up to the viewport height.
+ * The contact toggle hangs off the box's top-left corner and the back-to-top
+ * button is positioned relative to the dock top, so it always sits right
+ * below the toggle (4px gap) however tall the box is. The dock itself ignores
+ * the pointer; only its controls and the open box receive events.
  *
  * Colors are custom properties; the settings page overrides them inline.
  */
@@ -62,17 +64,23 @@
 	flex-direction: column;
 	width: 100%;
 	min-height: var(--lst-dock-min-height);
-	max-height: calc(100vh - var(--lst-dock-admin-bar));
-	max-height: calc(100dvh - var(--lst-dock-admin-bar));
+	max-height: var(--lst-dock-min-height);
 	background-color: var(--lst-dock-brand);
 	color: var(--lst-dock-text);
 	transform: translateX(100%);
-	transition: transform var(--lst-dock-duration) var(--lst-dock-easing);
+	transition: transform var(--lst-dock-duration) var(--lst-dock-easing), max-height var(--lst-dock-duration) var(--lst-dock-easing);
 	pointer-events: auto;
 }
 
 .lst-dock__contact.is-open {
 	transform: none;
+}
+
+/* Open (or, without JS, focus inside): auto height, inner scroll as a last resort. */
+.lst-dock__contact.is-open,
+.lst-dock:not(.is-ready) .lst-dock__contact:focus-within {
+	max-height: calc(100vh - var(--lst-dock-admin-bar));
+	max-height: calc(100dvh - var(--lst-dock-admin-bar));
 }
 
 .lst-dock__panel {
@@ -90,6 +98,11 @@
 .lst-dock__contact.is-open .lst-dock__panel {
 	visibility: visible;
 	transition-delay: 0s;
+}
+
+/* Safari; Chromium 121+ and Firefox use scrollbar-color / scrollbar-width above. */
+.lst-dock__panel::-webkit-scrollbar {
+	width: 8px;
 }
 
 .lst-dock__panel::-webkit-scrollbar-thumb {
@@ -157,7 +170,10 @@
 	color: inherit;
 	background: none;
 	font: inherit;
+	letter-spacing: inherit;
 	text-decoration: none;
+	text-transform: inherit;
+	word-spacing: inherit;
 	box-shadow: none;
 }
 
@@ -206,8 +222,10 @@
 	font: inherit;
 	letter-spacing: normal;
 	text-decoration: none;
+	text-shadow: none;
 	text-transform: none;
 	white-space: normal;
+	word-spacing: normal;
 	cursor: pointer;
 	pointer-events: auto;
 	-webkit-tap-highlight-color: transparent;

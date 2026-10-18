@@ -10,8 +10,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-14T14:07:43+00:00\n"
-"PO-Revision-Date: 2026-10-14 14:08+0000\n"
+"POT-Creation-Date: 2026-10-14T14:18:41+00:00\n"
+"PO-Revision-Date: 2026-10-14 14:18+0000\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Domain: listemann-toolkit-addon\n"
@@ -699,41 +699,37 @@ msgid "Background Color"
 msgstr "Hintergrundfarbe"
 
 #: includes/widgets/class-continuous-slider.php:1237
-#: includes/widgets/class-continuous-slider.php:1509
+#: includes/widgets/class-continuous-slider.php:1542
 msgid "carousel"
 msgstr "Karussell"
 
-#: includes/widgets/class-continuous-slider.php:1247
-#: includes/widgets/class-continuous-slider.php:1518
-msgid "Previous slide"
-msgstr "Vorherige Folie"
-
-#: includes/widgets/class-continuous-slider.php:1250
-#: includes/widgets/class-continuous-slider.php:1521
-msgid "Pause carousel"
-msgstr "Karussell anhalten"
-
-#: includes/widgets/class-continuous-slider.php:1250
-#: includes/widgets/class-continuous-slider.php:1521
-msgid "Play carousel"
-msgstr "Karussell abspielen"
-
-#: includes/widgets/class-continuous-slider.php:1253
-#: includes/widgets/class-continuous-slider.php:1524
-msgid "Next slide"
-msgstr "Nächste Folie"
-
-#: includes/widgets/class-continuous-slider.php:1293
-#: includes/widgets/class-continuous-slider.php:1552
+#: includes/widgets/class-continuous-slider.php:1297
+#: includes/widgets/class-continuous-slider.php:1585
 msgid "slide"
 msgstr "Folie"
 
 #. translators: 1: Slide number, 2: Number of slides.
-#: includes/widgets/class-continuous-slider.php:1295
-#: includes/widgets/class-continuous-slider.php:1495
+#: includes/widgets/class-continuous-slider.php:1299
+#: includes/widgets/class-continuous-slider.php:1528
 #, php-format
 msgid "%1$d of %2$d"
 msgstr "%1$d von %2$d"
+
+#: includes/widgets/class-continuous-slider.php:1339
+msgid "Pause carousel"
+msgstr "Karussell anhalten"
+
+#: includes/widgets/class-continuous-slider.php:1340
+msgid "Play carousel"
+msgstr "Karussell abspielen"
+
+#: includes/widgets/class-continuous-slider.php:1348
+msgid "Previous slide"
+msgstr "Vorherige Folie"
+
+#: includes/widgets/class-continuous-slider.php:1348
+msgid "Next slide"
+msgstr "Nächste Folie"
 
 #. translators: %s: Menu item title.
 #: includes/widgets/class-header-nav-walker.php:303

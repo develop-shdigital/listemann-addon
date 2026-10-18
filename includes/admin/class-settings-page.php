@@ -212,7 +212,7 @@ final class Settings_Page {
 		add_settings_section( 'lst_appearance', __( 'Appearance', 'listemann-toolkit-addon' ), '__return_false', self::PAGE_SLUG );
 		self::add_field( 'appearance', 'brand_color', __( 'Brand color', 'listemann-toolkit-addon' ), 'color', array( 'description' => __( 'Contact box, contact button and scrollbar.', 'listemann-toolkit-addon' ) ) );
 		self::add_field( 'appearance', 'text_color', __( 'Text color on brand color', 'listemann-toolkit-addon' ), 'color', array( 'description' => __( 'Text and icon color in the contact box and button.', 'listemann-toolkit-addon' ) ) );
-		self::add_field( 'appearance', 'to_top_color', __( 'Back-to-top button color', 'listemann-toolkit-addon' ), 'color' );
+		self::add_field( 'appearance', 'to_top_color', __( 'Back-to-top button color', 'listemann-toolkit-addon' ), 'color', array( 'description' => __( 'For accessibility (WCAG 1.4.11) the button needs a contrast of at least 3:1 to the arrow color and to the page background, e.g. #8c8c8c or darker with the default arrow color. The default grey matches listemann.com but is lighter.', 'listemann-toolkit-addon' ) ) );
 		self::add_field( 'appearance', 'arrow_color', __( 'Back-to-top arrow color', 'listemann-toolkit-addon' ), 'color' );
 
 		// Scrollbar.

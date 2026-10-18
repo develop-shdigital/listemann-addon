@@ -20,6 +20,10 @@ defined( 'ABSPATH' ) || exit;
  * `@supports not selector(::-webkit-scrollbar)` because Chrome 121+ ignores
  * the `::-webkit-scrollbar` styles of an element that has `scrollbar-color`
  * or `scrollbar-width` set.
+ *
+ * All rules are scoped to the page scroller (`html`, or `body` for themes
+ * that scroll the body), so inner scrollbars (textareas, tables, panels) keep
+ * their default size.
  */
 final class Scrollbar {
 
@@ -110,9 +114,9 @@ final class Scrollbar {
 		$ff_width = $width <= self::FIREFOX_THIN_MAX ? 'thin' : 'auto';
 
 		return sprintf(
-			'::-webkit-scrollbar{-webkit-appearance:none;width:%1$dpx;height:%1$dpx}'
-			. '::-webkit-scrollbar-thumb{border-radius:0;background-color:%2$s;box-shadow:0 0 1px rgba(255,255,255,.5)}'
-			. '::-webkit-scrollbar-track,::-webkit-scrollbar-corner{background-color:transparent}'
+			'html::-webkit-scrollbar,body::-webkit-scrollbar{-webkit-appearance:none;width:%1$dpx;height:%1$dpx}'
+			. 'html::-webkit-scrollbar-thumb,body::-webkit-scrollbar-thumb{border-radius:0;background-color:%2$s;box-shadow:0 0 1px rgba(255,255,255,.5)}'
+			. 'html::-webkit-scrollbar-track,html::-webkit-scrollbar-corner,body::-webkit-scrollbar-track,body::-webkit-scrollbar-corner{background-color:transparent}'
 			. '@supports not selector(::-webkit-scrollbar){html{scrollbar-color:%2$s transparent;scrollbar-width:%3$s}}',
 			$width,
 			$color,

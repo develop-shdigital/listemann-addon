@@ -37,21 +37,15 @@ final class Mega_Menu_Fields {
 	const FIELD_NAME = 'lst_mega_columns';
 
 	/**
-	 * Nonce action.
+	 * Action of the nonce that core prints once per Appearance → Menus form
+	 * (outside the menu items, so it survives removing any item).
 	 */
-	const NONCE_ACTION = 'lst_mega_columns_save';
+	const NONCE_ACTION = 'update-nav_menu';
 
 	/**
-	 * Nonce field name.
+	 * Name of that core nonce field.
 	 */
-	const NONCE_NAME = 'lst_mega_columns_nonce';
-
-	/**
-	 * Whether the nonce field was printed during this request.
-	 *
-	 * @var bool
-	 */
-	private static $nonce_printed = false;
+	const NONCE_NAME = 'update-nav-menu-nonce';
 
 	/**
 	 * Whether init() already ran.
@@ -100,11 +94,6 @@ final class Mega_Menu_Fields {
 		$item_id  = (int) $item_id;
 		$value    = self::get_columns( $item_id );
 		$field_id = 'edit-menu-item-lst-mega-columns-' . $item_id;
-
-		if ( ! self::$nonce_printed ) {
-			wp_nonce_field( self::NONCE_ACTION, self::NONCE_NAME, false );
-			self::$nonce_printed = true;
-		}
 		?>
 		<p class="field-lst-mega-columns description description-wide">
 			<label for="<?php echo esc_attr( $field_id ); ?>">
@@ -136,8 +125,11 @@ final class Mega_Menu_Fields {
 	/**
 	 * Saves the field when a menu is saved on Appearance → Menus.
 	 *
-	 * Does nothing unless the field of this item was posted with a valid nonce
-	 * by a user who may edit menus, so programmatic updates keep the value.
+	 * Does nothing unless the field of this item was posted with the menu
+	 * screen's own nonce (core's `update-nav-menu-nonce`) by a user who may
+	 * edit menus, so programmatic updates keep the value. The core nonce is
+	 * used instead of a nonce of this plugin because a field printed inside a
+	 * menu item would be lost when that item is removed before saving.
 	 *
 	 * @param int $menu_id         Menu (term) ID (unused).
 	 * @param int $menu_item_db_id Menu item (post) ID.
