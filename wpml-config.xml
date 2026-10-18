@@ -26,4 +26,40 @@
 			</key>
 		</key>
 	</admin-texts>
+	<!--
+		Texts of the Elementor widgets, shown in WPML's Translation Editor when
+		a page that uses the widgets is translated. Menus and templates are
+		selected per language in Elementor and are not listed here.
+	-->
+	<elementor-widgets>
+		<widget name="listemann-continuous-slider">
+			<fields>
+				<field type="Continuous Slider: Accessible label" editor_type="LINE">aria_label</field>
+			</fields>
+			<fields-in-item items_of="slides">
+				<field type="Continuous Slider: Slide title" editor_type="LINE">title</field>
+				<field type="Continuous Slider: Slide link" editor_type="LINK">link>url</field>
+			</fields-in-item>
+		</widget>
+		<widget name="listemann-menu">
+			<fields>
+				<field type="Listemann Menu: Accessible label" editor_type="LINE">aria_label</field>
+			</fields>
+		</widget>
+		<widget name="listemann-header">
+			<fields>
+				<field type="Listemann Header: Logo link" editor_type="LINK">logo_link>url</field>
+				<field type="Listemann Header: Logo alternative text" editor_type="LINE">logo_alt</field>
+				<field type="Listemann Header: Main menu accessible label" editor_type="LINE">menu_aria_label</field>
+				<field type="Listemann Header: Off-canvas accessible label" editor_type="LINE">offcanvas_label</field>
+			</fields>
+			<fields-in-item items_of="offcanvas_columns">
+				<field type="Listemann Header: Menu column accessible label" editor_type="LINE">label</field>
+			</fields-in-item>
+			<fields-in-item items_of="social_links">
+				<field type="Listemann Header: Social link" editor_type="LINK">link>url</field>
+				<field type="Listemann Header: Social link accessible label" editor_type="LINE">label</field>
+			</fields-in-item>
+		</widget>
+	</elementor-widgets>
 </wpml-config>

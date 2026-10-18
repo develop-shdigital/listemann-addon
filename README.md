@@ -94,6 +94,7 @@ The engine is available as `window.ListemannContinuousSlider` and also runs with
 const slider = new ListemannContinuousSlider( document.querySelector( '.lst-cslider' ), {
 	continuous: { speed: 4 }, // overrides data-lst-options
 } );
+slider.setPaused( true ); // stops the autoplay like the pause button; setPaused( false ) restarts it
 slider.refresh(); // after changing the slider's CSS
 slider.destroy(); // removes clones, listeners and observers
 ListemannContinuousSlider.initAll(); // all .lst-cslider without an instance
@@ -135,7 +136,7 @@ Elementor panel: **Listemann › Listemann Header**. It recreates the listemann.
 | Logo | Logo image (site logo from the Customizer, otherwise the bundled Listemann logo), Link (home page), Alternative text (site name), Logo width ⧉ (165 / 65 / 65 px). |
 | Main menu | Menu; Mega panel width (*Auto* or *Full* header content width); Show dropdown chevrons (on); Open dropdowns on (*Hover*, or *Click*: the first click opens, the second follows the link); Accessible label (empty = menu name). |
 | Language switcher | Show language switcher (on), Display (*Flag + code*, *Code only*, *Flag only*), Also show in the off-canvas (on). |
-| Hamburger / off-canvas | Show hamburger ⧉ (on); Off-canvas content: *Menus* (Menu columns, one menu per column, by default the first three menus; Show logo; Off-canvas logo, by default the colour logo; Social links: LinkedIn, Facebook, YouTube, Instagram, Xing, X or a custom icon, by default the three Listemann profiles) or *Elementor template* (any published saved template that does not contain this header); Accessible label of the dialog (empty = "Menu"). |
+| Hamburger / off-canvas | Show hamburger ⧉ (on; below the collapse breakpoint it is always shown, because it is then the only way to the menu); Off-canvas content: *Menus* (Menu columns, one menu per column with an optional accessible label, by default the first three menus; Show logo; Off-canvas logo, by default the colour logo; Social links: LinkedIn, Facebook, YouTube, Instagram, Xing, X or a custom icon, by default the three Listemann profiles) or *Elementor template* (any published saved template that does not contain this header); Accessible label of the dialog (empty = "Menu"). |
 | Layout | Collapse breakpoint (1280 px): below this screen width the main menu and language switcher are hidden and only the logo and hamburger remain; 0 = never collapse. Sticky header (off): once the header has scrolled out of view, a compact bar (90 / 60 / 60 px, logo 110 / 65 / 65 px) stays fixed at the top, below the admin bar, with optional background and shadow. Sticky does not work inside a parent that uses CSS transforms. |
 
 The Style tab has sections for the header bar (height 170 / 60 / 60 px, background, side padding, max content width), the logo box (#eee, 234 × 200 px on desktop), top-level items, dropdowns (including the group headings and the red line before items), the language switcher, the hamburger and the off-canvas.
@@ -159,9 +160,9 @@ The switcher reads its languages from **WPML** (`wpml_active_languages`) or **Po
 
 These features are added automatically to every front-end page (also in the Elementor preview), but not in wp-admin, feeds, embeds, REST or AJAX responses. Their assets load only while the feature is enabled.
 
-- **Contact box:** a red button with a phone and envelope icon on the right edge. A click slides in the red contact panel. Escape, a click outside or moving focus out of the panel closes it. The closed panel is `inert`. Its height follows its content and the button stays attached to the panel's top-left corner. On screens up to 767 px the panel is 250 px wide.
+- **Contact box:** a red button with a phone and envelope icon on the right edge. A click slides in the red contact panel. Escape, a click outside or moving focus out of the panel closes it. The closed panel is `inert`. While closed the panel is 200 px high (button 200 px above the bottom, as on listemann.com); opened, it grows with its content up to the screen height. The button stays attached to the panel's top-left corner. On screens up to 767 px the panel is 250 px wide.
 - **Back to top:** a grey arrow button directly below the contact button. On hover or keyboard focus the label ("Zurück nach oben") slides in. A click scrolls to the top (smoothly unless the visitor prefers reduced motion) and moves keyboard focus to the start of the page.
-- **Scrollbar:** the page scrollbar in the brand colour (5 px wide by default). Chrome, Edge and Safari use the exact width. Firefox only supports *thin* (used up to 8 px) and *auto*.
+- **Scrollbar:** the page scrollbar in the brand colour (5 px wide by default). Chrome, Edge and Safari use the exact width. Firefox only supports *thin* (used up to 8 px) and *auto*. Only the page scrollbar is styled; scrollbars inside the page keep the browser default.
 
 The dock is hidden when printing. Both can also be turned off in code with the filters `listemann_toolkit_side_dock_enabled` and `listemann_toolkit_scrollbar_enabled`.
 
@@ -171,7 +172,7 @@ The dock is hidden when printing. Both can also be turned off in code with the f
 | --- | --- |
 | Contact box | Enable; Button label for screen readers ("Kontakt"); Sections, each with a Title (shown in capitals), a Text size (*Large* like phone numbers, 19 px, or *Small* like addresses, 15 px) and Lines (Text, Link URL, Open in new tab). Sections and lines can be added, removed and moved up and down. The defaults are the original TELEFON and ANFAHRT sections. |
 | Back to top | Enable; Label (each line is a line of the label); Show after scrolling (px, 0 = always visible). |
-| Appearance | Brand color (#dd191a, used by the contact box, its button and the scrollbar), Text color on brand color (#fff), Back-to-top button color (#a8a8a8), Back-to-top arrow color (#fafafa). |
+| Appearance | Brand color (#dd191a, used by the contact box, its button and the scrollbar), Text color on brand color (#fff), Back-to-top button color (#a8a8a8, the listemann.com grey; its description recommends #8c8c8c or darker for the 3:1 contrast of WCAG 1.4.11), Back-to-top arrow color (#fafafa). |
 | Scrollbar | Enable; Color (empty = brand color); Width (2–24 px). |
 
 Links accept `tel:`, `mailto:`, `http(s)://` and relative URLs. A bare phone number or e-mail address becomes a `tel:` or `mailto:` link automatically, and spaces, separators and a "(0)" are removed from phone links (`+41 (0)52 245 18 50` → `tel:+41522451850`). A line without text shows its address. Empty lines and sections are dropped on save. **Reset to defaults** at the bottom of the page deletes the stored settings, so the defaults apply again.
@@ -182,11 +183,11 @@ All settings live in the single option `listemann_toolkit_settings`. The option 
 
 - **Plugin texts.** The editor labels, admin screens and the texts read by screen readers (e.g. "Open menu", "carousel", "(opens in a new tab)") are translatable with the text domain `listemann-toolkit-addon`. A German translation (`de_DE`) ships in `languages/`; with a German admin language the widgets are listed as *Endlos-Slider*, *Listemann Menü* and *Listemann Header*. Other languages can be added with Loco Translate or Poedit from `languages/listemann-toolkit-addon.pot`. Elementor caches the slider's output (by default for 24 hours), so after adding or changing a translation, clear it with *Elementor › Tools › Clear Files & Data*.
 - **Contact box and back-to-top texts (WPML).** `wpml-config.xml` registers the button label, section titles, line texts and URLs, and the back-to-top label as admin texts. **Save the Listemann Toolkit settings page once** (WPML can only register an option that exists, see above), then translate the strings under *WPML › String Translation*, domain *admin_texts_listemann_toolkit_settings*. After *Reset to defaults*, save the page again before translating. Polylang reads the same file and lists the strings under *Languages › Translations*.
-- **Widget content** (slide titles and links, labels, selected menus and templates) is stored in each page's Elementor data. Translate it with the page, and check on every language version that the header and menu widgets show the menus of that language.
+- **Widget content** is stored in each page's Elementor data and translated with the page. `wpml-config.xml` registers the widgets' texts, so WPML's Translation Editor lists them: the slide titles and links and the Accessible Label of the slider, the accessible label of the menu, and the logo link and alternative text, accessible labels and social links of the header. Selected menus and templates are not texts: check on every language version that the header and menu widgets show the menus of that language.
 
 ## Uninstall
 
-Deleting the plugin on the Plugins screen runs `uninstall.php`, which deletes the option `listemann_toolkit_settings` (on multisite: on every site). Deactivating it keeps the settings. Elementor content that uses the widgets and the `_lst_mega_columns` values on menu items stay in the database.
+Deleting the plugin on the Plugins screen runs `uninstall.php`, which deletes the option `listemann_toolkit_settings` and the *Mega menu columns* values of the menu items (post meta `_lst_mega_columns`), on multisite on every site. Deactivating it keeps both. Elementor content that uses the widgets stays in the database.
 
 ## Development
 
@@ -201,8 +202,8 @@ includes/frontend/class-scrollbar.php    Branded scrollbar (inline CSS)
 includes/widgets/class-*.php             One file per widget, plus the menu walkers
 assets/css, assets/js, assets/img        Front-end and admin assets, icons, logos
 languages/                               .pot template and the German translation (text domain listemann-toolkit-addon)
-wpml-config.xml                          Translatable admin texts for WPML / Polylang
-uninstall.php                            Deletes the settings option
+wpml-config.xml                          Translatable admin texts and widget texts for WPML / Polylang
+uninstall.php                            Deletes the settings option and the mega menu item meta
 ```
 
 Classes live in the `Listemann_Toolkit` namespace. The autoloader maps namespaces to folders and class names to WordPress-style file names: `Listemann_Toolkit\Widgets\My_Widget` → `includes/widgets/class-my-widget.php`, `Listemann_Toolkit\Frontend\My_Feature` → `includes/frontend/class-my-feature.php`.

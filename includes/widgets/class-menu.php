@@ -40,6 +40,18 @@ class Menu extends Widget_Base {
 	const DEPTHS = array( '0', '1', '2', '3' );
 
 	/**
+	 * Prefix of the option keys of the menu control ("menu-15").
+	 *
+	 * The editor receives SELECT options as a JavaScript object, which lists
+	 * integer-like keys first and in ascending order: bare IDs would sort the
+	 * menus by ID instead of by name. Settings saved as a bare ID (older
+	 * versions) still work.
+	 *
+	 * @var string
+	 */
+	const MENU_KEY_PREFIX = 'menu-';
+
+	/**
 	 * List ids already printed during this request (keeps ids unique when
 	 * the same widget is rendered more than once on a page).
 	 *
@@ -127,6 +139,24 @@ class Menu extends Widget_Base {
 	 * used for search and as a fallback when Elementor is deactivated).
 	 */
 	public function render_plain_content() {}
+
+	/**
+	 * Element data for the editor (and for saving): a menu ID saved by older
+	 * versions as a bare number gets the option key prefix, so the editor's
+	 * select shows it as selected.
+	 *
+	 * @param bool $with_html_content Whether to include the rendered HTML.
+	 * @return array
+	 */
+	public function get_raw_data( $with_html_content = false ) {
+		$data = parent::get_raw_data( $with_html_content );
+
+		if ( isset( $data['settings']['menu'] ) && is_scalar( $data['settings']['menu'] ) && preg_match( '/^[1-9]\d*$/', (string) $data['settings']['menu'] ) ) {
+			$data['settings']['menu'] = self::MENU_KEY_PREFIX . $data['settings']['menu'];
+		}
+
+		return $data;
+	}
 
 	/**
 	 * Register the widget controls.
@@ -1030,7 +1060,8 @@ class Menu extends Widget_Base {
 	}
 
 	/**
-	 * Options for the menu control: term ID => menu name.
+	 * Options for the menu control: "menu-{term ID}" => menu name, sorted by
+	 * name (see MENU_KEY_PREFIX).
 	 *
 	 * @return string[]
 	 */
@@ -1038,14 +1069,15 @@ class Menu extends Widget_Base {
 		$options = array();
 
 		foreach ( wp_get_nav_menus() as $menu ) {
-			$options[ (string) $menu->term_id ] = esc_html( $menu->name );
+			$options[ self::MENU_KEY_PREFIX . $menu->term_id ] = esc_html( $menu->name );
 		}
 
 		return $options;
 	}
 
 	/**
-	 * Resolve the saved menu setting (term ID, or a slug for imported data).
+	 * Resolve the saved menu setting: an option key ("menu-15"), a bare term
+	 * ID (older versions) or a slug (imported data).
 	 *
 	 * Deliberately does not fall back to another menu: wp_nav_menu() would
 	 * silently render the first non-empty menu when the requested one is
@@ -1060,7 +1092,15 @@ class Menu extends Widget_Base {
 		}
 
 		$value = (string) $value;
-		$menu  = preg_match( '/^\d+$/', $value ) ? wp_get_nav_menu_object( (int) $value ) : get_term_by( 'slug', $value, 'nav_menu' );
+		$menu  = false;
+
+		if ( preg_match( '/^(?:' . preg_quote( self::MENU_KEY_PREFIX, '/' ) . ')?(\d+)$/', $value, $matches ) ) {
+			$menu = wp_get_nav_menu_object( absint( $matches[1] ) );
+		}
+
+		if ( ! $menu && ! preg_match( '/^\d+$/', $value ) ) {
+			$menu = get_term_by( 'slug', $value, 'nav_menu' );
+		}
 
 		return $menu instanceof \WP_Term ? $menu : false;
 	}
