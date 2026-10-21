@@ -2,7 +2,7 @@
 
 WordPress plugin for [listemann.com](https://listemann.com/) by SH Digital. It provides:
 
-- **Elementor widgets** in the panel category **Listemann**: *Continuous Slider*, *Listemann Menu*, *Listemann Header* and *Listemann Downloads*;
+- **Elementor widgets** in the panel category **Listemann**: *Continuous Slider*, *Listemann Menu*, *Listemann Header*, *Listemann Downloads* and *Listemann Posts*;
 - three **site-wide features** that appear on every front-end page without any widget: a **contact box** and a **back-to-top button** docked to the right edge, and a **scrollbar in the brand colour**. They are edited under **Listemann Toolkit** in the dashboard.
 
 ## Requirements
@@ -174,7 +174,7 @@ Downloads above the first group title form a group without a title. On the live 
 | Section | Controls (defaults) |
 | --- | --- |
 | Content › Heading | Show Heading (on), Heading ("Ressourcen", dynamic), HTML Tag (H2). |
-| Content › Options | Label Template (`{type} Download`: `{type}` becomes the file extension in capitals, PDF / DOCX / ZIP, from the URL without its query string, or "File" when there is none or the address is a script such as `.php`), Open in New Tab (on), Save Instead of Opening (on; the `download` attribute, which browsers ignore for files on other domains), Show File Size (off; Media Library files, from the attachment metadata), Group Title HTML Tag (H3: one level below the heading; the original page used H4). |
+| Content › Options | Label Template (`{type} Download`: `{type}` becomes the file extension in capitals, PDF / DOCX / ZIP, from the URL without its query string, or "File" when there is none or the address is a script such as `.php`), Open in New Tab (on), Save Instead of Opening (on; the `download` attribute: files on this site are then saved and do not open a tab, files on other domains open as usual because browsers ignore the attribute there), Show File Size (off; Media Library files, from the attachment metadata), Group Title HTML Tag (H3: one level below the heading; the original page used H4). |
 | Style › Layout | Columns ⧉ (empty: 3, 2 below 1280 px, 1 on mobile), Column Gap ⧉ (36 px), Row Gap ⧉ (36 px; half of it is also kept above and below each group's cards), Space Between Groups ⧉ (empty: 100 px, 50 px below 1280 px; also below the heading), Side Spacing ⧉ (empty: 18 px, 0 on mobile). |
 | Style › Heading / Group Titles | Color (#dd191a / #626262), Typography (42 / 300 / 62 px and 30 / 300 / 44 px), heading Margin ⧉, group title Spacing Below ⧉ (16 px). |
 | Style › Cards | Min Height ⧉ (110 px), Padding ⧉ (10 / 25 / 10 / 25 px; the icon sits in its top left corner), Border Radius ⧉, Normal / Hover: Background Color (#fff), Box Shadow (20 px 20 px 46 px rgba(0,0,0,.15)), Accent Bar Color (#dd191a); Accent Bar (Left, Top or None) and its Width (10 px); Hover Effect (*Zoom* 1.11, *Lift*, *Stronger shadow*, *None*), Zoom Factor, Transition Duration (300 ms), Focus Outline Color (#dd191a). |
@@ -187,6 +187,35 @@ Downloads above the first group title form a group without a title. On the live 
 - Every card is a single link; its accessible name is the label, the title and, in screen-reader text, the file type (when the label does not show it) and "(opens in a new tab)", e.g. "PDF Download ISO9001 2027 DE (opens in a new tab)". The label is written as typed and only shown in capitals by CSS. The icons are hidden from screen readers. (The original page had empty links stretched over the cards.)
 - Each titled group is a `<section>` labelled by its title; the cards are a list. Ids are unique, also with several Downloads widgets on a page.
 - Keyboard focus shows a 2 px outline and the same zoom as hover. Touch screens get no zoom, reduced motion turns the transition off, forced colours (Windows High Contrast) show the card borders, and print drops the shadow and the zoom.
+
+## Listemann Posts
+
+Elementor panel: **Listemann › Listemann Posts** (search: *blog*, *posts*, *news*, *aktuelles*). It recreates [listemann.com/blog/](https://listemann.com/blog/): a heading, a category filter, post cards and a red **MEHR LADEN** button. Each card shows the featured image under a 35 % dark overlay, the date ("07. FEBRUAR 2026"), the title and the author at the bottom left; the title turns red on hover. The default *Featured* layout is the original's: one wide card next to two stacked cards, then rows of three (one column on mobile). The first page shows 9 posts, each click on the button adds 6.
+
+Improvements over the original page:
+
+- Long titles never run into the author line (the card keeps room for it; titles are clamped to 4 lines by default, with the full title still the link text).
+- Each card is one link (the title, stretched over the card), so hover and keyboard focus work on the whole card. Images are real `<img>` elements with `srcset` and lazy loading (the first card loads eagerly).
+- The filter is a group of real checkboxes. Without JavaScript it is a form (`?lst_cat[]=…`) and "load more" is a link to the next page (`?lst_page=2`), so both also work for search engines and keyboard users; with JavaScript they update the cards in place, keep the URL in sync and announce the result to screen readers.
+- Instead of the red title (hard to read on dark photos) the hover effect can be an image zoom or a darker overlay.
+
+### Settings
+
+| Section | Controls (defaults) |
+| --- | --- |
+| Content › Heading | Show Heading (on), Heading ("Aktuelle Informationen der Listemann Gruppe"), HTML Tag (H2: the page usually has its own H1). |
+| Content › Query | Source (*Posts* = own query; *Current query* for Elementor Pro archive templates, which then uses the archive's page size and pagination, without the filter), Post Type (Posts), Categories / Exclude Categories / Tags / Authors (empty: all), Order By (Date) and Order (descending), Posts on the First Page (9), Posts per "Load More" / Page (6), Offset (0), Exclude the Current Post (on), Ignore Sticky Posts (off: sticky posts come first), Only Posts With a Featured Image (off). |
+| Content › Layout | *Featured* (1 wide + 2 stacked, then rows), *Grid* (all cards equal) or *List* (image left, text right); columns, gaps and card heights ⧉ follow the original's steps at 1280 px and 768 px when left empty. |
+| Content › Card Content | Show Date (format `d. F Y`, month names in the site language, or the site setting), Show Author, Show Profile Picture (off), Show Categories (off), Show Excerpt (off, 20 words), Title HTML Tag (H3), Maximum Title Lines (4; 0 = no limit), Fallback Image for posts without one, Image Resolution (Large), Open Posts in a New Tab (off). |
+| Content › Filter | Show Category Filter (on), Label ("Filter:"), categories in the filter (all categories of the query, or a selection), several categories (checkboxes, posts in any of them) or one (radio buttons, with an "All" option), Show Post Counts (off), Hide Empty Categories (on). |
+| Content › Load More | Pagination (*"Load more" button*, *Page numbers* or *None*), Button Text ("Mehr laden"), Text While Loading, Text When All Posts Are Shown (empty: the button disappears), Text When No Posts Match. |
+| Style | Heading, Filter (label, categories, checkbox size, border, check mark), Cards (radius 10 px, background #cfcfcf, overlay colour and opacity 0.35, hover effect *Title turns red* / *Image zoom* / *Darker overlay* / *None*, focus outline colour), Date, Title (24 / 36 px, 18 / 33.6 px below 1280 px), Author (16 px, avatar size, position), Categories and Excerpt, Load More Button (20 px, 3 px letter spacing, 17 px / 105 px padding, full width on mobile). |
+
+⧉ = can be set per device.
+
+### How "load more" and the filter load posts
+
+The script asks the REST route `listemann-toolkit/v1/posts` for the next page, naming only the page that contains the widget, the widget's id, the page number and the ticked categories. The server rebuilds the query from the settings **saved** in that page, only lists published posts of public post types, ignores categories the filter doesn't offer, and refuses pages that the visitor can't see (drafts, private or password-protected pages). Save the page before trying the filter and "load more" in the Elementor preview.
 
 ## Site-wide features and the settings page
 
@@ -213,9 +242,9 @@ All settings live in the single option `listemann_toolkit_settings`. The option 
 
 ## Translation and multilingual sites
 
-- **Plugin texts.** The editor labels, admin screens and the texts read by screen readers (e.g. "Open menu", "carousel", "(opens in a new tab)") are translatable with the text domain `listemann-toolkit-addon`. A German translation (`de_DE`) ships in `languages/`; with a German admin language the widgets are listed as *Endlos-Slider*, *Listemann Menü*, *Listemann Header* and *Listemann Downloads*. Other languages can be added with Loco Translate or Poedit from `languages/listemann-toolkit-addon.pot`. Elementor caches the slider's output (by default for 24 hours), so after adding or changing a translation, clear it with *Elementor › Tools › Clear Files & Data*.
+- **Plugin texts.** The editor labels, admin screens and the texts read by screen readers (e.g. "Open menu", "carousel", "(opens in a new tab)") are translatable with the text domain `listemann-toolkit-addon`. A German translation (`de_DE`) ships in `languages/`; with a German admin language the widgets are listed as *Endlos-Slider*, *Listemann Menü*, *Listemann Header*, *Listemann Downloads* and *Listemann Beiträge*. Other languages can be added with Loco Translate or Poedit from `languages/listemann-toolkit-addon.pot`. Elementor caches the slider's output (by default for 24 hours), so after adding or changing a translation, clear it with *Elementor › Tools › Clear Files & Data*.
 - **Contact box and back-to-top texts (WPML).** `wpml-config.xml` registers the button label, section titles, line texts and URLs, and the back-to-top label as admin texts. **Save the Listemann Toolkit settings page once** (WPML can only register an option that exists, see above), then translate the strings under *WPML › String Translation*, domain *admin_texts_listemann_toolkit_settings*. After *Reset to defaults*, save the page again before translating. Polylang reads the same file and lists the strings under *Languages › Translations*.
-- **Widget content** is stored in each page's Elementor data and translated with the page. `wpml-config.xml` registers the widgets' texts, so WPML's Translation Editor lists them: the slide titles and links and the Accessible Label of the slider, the accessible label of the menu, the logo link and alternative text, accessible labels and social links of the header, and the heading, label template, group titles, download titles, labels and URLs of the downloads widget (a Media Library file is not a text and is not listed). Selected menus and templates are not texts: check on every language version that the header and menu widgets show the menus of that language.
+- **Widget content** is stored in each page's Elementor data and translated with the page. `wpml-config.xml` registers the widgets' texts, so WPML's Translation Editor lists them: the slide titles and links and the Accessible Label of the slider, the accessible label of the menu, the logo link and alternative text, accessible labels and social links of the header, the heading, label template, group titles, download titles, labels and URLs of the downloads widget (a Media Library file is not a text and is not listed), and the heading, custom date format, filter texts and button texts of the posts widget. Selected menus and templates are not texts: check on every language version that the header and menu widgets show the menus of that language.
 
 ## Uninstall
 
@@ -228,6 +257,7 @@ listemann-toolkit-addon.php              Plugin header, constants, PHP check, au
 includes/class-plugin.php                Plugin: starts the global features, Elementor checks, category, widget registry, widget assets
 includes/class-settings.php              Settings: option name, defaults, get(), sanitize()
 includes/class-mega-menu-fields.php      "Mega menu columns" field on Appearance › Menus
+includes/class-posts-rest.php            REST route of Listemann Posts (filter and "load more")
 includes/admin/class-settings-page.php   Dashboard page "Listemann Toolkit" (Settings API, reset, Plugins link)
 includes/frontend/class-side-dock.php    Contact box + back-to-top button (wp_footer)
 includes/frontend/class-scrollbar.php    Branded scrollbar (inline CSS)

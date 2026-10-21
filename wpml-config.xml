@@ -73,5 +73,17 @@
 				<field type="Listemann Downloads: Download label" editor_type="LINE">label</field>
 			</fields-in-item>
 		</widget>
+		<widget name="listemann-posts">
+			<fields>
+				<field type="Listemann Posts: Heading" editor_type="LINE">heading_text</field>
+				<field type="Listemann Posts: Custom date format" editor_type="LINE">date_format_custom</field>
+				<field type="Listemann Posts: Filter label" editor_type="LINE">filter_label</field>
+				<field type="Listemann Posts: Filter &quot;All&quot; option" editor_type="LINE">filter_all_text</field>
+				<field type="Listemann Posts: Load more button text" editor_type="LINE">load_more_text</field>
+				<field type="Listemann Posts: Loading text" editor_type="LINE">loading_text</field>
+				<field type="Listemann Posts: All posts shown text" editor_type="LINE">no_more_text</field>
+				<field type="Listemann Posts: No posts text" editor_type="LINE">empty_text</field>
+			</fields>
+		</widget>
 	</elementor-widgets>
 </wpml-config>

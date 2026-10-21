@@ -1412,6 +1412,29 @@ class Downloads extends Widget_Base {
 	}
 
 	/**
+	 * Whether a URL points to this site (relative URLs included), where
+	 * browsers honour the `download` attribute.
+	 *
+	 * @param string $url URL.
+	 * @return bool
+	 */
+	public static function is_same_site_url( $url ) {
+		$url = trim( (string) $url );
+
+		if ( '' === $url ) {
+			return false;
+		}
+
+		$host = wp_parse_url( $url, PHP_URL_HOST );
+
+		if ( null === $host || false === $host ) {
+			return 0 !== strpos( $url, '//' ) && ! preg_match( '/^[a-z][a-z0-9+.-]*:/i', $url );
+		}
+
+		return strtolower( $host ) === strtolower( (string) wp_parse_url( home_url( '/' ), PHP_URL_HOST ) );
+	}
+
+	/**
 	 * Extension of the last path segment of a URL or file path, in capitals.
 	 *
 	 * @param string $url URL or path.
@@ -1637,22 +1660,28 @@ class Downloads extends Widget_Base {
 		$size     = $id && 'yes' === ( $settings['show_file_size'] ?? '' ) ? self::get_file_size( $id ) : '';
 		$new_tab  = false;
 		$card_tag = '' !== $href ? 'a' : 'div';
+		// Browsers honour `download` only for files on this site; those are saved, never opened in a tab.
+		$saves = 'a' === $card_tag && 'yes' === ( $settings['download_attribute'] ?? '' ) && ( 'media' === $source || self::is_same_site_url( $url ) );
 
 		$this->add_render_attribute( $key, 'class', 'lst-dl__card' );
 
 		if ( 'a' === $card_tag ) {
 			if ( 'url' === $source ) {
 				$this->add_link_attributes( $key, $link );
+
+				if ( $saves ) {
+					$this->remove_render_attribute( $key, 'target' );
+				}
 			} else {
 				$this->add_render_attribute( $key, 'href', $href );
 			}
 
-			if ( 'yes' === ( $settings['open_new_tab'] ?? '' ) ) {
+			if ( 'yes' === ( $settings['open_new_tab'] ?? '' ) && ! $saves ) {
 				$this->add_render_attribute( $key, 'target', '_blank', true );
 			}
 
 			$target  = $this->get_render_attributes( $key, 'target' );
-			$new_tab = is_array( $target ) && in_array( '_blank', $target, true );
+			$new_tab = ! $saves && is_array( $target ) && in_array( '_blank', $target, true );
 
 			if ( $new_tab ) {
 				$this->add_render_attribute( $key, 'rel', 'noopener' );
@@ -1842,6 +1871,14 @@ class Downloads extends Widget_Base {
 			return /^[a-z0-9]{1,8}$/i.test( ext ) && -1 === lstDl.scripts.indexOf( ext.toLowerCase() ) ? ext.toUpperCase() : '';
 		};
 
+		lstDl.sameSite = function( url ) {
+			try {
+				return new URL( url, window.location.href ).host === window.location.host;
+			} catch ( e ) {
+				return false;
+			}
+		};
+
 		lstDl.label = function( template, type ) {
 			var text = String( template || '' ).split( '<?php echo esc_js( self::TYPE_TOKEN ); ?>' ).join( type || lstDl.i18n.file );
 
@@ -1941,6 +1978,7 @@ class Downloads extends Widget_Base {
 									title = String( item.title || '' ).trim(),
 									size = lstDl.size( attachmentId ),
 									newTab = false,
+									saves = false,
 									cardTag = href ? 'a' : 'div',
 									icon = item.icon && item.icon.value ? elementor.helpers.renderIcon( view, item.icon, { 'aria-hidden': 'true' }, 'i', 'object' ) : null,
 									srText;
@@ -1954,7 +1992,8 @@ class Downloads extends Widget_Base {
 
 								if ( href ) {
 									view.addRenderAttribute( cardKey, 'href', href );
-									newTab = 'yes' === settings.open_new_tab || ( 'url' === source && !! link.is_external );
+									saves = 'yes' === settings.download_attribute && ( 'media' === source || lstDl.sameSite( href ) );
+									newTab = ! saves && ( 'yes' === settings.open_new_tab || ( 'url' === source && !! link.is_external ) );
 
 									if ( newTab ) {
 										view.addRenderAttribute( cardKey, { target: '_blank', rel: ( 'url' === source && link.nofollow ? 'nofollow ' : '' ) + 'noopener' } );

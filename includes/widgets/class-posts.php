@@ -307,18 +307,18 @@ class Posts extends Widget_Base {
 	 * @param string $id       Control id.
 	 * @param string $label    Label.
 	 * @param string $property Custom property (without the leading dashes).
-	 * @param string $default  Default colour, '' for none (the CSS fallback applies).
+	 * @param string $default_value Default colour, '' for none (the CSS fallback applies).
 	 * @param array  $args     Extra control arguments.
 	 * @return void
 	 */
-	private function add_color_control( $id, $label, $property, $default = '', array $args = array() ) {
+	private function add_color_control( $id, $label, $property, $default_value = '', array $args = array() ) {
 		$this->add_control(
 			$id,
 			array_merge(
 				array(
 					'label'     => $label,
 					'type'      => Controls_Manager::COLOR,
-					'default'   => $default,
+					'default'   => $default_value,
 					'selectors' => array(
 						'{{WRAPPER}}' => '--' . $property . ': {{VALUE}};',
 					),
@@ -2074,13 +2074,13 @@ class Posts extends Widget_Base {
 	 *
 	 * @param array  $settings Settings.
 	 * @param string $key      Setting key.
-	 * @param int    $default  Default.
+	 * @param int    $default_value Default.
 	 * @param int    $min      Minimum.
 	 * @param int    $max      Maximum.
 	 * @return int
 	 */
-	private static function get_int( array $settings, $key, $default, $min, $max ) {
-		$value = isset( $settings[ $key ] ) && is_numeric( $settings[ $key ] ) ? (int) $settings[ $key ] : $default;
+	private static function get_int( array $settings, $key, $default_value, $min, $max ) {
+		$value = isset( $settings[ $key ] ) && is_numeric( $settings[ $key ] ) ? (int) $settings[ $key ] : $default_value;
 
 		return max( $min, min( $max, $value ) );
 	}
@@ -2656,7 +2656,7 @@ class Posts extends Widget_Base {
 		$n    = 2;
 
 		while ( in_array( $id, self::$used_ids, true ) ) {
-			$id = $base . '-' . $n++;
+			$id = $base . '-' . ( $n++ );
 		}
 
 		self::$used_ids[] = $id;

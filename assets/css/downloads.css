@@ -124,6 +124,7 @@
 	font-weight: inherit;
 	line-height: inherit;
 	letter-spacing: inherit;
+	word-spacing: inherit;
 	text-transform: none;
 	text-decoration: none;
 	transition-property: transform, box-shadow, background-color;
@@ -186,7 +187,7 @@
 
 .lst-dl .lst-dl__size::before {
 	content: "\00b7";
-	content: "\00b7" / "";
+	content: "\00b7" / ", ";
 	margin-inline: 0.4em;
 }
 
@@ -232,6 +233,18 @@
 
 .lst-dl a.lst-dl__card:focus:not(:focus-visible) {
 	outline: none;
+}
+
+/* One column: the cards are as wide as the widget, so a zoom would push them past the screen edge. */
+@media (max-width: 767.98px) {
+	.lst-dl a.lst-dl__card:hover,
+	.lst-dl a.lst-dl__card:focus-visible {
+		transform: none;
+	}
+
+	.lst-dl a.lst-dl__card:focus-visible {
+		outline-offset: 2px;
+	}
 }
 
 .lst-dl a.lst-dl__card:hover::after,
@@ -313,7 +326,9 @@
 		border-color: LinkText;
 	}
 
-	.lst-dl .lst-dl__card::after {
+	.lst-dl .lst-dl__card::after,
+	.lst-dl a.lst-dl__card:hover::after,
+	.lst-dl a.lst-dl__card:focus-visible::after {
 		forced-color-adjust: none;
 		background-color: LinkText;
 	}

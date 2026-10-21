@@ -3,13 +3,13 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Listemann Toolkit Addon 1.0.0\n"
-"Report-Msgid-Bugs-To: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/listemann-addon\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-21T15:14:56+00:00\n"
+"POT-Creation-Date: 2026-10-21T16:22:32+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: listemann-toolkit-addon\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #. Description of the plugin
 #: listemann-toolkit-addon.php
-msgid "Listemann site toolkit: Elementor widgets (continuous slider, menu, header) plus a site-wide contact box, back-to-top button and branded scrollbar, managed under Listemann Toolkit in the dashboard."
+msgid "Listemann site toolkit: Elementor widgets (continuous slider, menu, header, downloads, posts) plus a site-wide contact box, back-to-top button and branded scrollbar, managed under Listemann Toolkit in the dashboard."
 msgstr ""
 
 #. Author of the plugin
@@ -80,7 +80,7 @@ msgstr ""
 #: includes/admin/class-settings-page.php:197
 #: includes/widgets/class-downloads.php:349
 #: includes/widgets/class-downloads.php:1140
-#: includes/widgets/class-posts.php:940
+#: includes/widgets/class-posts.php:945
 msgid "Label"
 msgstr ""
 
@@ -168,11 +168,11 @@ msgstr ""
 #: includes/widgets/class-menu.php:576
 #: includes/widgets/class-menu.php:804
 #: includes/widgets/class-menu.php:915
-#: includes/widgets/class-posts.php:1123
-#: includes/widgets/class-posts.php:1600
-#: includes/widgets/class-posts.php:1628
-#: includes/widgets/class-posts.php:1639
-#: includes/widgets/class-posts.php:1673
+#: includes/widgets/class-posts.php:1128
+#: includes/widgets/class-posts.php:1605
+#: includes/widgets/class-posts.php:1633
+#: includes/widgets/class-posts.php:1644
+#: includes/widgets/class-posts.php:1678
 msgid "Color"
 msgstr ""
 
@@ -187,7 +187,7 @@ msgstr ""
 #: includes/widgets/class-header.php:1552
 #: includes/widgets/class-header.php:1803
 #: includes/widgets/class-menu.php:758
-#: includes/widgets/class-posts.php:1909
+#: includes/widgets/class-posts.php:1914
 msgid "Width"
 msgstr ""
 
@@ -289,8 +289,8 @@ msgstr ""
 #: includes/widgets/class-continuous-slider.php:871
 #: includes/widgets/class-downloads.php:293
 #: includes/widgets/class-downloads.php:1192
-#: includes/widgets/class-posts.php:489
-#: includes/widgets/class-posts.php:1616
+#: includes/widgets/class-posts.php:494
+#: includes/widgets/class-posts.php:1621
 msgid "Title"
 msgstr ""
 
@@ -300,7 +300,7 @@ msgstr ""
 
 #: includes/admin/class-settings-page.php:582
 #: includes/admin/class-settings-page.php:622
-#: includes/widgets/class-posts.php:349
+#: includes/widgets/class-posts.php:354
 msgid "Text"
 msgstr ""
 
@@ -394,7 +394,7 @@ msgstr ""
 #: includes/frontend/class-side-dock.php:278
 #: includes/widgets/class-downloads.php:1471
 #: includes/widgets/class-downloads.php:1819
-#: includes/widgets/class-posts.php:2856
+#: includes/widgets/class-posts.php:2861
 msgid "(opens in a new tab)"
 msgstr ""
 
@@ -439,7 +439,7 @@ msgid "Decimals (e.g. 2.5) let the next slide peek in. Left empty, the strip sho
 msgstr ""
 
 #: includes/widgets/class-continuous-slider.php:303
-#: includes/widgets/class-posts.php:657
+#: includes/widgets/class-posts.php:662
 msgid "Gap"
 msgstr ""
 
@@ -493,13 +493,13 @@ msgstr ""
 #: includes/widgets/class-continuous-slider.php:402
 #: includes/widgets/class-continuous-slider.php:1050
 #: includes/widgets/class-downloads.php:882
-#: includes/widgets/class-posts.php:1150
+#: includes/widgets/class-posts.php:1155
 msgid "Left"
 msgstr ""
 
 #: includes/widgets/class-continuous-slider.php:403
 #: includes/widgets/class-continuous-slider.php:1058
-#: includes/widgets/class-posts.php:1158
+#: includes/widgets/class-posts.php:1163
 msgid "Right"
 msgstr ""
 
@@ -597,22 +597,22 @@ msgid "Image Position"
 msgstr ""
 
 #: includes/widgets/class-continuous-slider.php:611
-#: includes/widgets/class-posts.php:1390
+#: includes/widgets/class-posts.php:1395
 msgid "Center Center"
 msgstr ""
 
 #: includes/widgets/class-continuous-slider.php:612
-#: includes/widgets/class-posts.php:1391
+#: includes/widgets/class-posts.php:1396
 msgid "Center Top"
 msgstr ""
 
 #: includes/widgets/class-continuous-slider.php:613
-#: includes/widgets/class-posts.php:1392
+#: includes/widgets/class-posts.php:1397
 msgid "Center Bottom"
 msgstr ""
 
 #: includes/widgets/class-continuous-slider.php:614
-#: includes/widgets/class-posts.php:1393
+#: includes/widgets/class-posts.php:1398
 msgid "Left Center"
 msgstr ""
 
@@ -625,7 +625,7 @@ msgid "Left Bottom"
 msgstr ""
 
 #: includes/widgets/class-continuous-slider.php:617
-#: includes/widgets/class-posts.php:1394
+#: includes/widgets/class-posts.php:1399
 msgid "Right Center"
 msgstr ""
 
@@ -655,9 +655,9 @@ msgstr ""
 #: includes/widgets/class-header.php:1327
 #: includes/widgets/class-menu.php:385
 #: includes/widgets/class-menu.php:532
-#: includes/widgets/class-posts.php:1517
-#: includes/widgets/class-posts.php:1625
-#: includes/widgets/class-posts.php:1836
+#: includes/widgets/class-posts.php:1522
+#: includes/widgets/class-posts.php:1630
+#: includes/widgets/class-posts.php:1841
 msgid "Normal"
 msgstr ""
 
@@ -671,9 +671,9 @@ msgstr ""
 #: includes/widgets/class-header.php:1336
 #: includes/widgets/class-menu.php:404
 #: includes/widgets/class-menu.php:551
-#: includes/widgets/class-posts.php:1532
-#: includes/widgets/class-posts.php:1634
-#: includes/widgets/class-posts.php:1847
+#: includes/widgets/class-posts.php:1537
+#: includes/widgets/class-posts.php:1639
+#: includes/widgets/class-posts.php:1852
 msgid "Hover"
 msgstr ""
 
@@ -706,7 +706,7 @@ msgstr ""
 #: includes/widgets/class-continuous-slider.php:994
 #: includes/widgets/class-downloads.php:740
 #: includes/widgets/class-header.php:1230
-#: includes/widgets/class-posts.php:1896
+#: includes/widgets/class-posts.php:1901
 msgid "Padding"
 msgstr ""
 
@@ -722,7 +722,7 @@ msgstr ""
 #: includes/widgets/class-continuous-slider.php:1023
 #: includes/widgets/class-continuous-slider.php:1054
 #: includes/widgets/class-menu.php:282
-#: includes/widgets/class-posts.php:1154
+#: includes/widgets/class-posts.php:1159
 msgid "Center"
 msgstr ""
 
@@ -732,7 +732,7 @@ msgstr ""
 
 #: includes/widgets/class-continuous-slider.php:1046
 #: includes/widgets/class-menu.php:274
-#: includes/widgets/class-posts.php:1146
+#: includes/widgets/class-posts.php:1151
 msgid "Alignment"
 msgstr ""
 
@@ -808,8 +808,8 @@ msgstr ""
 #: includes/widgets/class-downloads.php:210
 #: includes/widgets/class-downloads.php:226
 #: includes/widgets/class-downloads.php:591
-#: includes/widgets/class-posts.php:333
-#: includes/widgets/class-posts.php:1115
+#: includes/widgets/class-posts.php:338
+#: includes/widgets/class-posts.php:1120
 msgid "Heading"
 msgstr ""
 
@@ -846,7 +846,7 @@ msgid "The downloads below this item, up to the next group title, belong to this
 msgstr ""
 
 #: includes/widgets/class-downloads.php:304
-#: includes/widgets/class-posts.php:393
+#: includes/widgets/class-posts.php:398
 msgid "Source"
 msgstr ""
 
@@ -941,13 +941,13 @@ msgstr ""
 #: includes/widgets/class-downloads.php:475
 #: includes/widgets/class-header.php:801
 #: includes/widgets/class-menu.php:235
-#: includes/widgets/class-posts.php:613
-#: includes/widgets/class-posts.php:620
+#: includes/widgets/class-posts.php:618
+#: includes/widgets/class-posts.php:625
 msgid "Layout"
 msgstr ""
 
 #: includes/widgets/class-downloads.php:483
-#: includes/widgets/class-posts.php:643
+#: includes/widgets/class-posts.php:648
 msgid "Columns"
 msgstr ""
 
@@ -1000,7 +1000,7 @@ msgid "Spacing Below"
 msgstr ""
 
 #: includes/widgets/class-downloads.php:710
-#: includes/widgets/class-posts.php:1337
+#: includes/widgets/class-posts.php:1342
 msgid "Cards"
 msgstr ""
 
@@ -1024,8 +1024,8 @@ msgstr ""
 #: includes/widgets/class-downloads.php:884
 #: includes/widgets/class-downloads.php:931
 #: includes/widgets/class-menu.php:913
-#: includes/widgets/class-posts.php:1048
-#: includes/widgets/class-posts.php:1445
+#: includes/widgets/class-posts.php:1053
+#: includes/widgets/class-posts.php:1450
 msgid "None"
 msgstr ""
 
@@ -1407,10 +1407,10 @@ msgstr ""
 #: includes/widgets/class-header.php:996
 #: includes/widgets/class-header.php:1225
 #: includes/widgets/class-header.php:1599
-#: includes/widgets/class-posts.php:1262
-#: includes/widgets/class-posts.php:1364
-#: includes/widgets/class-posts.php:1840
-#: includes/widgets/class-posts.php:1851
+#: includes/widgets/class-posts.php:1267
+#: includes/widgets/class-posts.php:1369
+#: includes/widgets/class-posts.php:1845
+#: includes/widgets/class-posts.php:1856
 msgid "Background color"
 msgstr ""
 
@@ -1490,7 +1490,7 @@ msgstr ""
 
 #: includes/widgets/class-header.php:1197
 #: includes/widgets/class-menu.php:593
-#: includes/widgets/class-posts.php:1493
+#: includes/widgets/class-posts.php:1498
 msgid "Transition duration"
 msgstr ""
 
@@ -1829,8 +1829,8 @@ msgid "All items"
 msgstr ""
 
 #: includes/widgets/class-menu.php:840
-#: includes/widgets/class-posts.php:1344
-#: includes/widgets/class-posts.php:1881
+#: includes/widgets/class-posts.php:1349
+#: includes/widgets/class-posts.php:1886
 msgid "Border radius"
 msgstr ""
 
@@ -1847,7 +1847,7 @@ msgid "Width (nested items)"
 msgstr ""
 
 #: includes/widgets/class-menu.php:910
-#: includes/widgets/class-posts.php:1439
+#: includes/widgets/class-posts.php:1444
 msgid "Hover effect"
 msgstr ""
 
@@ -1863,708 +1863,708 @@ msgstr ""
 msgid "Grow by"
 msgstr ""
 
-#: includes/widgets/class-posts.php:154
+#: includes/widgets/class-posts.php:159
 msgid "Listemann Posts"
 msgstr ""
 
-#: includes/widgets/class-posts.php:340
+#: includes/widgets/class-posts.php:345
 msgid "Show heading"
 msgstr ""
 
-#: includes/widgets/class-posts.php:365
+#: includes/widgets/class-posts.php:370
 msgid "HTML tag"
 msgstr ""
 
-#: includes/widgets/class-posts.php:369
+#: includes/widgets/class-posts.php:374
 msgid "H2 by default: the page usually has its own H1 (on listemann.com this heading is the H1 of the blog page)."
 msgstr ""
 
-#: includes/widgets/class-posts.php:386
+#: includes/widgets/class-posts.php:391
 msgid "Query"
 msgstr ""
 
-#: includes/widgets/class-posts.php:396
+#: includes/widgets/class-posts.php:401
 msgid "Posts (custom query)"
 msgstr ""
 
-#: includes/widgets/class-posts.php:397
+#: includes/widgets/class-posts.php:402
 msgid "Current query (archive templates)"
 msgstr ""
 
-#: includes/widgets/class-posts.php:407
+#: includes/widgets/class-posts.php:412
 msgid "Shows the posts of the archive the template is displayed on (category, tag, author, search, blog page), with its page size and pagination. The filter is not available here."
 msgstr ""
 
-#: includes/widgets/class-posts.php:418
+#: includes/widgets/class-posts.php:423
 msgid "Post type"
 msgstr ""
 
-#: includes/widgets/class-posts.php:431
-#: includes/widgets/class-posts.php:966
+#: includes/widgets/class-posts.php:436
+#: includes/widgets/class-posts.php:971
 msgid "Categories"
 msgstr ""
 
-#: includes/widgets/class-posts.php:436
+#: includes/widgets/class-posts.php:441
 msgid "Only posts in one of these categories. Empty: all categories."
 msgstr ""
 
-#: includes/widgets/class-posts.php:444
+#: includes/widgets/class-posts.php:449
 msgid "Exclude categories"
 msgstr ""
 
-#: includes/widgets/class-posts.php:456
+#: includes/widgets/class-posts.php:461
 msgid "Tags"
 msgstr ""
 
-#: includes/widgets/class-posts.php:461
+#: includes/widgets/class-posts.php:466
 msgid "Only posts with one of these tags. Empty: all."
 msgstr ""
 
-#: includes/widgets/class-posts.php:469
+#: includes/widgets/class-posts.php:474
 msgid "Authors"
 msgstr ""
 
-#: includes/widgets/class-posts.php:474
+#: includes/widgets/class-posts.php:479
 msgid "Only posts by these authors. Empty: all."
 msgstr ""
 
-#: includes/widgets/class-posts.php:484
+#: includes/widgets/class-posts.php:489
 msgid "Order by"
 msgstr ""
 
-#: includes/widgets/class-posts.php:487
-#: includes/widgets/class-posts.php:1592
+#: includes/widgets/class-posts.php:492
+#: includes/widgets/class-posts.php:1597
 msgid "Date"
 msgstr ""
 
-#: includes/widgets/class-posts.php:488
+#: includes/widgets/class-posts.php:493
 msgid "Last modified"
 msgstr ""
 
-#: includes/widgets/class-posts.php:490
+#: includes/widgets/class-posts.php:495
 msgid "Menu order"
 msgstr ""
 
-#: includes/widgets/class-posts.php:491
+#: includes/widgets/class-posts.php:496
 msgid "Comment count"
 msgstr ""
 
-#: includes/widgets/class-posts.php:492
+#: includes/widgets/class-posts.php:497
 msgid "Random"
 msgstr ""
 
-#: includes/widgets/class-posts.php:505
+#: includes/widgets/class-posts.php:510
 msgid "Order"
 msgstr ""
 
-#: includes/widgets/class-posts.php:508
+#: includes/widgets/class-posts.php:513
 msgid "Descending"
 msgstr ""
 
-#: includes/widgets/class-posts.php:509
+#: includes/widgets/class-posts.php:514
 msgid "Ascending"
 msgstr ""
 
-#: includes/widgets/class-posts.php:522
+#: includes/widgets/class-posts.php:527
 msgid "Posts on the first page"
 msgstr ""
 
-#: includes/widgets/class-posts.php:537
+#: includes/widgets/class-posts.php:542
 msgid "Posts per \"load more\" / page"
 msgstr ""
 
-#: includes/widgets/class-posts.php:542
+#: includes/widgets/class-posts.php:547
 msgid "Number of posts each click on \"load more\" (or each further page) adds."
 msgstr ""
 
-#: includes/widgets/class-posts.php:552
+#: includes/widgets/class-posts.php:557
 msgid "Offset"
 msgstr ""
 
-#: includes/widgets/class-posts.php:557
+#: includes/widgets/class-posts.php:562
 msgid "Skips this many posts, e.g. those shown by another widget above."
 msgstr ""
 
-#: includes/widgets/class-posts.php:567
+#: includes/widgets/class-posts.php:572
 msgid "Exclude the current post"
 msgstr ""
 
-#: includes/widgets/class-posts.php:570
+#: includes/widgets/class-posts.php:575
 msgid "On a single post (e.g. \"more news\" below an article), the post itself is not listed."
 msgstr ""
 
-#: includes/widgets/class-posts.php:580
+#: includes/widgets/class-posts.php:585
 msgid "Ignore sticky posts"
 msgstr ""
 
-#: includes/widgets/class-posts.php:583
+#: includes/widgets/class-posts.php:588
 msgid "Off: sticky posts come first."
 msgstr ""
 
-#: includes/widgets/class-posts.php:594
+#: includes/widgets/class-posts.php:599
 msgid "Only posts with a featured image"
 msgstr ""
 
-#: includes/widgets/class-posts.php:623
+#: includes/widgets/class-posts.php:628
 msgid "Featured (1 wide + 2 stacked, then rows)"
 msgstr ""
 
-#: includes/widgets/class-posts.php:624
+#: includes/widgets/class-posts.php:629
 msgid "Grid (all cards equal)"
 msgstr ""
 
-#: includes/widgets/class-posts.php:625
+#: includes/widgets/class-posts.php:630
 msgid "List (image left, text right)"
 msgstr ""
 
-#: includes/widgets/class-posts.php:628
+#: includes/widgets/class-posts.php:633
 msgid "Featured is the listemann.com blog: the first three posts of the first page share the first rows, the others follow in rows."
 msgstr ""
 
-#: includes/widgets/class-posts.php:632
-#: includes/widgets/class-posts.php:1302
-#: includes/widgets/class-posts.php:1389
-#: includes/widgets/class-posts.php:1912
+#: includes/widgets/class-posts.php:637
+#: includes/widgets/class-posts.php:1307
+#: includes/widgets/class-posts.php:1394
+#: includes/widgets/class-posts.php:1917
 msgid "Default"
 msgstr ""
 
-#: includes/widgets/class-posts.php:647
+#: includes/widgets/class-posts.php:652
 msgid "Default: 3 columns, 1 below 768 px (the list: 1 column). The wide card spans all columns but one."
 msgstr ""
 
-#: includes/widgets/class-posts.php:660
+#: includes/widgets/class-posts.php:665
 msgid "Default: 60 px, 30 px below 1280 px and 15 px below 768 px, like the original."
 msgstr ""
 
-#: includes/widgets/class-posts.php:680
+#: includes/widgets/class-posts.php:685
 msgid "Height of the wide card"
 msgstr ""
 
-#: includes/widgets/class-posts.php:686
+#: includes/widgets/class-posts.php:691
 msgid "Default: 700 px minus the gap (640 px, 670 px below 1280 px), 300 px below 768 px."
 msgstr ""
 
-#: includes/widgets/class-posts.php:696
+#: includes/widgets/class-posts.php:701
 msgid "Height of the stacked cards"
 msgstr ""
 
-#: includes/widgets/class-posts.php:701
+#: includes/widgets/class-posts.php:706
 msgid "Default: the two cards together are as high as the wide card (290 px)."
 msgstr ""
 
-#: includes/widgets/class-posts.php:711
+#: includes/widgets/class-posts.php:716
 msgid "Card height"
 msgstr ""
 
-#: includes/widgets/class-posts.php:716
+#: includes/widgets/class-posts.php:721
 msgid "Minimum height of the other cards. Default: 320 px minus the gap (260 px, 290 px below 1280 px), 320 px below 768 px. A card grows instead of letting its text overlap."
 msgstr ""
 
-#: includes/widgets/class-posts.php:723
+#: includes/widgets/class-posts.php:728
 msgid "Image width"
 msgstr ""
 
-#: includes/widgets/class-posts.php:737
+#: includes/widgets/class-posts.php:742
 msgid "Default: 40 %. Below 768 px the image is shown above the text."
 msgstr ""
 
-#: includes/widgets/class-posts.php:754
+#: includes/widgets/class-posts.php:759
 msgid "Card content"
 msgstr ""
 
-#: includes/widgets/class-posts.php:761
+#: includes/widgets/class-posts.php:766
 msgid "Show date"
 msgstr ""
 
-#: includes/widgets/class-posts.php:770
+#: includes/widgets/class-posts.php:775
 msgid "Date format"
 msgstr ""
 
-#: includes/widgets/class-posts.php:773
+#: includes/widgets/class-posts.php:778
 msgid "Custom"
 msgstr ""
 
-#: includes/widgets/class-posts.php:774
+#: includes/widgets/class-posts.php:779
 msgid "Site setting (Settings > General)"
 msgstr ""
 
-#: includes/widgets/class-posts.php:786
+#: includes/widgets/class-posts.php:791
 msgid "Custom format"
 msgstr ""
 
 #. translators: 1: Link open tag, 2: Link close tag.
-#: includes/widgets/class-posts.php:792
+#: includes/widgets/class-posts.php:797
 #, php-format
 msgid "PHP date format, e.g. \"d. F Y\" = 07. Februar 2026 (month names in the site language). %1$sDocumentation%2$s"
 msgstr ""
 
-#: includes/widgets/class-posts.php:806
+#: includes/widgets/class-posts.php:811
 msgid "Show author"
 msgstr ""
 
-#: includes/widgets/class-posts.php:816
+#: includes/widgets/class-posts.php:821
 msgid "Show profile picture"
 msgstr ""
 
-#: includes/widgets/class-posts.php:819
+#: includes/widgets/class-posts.php:824
 msgid "Round picture before the name (Gravatar or an avatar plugin). Not shown while avatars are off in Settings > Discussion."
 msgstr ""
 
-#: includes/widgets/class-posts.php:829
+#: includes/widgets/class-posts.php:834
 msgid "Show categories"
 msgstr ""
 
-#: includes/widgets/class-posts.php:839
+#: includes/widgets/class-posts.php:844
 msgid "Show excerpt"
 msgstr ""
 
-#: includes/widgets/class-posts.php:848
+#: includes/widgets/class-posts.php:853
 msgid "Excerpt length (words)"
 msgstr ""
 
-#: includes/widgets/class-posts.php:862
+#: includes/widgets/class-posts.php:867
 msgid "Title HTML tag"
 msgstr ""
 
-#: includes/widgets/class-posts.php:873
+#: includes/widgets/class-posts.php:878
 msgid "Maximum title lines"
 msgstr ""
 
-#: includes/widgets/class-posts.php:878
+#: includes/widgets/class-posts.php:883
 msgid "Longer titles end with \"…\" (the full title stays the link text). 0: no limit; the card grows if needed."
 msgstr ""
 
-#: includes/widgets/class-posts.php:885
+#: includes/widgets/class-posts.php:890
 msgid "Fallback image"
 msgstr ""
 
-#: includes/widgets/class-posts.php:887
+#: includes/widgets/class-posts.php:892
 msgid "For posts without a featured image. Empty: the card background colour."
 msgstr ""
 
-#: includes/widgets/class-posts.php:904
+#: includes/widgets/class-posts.php:909
 msgid "Open posts in a new tab"
 msgstr ""
 
-#: includes/widgets/class-posts.php:921
-#: includes/widgets/class-posts.php:1178
+#: includes/widgets/class-posts.php:926
+#: includes/widgets/class-posts.php:1183
 msgid "Filter"
 msgstr ""
 
-#: includes/widgets/class-posts.php:929
+#: includes/widgets/class-posts.php:934
 msgid "Show category filter"
 msgstr ""
 
-#: includes/widgets/class-posts.php:943
+#: includes/widgets/class-posts.php:948
 msgid "Name of the group of checkboxes. Left empty, screen readers announce \"Filter by category\"."
 msgstr ""
 
-#: includes/widgets/class-posts.php:951
+#: includes/widgets/class-posts.php:956
 msgid "Categories in the filter"
 msgstr ""
 
-#: includes/widgets/class-posts.php:954
+#: includes/widgets/class-posts.php:959
 msgid "All categories of the query"
 msgstr ""
 
-#: includes/widgets/class-posts.php:955
+#: includes/widgets/class-posts.php:960
 msgid "Selected categories"
 msgstr ""
 
-#: includes/widgets/class-posts.php:958
+#: includes/widgets/class-posts.php:963
 msgid "All: the categories chosen under Query (or every category), minus the excluded ones."
 msgstr ""
 
-#: includes/widgets/class-posts.php:981
+#: includes/widgets/class-posts.php:986
 msgid "Selection"
 msgstr ""
 
-#: includes/widgets/class-posts.php:984
+#: includes/widgets/class-posts.php:989
 msgid "Several categories (checkboxes)"
 msgstr ""
 
-#: includes/widgets/class-posts.php:985
+#: includes/widgets/class-posts.php:990
 msgid "One category (radio buttons)"
 msgstr ""
 
-#: includes/widgets/class-posts.php:988
+#: includes/widgets/class-posts.php:993
 msgid "With several categories ticked, posts in any of them are shown."
 msgstr ""
 
-#: includes/widgets/class-posts.php:996
+#: includes/widgets/class-posts.php:1001
 msgid "\"All\" option"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1009
+#: includes/widgets/class-posts.php:1014
 msgid "Show post counts"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1019
+#: includes/widgets/class-posts.php:1024
 msgid "Hide empty categories"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1036
-#: includes/widgets/class-posts.php:3112
+#: includes/widgets/class-posts.php:1041
+#: includes/widgets/class-posts.php:3143
 msgid "Load more"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1043
+#: includes/widgets/class-posts.php:1048
 msgid "Pagination"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1046
+#: includes/widgets/class-posts.php:1051
 msgid "\"Load more\" button"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1047
+#: includes/widgets/class-posts.php:1052
 msgid "Page numbers"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1051
+#: includes/widgets/class-posts.php:1056
 msgid "Without JavaScript (and for search engines) the button is a link to the next page."
 msgstr ""
 
-#: includes/widgets/class-posts.php:1058
+#: includes/widgets/class-posts.php:1063
 msgid "Button text"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1070
+#: includes/widgets/class-posts.php:1075
 msgid "Text while loading"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1082
+#: includes/widgets/class-posts.php:1087
 msgid "Text when all posts are shown"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1086
+#: includes/widgets/class-posts.php:1091
 msgid "Replaces the button after the last posts were loaded. Empty: the button disappears."
 msgstr ""
 
-#: includes/widgets/class-posts.php:1097
+#: includes/widgets/class-posts.php:1102
 msgid "Text when no posts match"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1130
+#: includes/widgets/class-posts.php:1135
 msgid "Default: 42 px / 62 px, light (300); 36 / 45 px below 1280 px, 24 / 32 px below 768 px."
 msgstr ""
 
-#: includes/widgets/class-posts.php:1136
-#: includes/widgets/class-posts.php:1939
+#: includes/widgets/class-posts.php:1141
+#: includes/widgets/class-posts.php:1944
 msgid "Spacing below"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1139
-msgid "Default: 18 px."
+#: includes/widgets/class-posts.php:1144
+msgid "Default: 20 px."
 msgstr ""
 
-#: includes/widgets/class-posts.php:1184
+#: includes/widgets/class-posts.php:1189
 msgid "Label color"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1190
+#: includes/widgets/class-posts.php:1195
 msgid "Label typography"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1197
+#: includes/widgets/class-posts.php:1202
 msgid "Category color"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1207
-#: includes/widgets/class-posts.php:1780
+#: includes/widgets/class-posts.php:1212
+#: includes/widgets/class-posts.php:1785
 msgid "Category typography"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1215
+#: includes/widgets/class-posts.php:1220
 msgid "Checkbox"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1223
+#: includes/widgets/class-posts.php:1228
 msgid "Size"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1243
-#: includes/widgets/class-posts.php:1860
+#: includes/widgets/class-posts.php:1248
+#: includes/widgets/class-posts.php:1865
 msgid "Border width"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1261
-#: includes/widgets/class-posts.php:1841
-#: includes/widgets/class-posts.php:1852
+#: includes/widgets/class-posts.php:1266
+#: includes/widgets/class-posts.php:1846
+#: includes/widgets/class-posts.php:1857
 msgid "Border color"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1263
+#: includes/widgets/class-posts.php:1268
 msgid "Check mark color"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1267
+#: includes/widgets/class-posts.php:1272
 msgid "Check mark size"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1281
+#: includes/widgets/class-posts.php:1286
 msgid "A dot in the middle of the box; hovering a category shows it at half opacity."
 msgstr ""
 
-#: includes/widgets/class-posts.php:1288
+#: includes/widgets/class-posts.php:1293
 msgid "Space between categories"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1292
+#: includes/widgets/class-posts.php:1297
 msgid "Default: 20 px (side by side), 0 below 768 px (one per line)."
 msgstr ""
 
-#: includes/widgets/class-posts.php:1299
+#: includes/widgets/class-posts.php:1304
 msgid "Arrangement"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1303
+#: includes/widgets/class-posts.php:1308
 msgid "Side by side"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1304
+#: includes/widgets/class-posts.php:1309
 msgid "One per line"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1307
+#: includes/widgets/class-posts.php:1312
 msgid "Default: side by side, one per line below 768 px."
 msgstr ""
 
-#: includes/widgets/class-posts.php:1320
+#: includes/widgets/class-posts.php:1325
 msgid "Spacing below the filter"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1323
+#: includes/widgets/class-posts.php:1328
 msgid "Default: 30 px, 40 px below 1280 px."
 msgstr ""
 
-#: includes/widgets/class-posts.php:1367
+#: includes/widgets/class-posts.php:1372
 msgid "Shown behind the image and for posts without one."
 msgstr ""
 
-#: includes/widgets/class-posts.php:1372
+#: includes/widgets/class-posts.php:1377
 msgid "Text area background"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1376
+#: includes/widgets/class-posts.php:1381
 msgid "Default: white."
 msgstr ""
 
-#: includes/widgets/class-posts.php:1386
+#: includes/widgets/class-posts.php:1391
 msgid "Image position"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1405
+#: includes/widgets/class-posts.php:1410
 msgid "Overlay color"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1427
+#: includes/widgets/class-posts.php:1432
 msgid "Overlay opacity"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1442
+#: includes/widgets/class-posts.php:1447
 msgid "Title turns red"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1443
+#: includes/widgets/class-posts.php:1448
 msgid "Image zoom"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1444
+#: includes/widgets/class-posts.php:1449
 msgid "Darker overlay"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1450
+#: includes/widgets/class-posts.php:1455
 msgid "Applies when the pointer is over the card or the card link has keyboard focus. A red title is hard to read on dark photos: zoom or a darker overlay keep the white text."
 msgstr ""
 
-#: includes/widgets/class-posts.php:1459
+#: includes/widgets/class-posts.php:1464
 msgid "Overlay opacity on hover"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1460
+#: includes/widgets/class-posts.php:1465
 msgid "Default: unchanged; 0.6 with \"Darker overlay\"."
 msgstr ""
 
-#: includes/widgets/class-posts.php:1471
+#: includes/widgets/class-posts.php:1476
 msgid "Zoom factor"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1549
+#: includes/widgets/class-posts.php:1554
 msgid "Focus outline color"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1554
+#: includes/widgets/class-posts.php:1559
 msgid "Ring around the card, checkbox or button that has keyboard focus. Needs a contrast of at least 3:1 to the page background."
 msgstr ""
 
-#: includes/widgets/class-posts.php:1561
+#: includes/widgets/class-posts.php:1566
 msgid "Text padding"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1586
+#: includes/widgets/class-posts.php:1591
 msgid "Default: white (list layout: grey)."
 msgstr ""
 
-#: includes/widgets/class-posts.php:1628
+#: includes/widgets/class-posts.php:1633
 msgid "Default: white (list layout: dark grey)."
 msgstr ""
 
-#: includes/widgets/class-posts.php:1642
+#: includes/widgets/class-posts.php:1647
 msgid "Used by the hover effect \"Title turns red\"."
 msgstr ""
 
-#: includes/widgets/class-posts.php:1655
-msgid "Default: 24 px / 36 px; 18 / 24 px below 1280 px."
+#: includes/widgets/class-posts.php:1660
+msgid "Default: 24 px / 36 px; 18 / 33.6 px below 1280 px."
 msgstr ""
 
-#: includes/widgets/class-posts.php:1665
+#: includes/widgets/class-posts.php:1670
 msgid "Author"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1680
+#: includes/widgets/class-posts.php:1685
 msgid "Default: 16 px; 14 px below 1280 px."
 msgstr ""
 
-#: includes/widgets/class-posts.php:1686
+#: includes/widgets/class-posts.php:1691
 msgid "Picture size"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1709
+#: includes/widgets/class-posts.php:1714
 msgid "Space after the picture"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1726
+#: includes/widgets/class-posts.php:1731
 msgid "Distance from the bottom"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1738
+#: includes/widgets/class-posts.php:1743
 msgid "Distance from the left"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1745
+#: includes/widgets/class-posts.php:1750
 msgid "Measured from the card edge (in the list layout: from the text area)."
 msgstr ""
 
-#: includes/widgets/class-posts.php:1755
+#: includes/widgets/class-posts.php:1760
 msgid "Categories and excerpt"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1773
+#: includes/widgets/class-posts.php:1778
 msgid "Category text color"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1774
+#: includes/widgets/class-posts.php:1779
 msgid "Category background"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1787
+#: includes/widgets/class-posts.php:1792
 msgid "Excerpt color"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1800
+#: includes/widgets/class-posts.php:1805
 msgid "Excerpt typography"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1815
+#: includes/widgets/class-posts.php:1820
 msgid "Load more button"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1828
+#: includes/widgets/class-posts.php:1833
 msgid "Default: 20 px, uppercase, 3 px letter spacing; 18 px below 768 px."
 msgstr ""
 
-#: includes/widgets/class-posts.php:1839
-#: includes/widgets/class-posts.php:1850
+#: includes/widgets/class-posts.php:1844
+#: includes/widgets/class-posts.php:1855
 msgid "Text color"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1899
+#: includes/widgets/class-posts.php:1904
 msgid "Default: 17 px 105 px; 10 px 0 below 768 px."
 msgstr ""
 
-#: includes/widgets/class-posts.php:1913
+#: includes/widgets/class-posts.php:1918
 msgid "Fit the text"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1914
+#: includes/widgets/class-posts.php:1919
 msgid "Full width"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1917
+#: includes/widgets/class-posts.php:1922
 msgid "Default: fit the text, full width below 768 px."
 msgstr ""
 
-#: includes/widgets/class-posts.php:1930
+#: includes/widgets/class-posts.php:1935
 msgid "Spacing above"
 msgstr ""
 
-#: includes/widgets/class-posts.php:1933
+#: includes/widgets/class-posts.php:1938
 msgid "Default: 80 px; 65 px below 1280 px, 50 px below 768 px."
 msgstr ""
 
-#: includes/widgets/class-posts.php:1942
+#: includes/widgets/class-posts.php:1947
 msgid "Default: 100 px; 75 px below 768 px."
 msgstr ""
 
-#: includes/widgets/class-posts.php:1981
+#: includes/widgets/class-posts.php:1986
 msgid "Posts"
 msgstr ""
 
-#: includes/widgets/class-posts.php:2556
+#: includes/widgets/class-posts.php:2561
 msgid "The posts could not be loaded. Please try again."
 msgstr ""
 
-#: includes/widgets/class-posts.php:2557
+#: includes/widgets/class-posts.php:2562
 msgid "Save the page to try the filter and \"load more\" in the preview."
 msgstr ""
 
-#: includes/widgets/class-posts.php:2681
+#: includes/widgets/class-posts.php:2686
 msgid "No posts found."
 msgstr ""
 
-#: includes/widgets/class-posts.php:2742
+#: includes/widgets/class-posts.php:2747
 msgid "Filter by category"
 msgstr ""
 
-#: includes/widgets/class-posts.php:2749
+#: includes/widgets/class-posts.php:2754
 msgid "All"
 msgstr ""
 
-#: includes/widgets/class-posts.php:2757
+#: includes/widgets/class-posts.php:2762
 msgid "Apply filter"
 msgstr ""
 
-#: includes/widgets/class-posts.php:2835
+#: includes/widgets/class-posts.php:2840
 msgid "(no title)"
 msgstr ""
 
-#: includes/widgets/class-posts.php:2933
+#: includes/widgets/class-posts.php:2938
 msgid "Written by"
 msgstr ""
 
-#: includes/widgets/class-posts.php:3084
+#: includes/widgets/class-posts.php:3115
 msgid "Previous page"
 msgstr ""
 
-#: includes/widgets/class-posts.php:3091
-#: includes/widgets/class-posts.php:3093
+#: includes/widgets/class-posts.php:3122
+#: includes/widgets/class-posts.php:3124
 msgid "Page"
 msgstr ""
 
-#: includes/widgets/class-posts.php:3098
+#: includes/widgets/class-posts.php:3129
 msgid "Next page"
 msgstr ""
 
-#: includes/widgets/class-posts.php:3101
+#: includes/widgets/class-posts.php:3132
 msgid "Pages"
 msgstr ""
 
-#: includes/widgets/class-posts.php:3111
+#: includes/widgets/class-posts.php:3142
 msgid "Loading…"
 msgstr ""
 
 #. translators: %s: Number of posts.
-#: includes/widgets/class-posts.php:3152
+#: includes/widgets/class-posts.php:3183
 #, php-format
 msgid "%s post found."
 msgid_plural "%s posts found."
@@ -2572,14 +2572,14 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: Number of posts.
-#: includes/widgets/class-posts.php:3156
+#: includes/widgets/class-posts.php:3187
 #, php-format
 msgid "%s more post loaded."
 msgid_plural "%s more posts loaded."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/widgets/class-posts.php:3159
+#: includes/widgets/class-posts.php:3190
 msgid "All posts are shown."
 msgstr ""
 

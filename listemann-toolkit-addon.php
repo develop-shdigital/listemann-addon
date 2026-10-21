@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Listemann Toolkit Addon
- * Description:       Listemann site toolkit: Elementor widgets (continuous slider, menu, header) plus a site-wide contact box, back-to-top button and branded scrollbar, managed under Listemann Toolkit in the dashboard.
+ * Description:       Listemann site toolkit: Elementor widgets (continuous slider, menu, header, downloads, posts) plus a site-wide contact box, back-to-top button and branded scrollbar, managed under Listemann Toolkit in the dashboard.
  * Version:           1.0.0
  * Requires at least: 6.5
  * Requires PHP:      7.4
