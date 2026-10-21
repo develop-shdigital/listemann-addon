@@ -2,7 +2,7 @@
 
 WordPress plugin for [listemann.com](https://listemann.com/) by SH Digital. It provides:
 
-- three **Elementor widgets** in the panel category **Listemann**: *Continuous Slider*, *Listemann Menu* and *Listemann Header*;
+- **Elementor widgets** in the panel category **Listemann**: *Continuous Slider*, *Listemann Menu*, *Listemann Header* and *Listemann Downloads*;
 - three **site-wide features** that appear on every front-end page without any widget: a **contact box** and a **back-to-top button** docked to the right edge, and a **scrollbar in the brand colour**. They are edited under **Listemann Toolkit** in the dashboard.
 
 ## Requirements
@@ -156,6 +156,38 @@ The switcher reads its languages from **WPML** (`wpml_active_languages`) or **Po
 - The current page and its ancestors get the active colour. Reduced motion turns off the transitions.
 - The script runs without Elementor's frontend script (`window.ListemannHeader.init( root )`, `.destroy( root )`, `.initAll()`) and cleans up when the Elementor editor re-renders the widget.
 
+## Listemann Downloads
+
+Elementor panel: **Listemann › Listemann Downloads** (search: *downloads*, *pdf*, *ressourcen*). It recreates the "Ressourcen" list of [listemann.com/downloads/](https://listemann.com/downloads/): a heading, then groups of download cards, each with a group title. Each card is a white box with a red bar on the left, a file icon, a small label ("PDF DOWNLOAD") and the title; on hover it zooms in. The defaults are the live page's 5 groups and 16 PDFs, so the page can be rebuilt by dropping the widget into a boxed container (content width 1200 px, side padding 50 px, 15 px on mobile, like the original page).
+
+### Groups
+
+Elementor has no nested repeaters, so **Content › Downloads** is one list of items with a **Type**:
+
+- **Group title** starts a group. The downloads after it, up to the next group title, belong to it. The rows read "▸ Zertifikate Schweiz", with the downloads indented below.
+- **Download**: Title, Source (*Media Library* file or *URL*, with the URL control's new window, nofollow and custom attributes), an optional Label (replaces the label template, `{type}` allowed) and an optional Custom Icon (empty: a PDF icon for PDFs, a generic document icon for other files).
+
+Downloads above the first group title form a group without a title. On the live page, groups without downloads are left out, and a download without a file or URL is shown as a card that is not a link. In the editor both show a hint.
+
+### Settings
+
+| Section | Controls (defaults) |
+| --- | --- |
+| Content › Heading | Show Heading (on), Heading ("Ressourcen", dynamic), HTML Tag (H2). |
+| Content › Options | Label Template (`{type} Download`: `{type}` becomes the file extension in capitals, PDF / DOCX / ZIP, from the URL without its query string, or "File" when there is none or the address is a script such as `.php`), Open in New Tab (on), Save Instead of Opening (on; the `download` attribute, which browsers ignore for files on other domains), Show File Size (off; Media Library files, from the attachment metadata), Group Title HTML Tag (H3: one level below the heading; the original page used H4). |
+| Style › Layout | Columns ⧉ (empty: 3, 2 below 1280 px, 1 on mobile), Column Gap ⧉ (36 px), Row Gap ⧉ (36 px; half of it is also kept above and below each group's cards), Space Between Groups ⧉ (empty: 100 px, 50 px below 1280 px; also below the heading), Side Spacing ⧉ (empty: 18 px, 0 on mobile). |
+| Style › Heading / Group Titles | Color (#dd191a / #626262), Typography (42 / 300 / 62 px and 30 / 300 / 44 px), heading Margin ⧉, group title Spacing Below ⧉ (16 px). |
+| Style › Cards | Min Height ⧉ (110 px), Padding ⧉ (10 / 25 / 10 / 25 px; the icon sits in its top left corner), Border Radius ⧉, Normal / Hover: Background Color (#fff), Box Shadow (20 px 20 px 46 px rgba(0,0,0,.15)), Accent Bar Color (#dd191a); Accent Bar (Left, Top or None) and its Width (10 px); Hover Effect (*Zoom* 1.11, *Lift*, *Stronger shadow*, *None*), Zoom Factor, Transition Duration (300 ms), Focus Outline Color (#dd191a). |
+| Style › Icon / Label / Title | Icon Width ⧉ (20 px; the bundled icons are 20 × 27 px), Spacing to Text ⧉ (15 px), Vertical Offset ⧉, Color (#d9d9d9) and Hover color; Label Typography (14 / 28 px, uppercase), Color (#626262), Hover Color; Title Typography (18 / 300 / 28 px, 17 px on mobile), Color (#dd191a), Hover Color, Title Position (*under the icon below 1280 px* like the original, *always next to the icon*, *always under the icon*). |
+
+⧉ = can be set per device. Layout values left empty follow the original's steps at 1280 px and 768 px; a desktop value also applies to tablet and mobile unless they have their own.
+
+### Accessibility
+
+- Every card is a single link; its accessible name is the label, the title and, in screen-reader text, the file type (when the label does not show it) and "(opens in a new tab)", e.g. "PDF Download ISO9001 2027 DE (opens in a new tab)". The label is written as typed and only shown in capitals by CSS. The icons are hidden from screen readers. (The original page had empty links stretched over the cards.)
+- Each titled group is a `<section>` labelled by its title; the cards are a list. Ids are unique, also with several Downloads widgets on a page.
+- Keyboard focus shows a 2 px outline and the same zoom as hover. Touch screens get no zoom, reduced motion turns the transition off, forced colours (Windows High Contrast) show the card borders, and print drops the shadow and the zoom.
+
 ## Site-wide features and the settings page
 
 These features are added automatically to every front-end page (also in the Elementor preview), but not in wp-admin, feeds, embeds, REST or AJAX responses. Their assets load only while the feature is enabled.
@@ -181,9 +213,9 @@ All settings live in the single option `listemann_toolkit_settings`. The option 
 
 ## Translation and multilingual sites
 
-- **Plugin texts.** The editor labels, admin screens and the texts read by screen readers (e.g. "Open menu", "carousel", "(opens in a new tab)") are translatable with the text domain `listemann-toolkit-addon`. A German translation (`de_DE`) ships in `languages/`; with a German admin language the widgets are listed as *Endlos-Slider*, *Listemann Menü* and *Listemann Header*. Other languages can be added with Loco Translate or Poedit from `languages/listemann-toolkit-addon.pot`. Elementor caches the slider's output (by default for 24 hours), so after adding or changing a translation, clear it with *Elementor › Tools › Clear Files & Data*.
+- **Plugin texts.** The editor labels, admin screens and the texts read by screen readers (e.g. "Open menu", "carousel", "(opens in a new tab)") are translatable with the text domain `listemann-toolkit-addon`. A German translation (`de_DE`) ships in `languages/`; with a German admin language the widgets are listed as *Endlos-Slider*, *Listemann Menü*, *Listemann Header* and *Listemann Downloads*. Other languages can be added with Loco Translate or Poedit from `languages/listemann-toolkit-addon.pot`. Elementor caches the slider's output (by default for 24 hours), so after adding or changing a translation, clear it with *Elementor › Tools › Clear Files & Data*.
 - **Contact box and back-to-top texts (WPML).** `wpml-config.xml` registers the button label, section titles, line texts and URLs, and the back-to-top label as admin texts. **Save the Listemann Toolkit settings page once** (WPML can only register an option that exists, see above), then translate the strings under *WPML › String Translation*, domain *admin_texts_listemann_toolkit_settings*. After *Reset to defaults*, save the page again before translating. Polylang reads the same file and lists the strings under *Languages › Translations*.
-- **Widget content** is stored in each page's Elementor data and translated with the page. `wpml-config.xml` registers the widgets' texts, so WPML's Translation Editor lists them: the slide titles and links and the Accessible Label of the slider, the accessible label of the menu, and the logo link and alternative text, accessible labels and social links of the header. Selected menus and templates are not texts: check on every language version that the header and menu widgets show the menus of that language.
+- **Widget content** is stored in each page's Elementor data and translated with the page. `wpml-config.xml` registers the widgets' texts, so WPML's Translation Editor lists them: the slide titles and links and the Accessible Label of the slider, the accessible label of the menu, the logo link and alternative text, accessible labels and social links of the header, and the heading, label template, group titles, download titles, labels and URLs of the downloads widget (a Media Library file is not a text and is not listed). Selected menus and templates are not texts: check on every language version that the header and menu widgets show the menus of that language.
 
 ## Uninstall
 
@@ -201,6 +233,7 @@ includes/frontend/class-side-dock.php    Contact box + back-to-top button (wp_fo
 includes/frontend/class-scrollbar.php    Branded scrollbar (inline CSS)
 includes/widgets/class-*.php             One file per widget, plus the menu walkers
 assets/css, assets/js, assets/img        Front-end and admin assets, icons, logos
+assets/img/file-*.svg                    File icons of Listemann Downloads (PDF and generic, currentColor)
 languages/                               .pot template and the German translation (text domain listemann-toolkit-addon)
 wpml-config.xml                          Translatable admin texts and widget texts for WPML / Polylang
 uninstall.php                            Deletes the settings option and the mega menu item meta

@@ -1,0 +1,338 @@
+/**
+ * Listemann Toolkit Addon: Downloads.
+ *
+ * Download cards in titled groups, as on listemann.com/downloads/.
+ *
+ * Elementor writes the widget settings as custom properties on the widget
+ * wrapper (--lst-dl-*). The fallbacks below are the original's values and
+ * apply when a setting is empty. Columns, the space between groups and the
+ * side spacing have no desktop default, so the original's steps at 1280 px
+ * and 768 px apply until a value is set.
+ */
+
+.lst-dl {
+	--_cols: var(--lst-dl-columns, 3);
+	--_col-gap: var(--lst-dl-column-gap, 36px);
+	--_row-gap: var(--lst-dl-row-gap, 36px);
+	--_group-space: var(--lst-dl-group-spacing, 100px);
+	--_inset: var(--lst-dl-side-spacing, 18px);
+	--_areas: var(--lst-dl-title-areas, "icon label" "icon title");
+	--_title-shift: var(--lst-dl-title-shift, -1px);
+	--_duration: var(--lst-dl-duration, 300ms);
+	--_hover-transform: var(--lst-dl-hover-transform, scale(var(--lst-dl-hover-scale, 1.11)));
+	display: flex;
+	flex-direction: column;
+	row-gap: var(--_group-space);
+	box-sizing: border-box;
+	width: 100%;
+	padding-inline: var(--_inset);
+}
+
+@media (max-width: 1279.98px) {
+	.lst-dl {
+		--_cols: var(--lst-dl-columns, 2);
+		--_group-space: var(--lst-dl-group-spacing, 50px);
+		/* The title moves under the icon ("Title Position"). */
+		--_areas: var(--lst-dl-title-areas-narrow, "icon label" "title title");
+		--_title-shift: var(--lst-dl-title-shift-narrow, 4px);
+	}
+}
+
+@media (max-width: 767.98px) {
+	.lst-dl {
+		--_cols: var(--lst-dl-columns, 1);
+		--_inset: var(--lst-dl-side-spacing, 0px);
+	}
+}
+
+/* Heading and group titles: explicit margins, so theme heading styles do not leak in. */
+.lst-dl .lst-dl__heading {
+	margin: 0;
+	padding: 0;
+	color: var(--lst-dl-heading-color, #dd191a);
+	font-size: 42px;
+	font-weight: 300;
+	line-height: 62px;
+}
+
+.lst-dl .lst-dl__group {
+	min-width: 0;
+	margin: 0;
+	padding: 0;
+}
+
+.lst-dl .lst-dl__group-title {
+	margin: 0 0 var(--lst-dl-group-title-spacing, 16px);
+	padding: 0;
+	color: var(--lst-dl-group-title-color, #626262);
+	font-size: 30px;
+	font-weight: 300;
+	line-height: 44px;
+}
+
+/* Half a row gap above and below the cards: the original's 18 px box padding (room for the shadow and the zoom). */
+.lst-dl .lst-dl__grid {
+	display: grid;
+	grid-template-columns: repeat(var(--_cols), minmax(0, 1fr));
+	gap: var(--_row-gap) var(--_col-gap);
+	margin: 0;
+	padding: calc(var(--_row-gap) / 2) 0;
+	list-style: none;
+}
+
+.lst-dl .lst-dl__item {
+	position: relative;
+	z-index: 0;
+	display: flex;
+	min-width: 0;
+	margin: 0;
+	padding: 0;
+}
+
+.lst-dl .lst-dl__item::before,
+.lst-dl .lst-dl__item::marker {
+	content: none;
+}
+
+/* A zoomed card stays above its neighbours and their shadows. */
+.lst-dl .lst-dl__item:hover,
+.lst-dl .lst-dl__item:focus-within {
+	z-index: 1;
+}
+
+.lst-dl .lst-dl__card {
+	position: relative;
+	z-index: 0;
+	display: grid;
+	flex: 1 1 auto;
+	grid-template-areas: var(--_areas);
+	grid-template-columns: var(--lst-dl-icon-size, 20px) minmax(0, 1fr);
+	align-content: start;
+	column-gap: var(--lst-dl-icon-gap, 15px);
+	box-sizing: border-box;
+	min-width: 0;
+	min-height: var(--lst-dl-card-min-height, 110px);
+	padding: 10px 25px;
+	overflow: hidden;
+	background-color: var(--lst-dl-card-bg, #fff);
+	box-shadow: var(--lst-dl-shadow, none);
+	color: inherit;
+	/* The card is a link: keep the Site Settings link typography off it. */
+	font-family: inherit;
+	font-size: inherit;
+	font-style: inherit;
+	font-weight: inherit;
+	line-height: inherit;
+	letter-spacing: inherit;
+	text-transform: none;
+	text-decoration: none;
+	transition-property: transform, box-shadow, background-color;
+	transition-duration: var(--_duration);
+	transition-timing-function: ease;
+	-webkit-tap-highlight-color: transparent;
+}
+
+/* Accent bar (Cards › Accent Bar). */
+.lst-dl .lst-dl__card::after {
+	content: "";
+	position: absolute;
+	inset-block: 0;
+	inset-inline: 0 auto;
+	z-index: 1;
+	display: block;
+	inline-size: var(--lst-dl-accent-size, 10px);
+	background-color: var(--lst-dl-accent-color, #dd191a);
+	pointer-events: none;
+	transition: background-color var(--_duration) ease;
+}
+
+.lst-dl .lst-dl__icon {
+	grid-area: icon;
+	align-self: start;
+	display: block;
+	width: var(--lst-dl-icon-size, 20px);
+	margin-block-start: var(--lst-dl-icon-offset, 0px);
+	color: var(--lst-dl-icon-color, #d9d9d9);
+	font-size: var(--lst-dl-icon-size, 20px);
+	line-height: 1;
+	transition: color var(--_duration) ease;
+}
+
+.lst-dl .lst-dl__icon svg {
+	display: block;
+	width: 100%;
+	height: auto;
+	fill: currentColor;
+}
+
+.lst-dl .lst-dl__icon i {
+	display: block;
+	font-size: inherit;
+	line-height: 1;
+}
+
+.lst-dl .lst-dl__label {
+	grid-area: label;
+	display: block;
+	min-width: 0;
+	margin: 0;
+	color: var(--lst-dl-label-color, #626262);
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 28px;
+	text-transform: uppercase;
+	transition: color var(--_duration) ease;
+}
+
+.lst-dl .lst-dl__size::before {
+	content: "\00b7";
+	content: "\00b7" / "";
+	margin-inline: 0.4em;
+}
+
+.lst-dl .lst-dl__title {
+	grid-area: title;
+	display: block;
+	min-width: 0;
+	margin: var(--_title-shift) 0 0;
+	color: var(--lst-dl-title-color, #dd191a);
+	font-size: 18px;
+	font-weight: 300;
+	line-height: 28px;
+	overflow-wrap: break-word;
+	transition: color var(--_duration) ease;
+}
+
+@media (max-width: 767.98px) {
+	.lst-dl .lst-dl__title {
+		font-size: 17px;
+	}
+}
+
+/* Hover and keyboard focus share the effect; touch screens get the colours but no movement. */
+.lst-dl a.lst-dl__card:hover,
+.lst-dl a.lst-dl__card:focus-visible {
+	background-color: var(--lst-dl-card-hover-bg, var(--lst-dl-card-bg, #fff));
+	box-shadow: var(--lst-dl-hover-shadow, var(--lst-dl-hover-shadow-effect, var(--lst-dl-shadow, none)));
+	color: inherit;
+	text-decoration: none;
+}
+
+@media (hover: hover) {
+	.lst-dl a.lst-dl__card:hover {
+		transform: var(--_hover-transform);
+	}
+}
+
+.lst-dl a.lst-dl__card:focus-visible {
+	transform: var(--_hover-transform);
+	outline: 2px solid var(--lst-dl-focus-color, #dd191a);
+	outline-offset: 4px;
+}
+
+.lst-dl a.lst-dl__card:focus:not(:focus-visible) {
+	outline: none;
+}
+
+.lst-dl a.lst-dl__card:hover::after,
+.lst-dl a.lst-dl__card:focus-visible::after {
+	background-color: var(--lst-dl-accent-hover-color, var(--lst-dl-accent-color, #dd191a));
+}
+
+.lst-dl a.lst-dl__card:hover .lst-dl__icon,
+.lst-dl a.lst-dl__card:focus-visible .lst-dl__icon {
+	color: var(--lst-dl-icon-hover-color, var(--lst-dl-icon-color, #d9d9d9));
+}
+
+.lst-dl a.lst-dl__card:hover .lst-dl__label,
+.lst-dl a.lst-dl__card:focus-visible .lst-dl__label {
+	color: var(--lst-dl-label-hover-color, var(--lst-dl-label-color, #626262));
+}
+
+.lst-dl a.lst-dl__card:hover .lst-dl__title,
+.lst-dl a.lst-dl__card:focus-visible .lst-dl__title {
+	color: var(--lst-dl-title-hover-color, var(--lst-dl-title-color, #dd191a));
+}
+
+/* A download without a file or URL: same card, not a link. */
+.lst-dl .lst-dl__card.is-disabled {
+	cursor: default;
+}
+
+.lst-dl .lst-dl__sr {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	clip-path: inset(50%);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* Editor only (never printed on the live page). */
+.lst-dl .lst-dl__hint {
+	grid-column: 1 / -1;
+	margin-top: 6px;
+	color: #515962;
+	font-size: 12px;
+	font-style: italic;
+	line-height: 1.4;
+}
+
+.lst-dl .lst-dl__notice {
+	display: block;
+	margin-top: 8px;
+	padding: 12px 16px;
+	border: 1px dashed #c2c7cd;
+	background: #f9fafa;
+	color: #515962;
+	font-size: 13px;
+	line-height: 1.5;
+}
+
+/* Reduced motion: the hover state appears at once instead of zooming in. */
+@media (prefers-reduced-motion: reduce) {
+	.lst-dl .lst-dl__card,
+	.lst-dl .lst-dl__card::after,
+	.lst-dl .lst-dl__icon,
+	.lst-dl .lst-dl__label,
+	.lst-dl .lst-dl__title {
+		transition: none;
+	}
+}
+
+@media (forced-colors: active) {
+	.lst-dl .lst-dl__card {
+		border: 1px solid CanvasText;
+	}
+
+	.lst-dl a.lst-dl__card {
+		border-color: LinkText;
+	}
+
+	.lst-dl .lst-dl__card::after {
+		forced-color-adjust: none;
+		background-color: LinkText;
+	}
+
+	.lst-dl a.lst-dl__card:focus-visible {
+		outline-color: Highlight;
+	}
+}
+
+@media print {
+	.lst-dl .lst-dl__card,
+	.lst-dl a.lst-dl__card:hover,
+	.lst-dl a.lst-dl__card:focus-visible {
+		border: 1px solid #ccc;
+		box-shadow: none !important;
+		transform: none !important;
+	}
+
+	.lst-dl .lst-dl__item {
+		break-inside: avoid;
+	}
+}

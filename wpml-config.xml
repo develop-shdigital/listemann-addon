@@ -61,5 +61,17 @@
 				<field type="Listemann Header: Social link accessible label" editor_type="LINE">label</field>
 			</fields-in-item>
 		</widget>
+		<widget name="listemann-downloads">
+			<fields>
+				<field type="Listemann Downloads: Heading" editor_type="LINE">heading_text</field>
+				<field type="Listemann Downloads: Label template" editor_type="LINE">label_template</field>
+			</fields>
+			<fields-in-item items_of="items">
+				<field type="Listemann Downloads: Group title" editor_type="LINE">group_title</field>
+				<field type="Listemann Downloads: Download title" editor_type="LINE">title</field>
+				<field type="Listemann Downloads: Download URL" editor_type="LINK">link>url</field>
+				<field type="Listemann Downloads: Download label" editor_type="LINE">label</field>
+			</fields-in-item>
+		</widget>
 	</elementor-widgets>
 </wpml-config>

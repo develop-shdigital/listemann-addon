@@ -1,0 +1,775 @@
+/**
+ * Listemann Toolkit Addon: Listemann Posts.
+ *
+ * Elementor writes the widget settings as custom properties on the widget
+ * wrapper (--lst-cols, --lst-gap, --lst-h-wide, colours, …). The fallbacks
+ * below are the listemann.com blog, including its steps at 1279.98px and
+ * 767.98px, which Elementor's default breakpoints (1024 / 767) cannot
+ * express: those settings are empty by default. Nothing here relies on
+ * `.elementor-widget-container` (works with optimized markup on and off).
+ * Hover effects come from the class `lst-posts-hover-{effect}` that
+ * Elementor puts on the widget wrapper.
+ */
+
+.lst-posts {
+	--_cols: var(--lst-cols, 3);
+	--_wide-span: var(--lst-wide-span, 2);
+	--_wide-rows: var(--lst-wide-rows, 2);
+	--_gap: var(--lst-gap, 60px);
+	/* The original sets the height of the grid cell (padding included): 700px, half of it, 320px. */
+	--_h-wide: var(--lst-h-wide, calc(700px - var(--_gap)));
+	--_h-stacked: var(--lst-h-stacked, calc((var(--_h-wide) - (var(--_wide-rows) - 1) * var(--_gap)) / var(--_wide-rows)));
+	--_h-row: var(--lst-h-row, calc(320px - var(--_gap)));
+	--_list-media: var(--lst-list-media, 40%);
+	--_radius: var(--lst-radius, 10px);
+	--_card-bg: var(--lst-card-bg, #cfcfcf);
+	--_list-bg: var(--lst-list-bg, #fff);
+	--_overlay-color: var(--lst-overlay-color, #000);
+	--_overlay: var(--lst-overlay-opacity, 0.35);
+	--_overlay-hover: var(--lst-overlay-hover-opacity, var(--_overlay));
+	--_zoom: var(--lst-zoom, 1.06);
+	--_duration: var(--lst-duration, 300ms);
+	--_focus: var(--lst-focus-color, #dd191a);
+	--_pad-top: var(--lst-pad-top, 25px);
+	--_pad-right: var(--lst-pad-right, 15px);
+	--_pad-bottom: var(--lst-pad-bottom, 0px);
+	--_pad-left: var(--lst-pad-left, 25px);
+	--_title-color: var(--lst-title-color, #fff);
+	--_title-hover: var(--lst-title-hover-color, #dd191a);
+	--_date-color: var(--lst-date-color, #fff);
+	--_author-color: var(--lst-author-color, #fff);
+	--_excerpt-color: var(--lst-excerpt-color, #fff);
+	--_badge-color: var(--lst-badge-color, #fff);
+	--_badge-bg: var(--lst-badge-bg, #dd191a);
+	--_avatar: var(--lst-avatar-size, 55px);
+	--_author-gap: var(--lst-author-gap, 20px);
+	--_author-bottom: var(--lst-author-bottom, 30px);
+	--_author-left: var(--lst-author-left, 25px);
+	--_heading-color: var(--lst-heading-color, #dd191a);
+	--_heading-gap: var(--lst-heading-gap, 20px);
+	--_legend-color: var(--lst-legend-color, #626262);
+	--_option-color: var(--lst-option-color, #626262);
+	--_option-gap: var(--lst-option-gap, 20px);
+	--_filter-dir: var(--lst-filter-dir, row);
+	--_filter-gap: var(--lst-filter-gap, 30px);
+	--_box: var(--lst-box-size, 22px);
+	--_box-border: var(--lst-box-border, 2px);
+	--_box-color: var(--lst-box-color, #dd191a);
+	--_box-bg: var(--lst-box-bg, #fff);
+	--_dot: var(--lst-dot-size, 6px);
+	--_dot-color: var(--lst-dot-color, #dd191a);
+	--_button-color: var(--lst-button-color, #fff);
+	--_button-bg: var(--lst-button-bg, #dd191a);
+	--_button-border-color: var(--lst-button-border-color, #dd191a);
+	--_button-hover-color: var(--lst-button-hover-color, #dd191a);
+	--_button-hover-bg: var(--lst-button-hover-bg, transparent);
+	--_button-hover-border-color: var(--lst-button-hover-border-color, #dd191a);
+	--_button-border: var(--lst-button-border, 3px);
+	--_button-radius: var(--lst-button-radius, 0px);
+	--_button-padding: var(--lst-button-padding, 17px 105px);
+	--_button-width: var(--lst-button-width, auto);
+	--_button-gap: var(--lst-button-gap, 80px);
+	--_button-after: var(--lst-button-after, 100px);
+	position: relative;
+	text-align: start;
+}
+
+/* List layout: text on the page colour, one column. */
+.lst-posts--list {
+	--_cols: var(--lst-cols, 1);
+	--_title-color: var(--lst-title-color, #333);
+	--_date-color: var(--lst-date-color, #626262);
+	--_author-color: var(--lst-author-color, #626262);
+	--_excerpt-color: var(--lst-excerpt-color, #626262);
+}
+
+.lst-posts-hover-darken .lst-posts {
+	--_overlay-hover: var(--lst-overlay-hover-opacity, 0.6);
+}
+
+@media (max-width: 1279.98px) {
+	.lst-posts {
+		--_gap: var(--lst-gap, 30px);
+		--_filter-gap: var(--lst-filter-gap, 40px);
+		--_button-gap: var(--lst-button-gap, 65px);
+	}
+}
+
+@media (max-width: 767.98px) {
+	.lst-posts {
+		--_cols: var(--lst-cols, 1);
+		--_wide-span: var(--lst-wide-span, 1);
+		--_wide-rows: var(--lst-wide-rows, 1);
+		--_gap: var(--lst-gap, 15px);
+		--_h-wide: var(--lst-h-wide, 300px);
+		--_h-row: var(--lst-h-row, 320px);
+		--_filter-dir: var(--lst-filter-dir, column);
+		--_option-gap: var(--lst-option-gap, 0px);
+		--_button-padding: var(--lst-button-padding, 10px 0);
+		--_button-width: var(--lst-button-width, 100%);
+		--_button-gap: var(--lst-button-gap, 50px);
+		--_button-after: var(--lst-button-after, 75px);
+	}
+}
+
+/* Screen-reader text. */
+.lst-posts .lst-posts__sr {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	clip-path: inset(50%);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* Heading --------------------------------------------------------------- */
+
+.lst-posts .lst-posts__heading {
+	margin: 0 0 var(--_heading-gap);
+	padding: 0;
+	color: var(--_heading-color);
+	font-family: inherit;
+	font-size: 42px;
+	font-weight: 300;
+	line-height: 62px;
+}
+
+/* Filter ------------------------------------------------------------------ */
+
+.lst-posts .lst-posts__filter {
+	margin: 0 0 var(--_filter-gap);
+	padding: 0;
+}
+
+.lst-posts .lst-posts__fieldset {
+	min-width: 0;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+.lst-posts .lst-posts__legend {
+	display: block;
+	float: none;
+	width: auto;
+	margin: 0 0 2.5px;
+	padding: 0;
+	border: 0;
+	color: var(--_legend-color);
+	font-family: inherit;
+	font-size: 18px;
+	font-weight: 700;
+	line-height: 27px;
+}
+
+.lst-posts .lst-posts__options {
+	display: flex;
+	flex-direction: var(--_filter-dir);
+	flex-wrap: wrap;
+	column-gap: var(--_option-gap);
+	row-gap: 0;
+}
+
+/* 27px rows; box 2px below the top of the row, as on the original. */
+.lst-posts .lst-posts__option {
+	position: relative;
+	display: inline-flex;
+	align-items: flex-start;
+	align-self: flex-start;
+	gap: 8px;
+	margin: 0;
+	padding: 0;
+	color: var(--_option-color);
+	font-family: inherit;
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 27px;
+	cursor: pointer;
+	-webkit-tap-highlight-color: transparent;
+}
+
+/* The native control stays focusable and clickable, on top of the drawn box. */
+.lst-posts .lst-posts__option .lst-posts__check {
+	position: absolute;
+	top: 2px;
+	left: 0;
+	z-index: 1;
+	box-sizing: border-box;
+	width: var(--_box);
+	height: var(--_box);
+	margin: 0;
+	padding: 0;
+	opacity: 0;
+	cursor: pointer;
+}
+
+.lst-posts .lst-posts__box {
+	position: relative;
+	flex: none;
+	box-sizing: border-box;
+	width: var(--_box);
+	height: var(--_box);
+	margin-top: 2px;
+	border: var(--_box-border) solid var(--_box-color);
+	background-color: var(--_box-bg);
+	transition: all var(--_duration) ease;
+}
+
+.lst-posts .lst-posts__check[type="radio"] + .lst-posts__box {
+	border-radius: 50%;
+}
+
+.lst-posts .lst-posts__box::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: var(--_dot);
+	height: var(--_dot);
+	border-radius: 50%;
+	background-color: var(--_dot-color);
+	opacity: 0;
+	transform: translate(-50%, -50%);
+	transition: opacity var(--_duration) ease;
+}
+
+.lst-posts .lst-posts__check:checked + .lst-posts__box::after {
+	opacity: 1;
+}
+
+@media (hover: hover) {
+	.lst-posts .lst-posts__option:hover .lst-posts__check:not(:checked) + .lst-posts__box::after {
+		opacity: 0.5;
+	}
+}
+
+.lst-posts .lst-posts__check:focus-visible + .lst-posts__box {
+	outline: 2px solid var(--_focus);
+	outline-offset: 2px;
+}
+
+.lst-posts .lst-posts__count {
+	opacity: 0.8;
+}
+
+/* Only needed without JavaScript: with it, every change applies at once. */
+.lst-posts .lst-posts__apply {
+	margin: 10px 0 0;
+	padding: 6px 16px;
+	border: 2px solid var(--_box-color);
+	border-radius: 0;
+	background: transparent;
+	color: var(--_option-color);
+	font-family: inherit;
+	font-size: 15px;
+	line-height: 1.4;
+	cursor: pointer;
+}
+
+.lst-posts.is-enhanced .lst-posts__apply {
+	display: none;
+}
+
+/* Grid -------------------------------------------------------------------- */
+
+.lst-posts .lst-posts__grid {
+	display: grid;
+	grid-template-columns: repeat(var(--_cols), minmax(0, 1fr));
+	gap: var(--_gap);
+	transition: opacity 0.2s ease;
+}
+
+.lst-posts .lst-posts__grid[aria-busy="true"] {
+	opacity: 0.6;
+}
+
+/* Card -------------------------------------------------------------------- */
+
+/*
+ * The card is a flex column: date and title at the top, the author pinned to
+ * the bottom with at least 10px between them. Heights are minimums: a card
+ * (and its row) grows instead of letting the text overlap.
+ */
+.lst-posts .lst-posts__item {
+	position: relative;
+	z-index: 0;
+	isolation: isolate;
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+	min-width: 0;
+	min-height: var(--_h-row);
+	margin: 0;
+	border-radius: var(--_radius);
+	background-color: var(--_card-bg);
+	transition: box-shadow var(--_duration) ease;
+}
+
+.lst-posts--featured .lst-posts__item--wide {
+	grid-column: span var(--_wide-span);
+	grid-row: span var(--_wide-rows);
+	min-height: var(--_h-wide);
+}
+
+.lst-posts--featured .lst-posts__item--stacked {
+	min-height: var(--_h-stacked);
+}
+
+.lst-posts .lst-posts__media {
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	overflow: hidden;
+	border-radius: inherit;
+}
+
+.lst-posts .lst-posts__media .lst-posts__image {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: block;
+	width: 100%;
+	max-width: none;
+	height: 100%;
+	margin: 0;
+	border: 0;
+	border-radius: 0;
+	box-shadow: none;
+	object-fit: cover;
+	object-position: center center;
+	transition: transform var(--_duration) ease;
+}
+
+.lst-posts .lst-posts__overlay {
+	position: absolute;
+	inset: 0;
+	background-color: var(--_overlay-color);
+	opacity: var(--_overlay);
+	transition: opacity var(--_duration) ease;
+	pointer-events: none;
+}
+
+.lst-posts .lst-posts__content {
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
+	box-sizing: border-box;
+	min-width: 0;
+	padding: var(--_pad-top) var(--_pad-right) var(--_pad-bottom) var(--_pad-left);
+}
+
+.lst-posts .lst-posts__main {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+/* Visually above the title; the title comes first for screen readers and heading navigation. */
+.lst-posts .lst-posts__date {
+	order: -1;
+	display: block;
+	color: var(--_date-color);
+	font-family: inherit;
+	font-size: 11px;
+	font-weight: 400;
+	line-height: 24px;
+	text-transform: uppercase;
+}
+
+.lst-posts .lst-posts__title {
+	margin: 0;
+	padding: 0;
+	color: var(--_title-color);
+	font-family: inherit;
+	font-size: 24px;
+	font-weight: 400;
+	line-height: 36px;
+	overflow-wrap: break-word;
+	hyphens: auto;
+	transition: color var(--_duration) ease;
+}
+
+.lst-posts--clamp .lst-posts__title {
+	display: -webkit-box;
+	overflow: hidden;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: var(--lst-title-lines);
+	line-clamp: var(--lst-title-lines);
+}
+
+/* The only link of the card; ::after stretches it over the whole card. */
+.lst-posts .lst-posts__title .lst-posts__link {
+	color: inherit;
+	font: inherit;
+	letter-spacing: inherit;
+	text-decoration: none;
+	text-transform: inherit;
+	box-shadow: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.lst-posts .lst-posts__link::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	border-radius: var(--_radius);
+}
+
+.lst-posts .lst-posts__title .lst-posts__link:focus,
+.lst-posts .lst-posts__title .lst-posts__link:focus-visible {
+	outline: none;
+}
+
+.lst-posts .lst-posts__link:focus-visible::after {
+	outline: 3px solid var(--_focus);
+	outline-offset: 3px;
+}
+
+.lst-posts .lst-posts__badges {
+	order: -2;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin: 0 0 8px;
+	padding: 0;
+}
+
+.lst-posts .lst-posts__badge {
+	padding: 3px 8px;
+	border-radius: 3px;
+	background-color: var(--_badge-bg);
+	color: var(--_badge-color);
+	font-size: 11px;
+	line-height: 1.4;
+	letter-spacing: 0.5px;
+	text-transform: uppercase;
+}
+
+.lst-posts .lst-posts__excerpt {
+	margin: 10px 0 0;
+	padding: 0;
+	color: var(--_excerpt-color);
+	font-size: 15px;
+	line-height: 1.6;
+}
+
+.lst-posts .lst-posts__author {
+	display: flex;
+	align-items: center;
+	gap: var(--_author-gap);
+	margin: auto 0 var(--_author-bottom) calc(var(--_author-left) - var(--_pad-left));
+	padding-top: 10px;
+	color: var(--_author-color);
+}
+
+.lst-posts .lst-posts__author-name {
+	min-width: 0;
+	font-family: inherit;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 24px;
+}
+
+.lst-posts .lst-posts__author .lst-posts__avatar {
+	flex: none;
+	width: var(--_avatar);
+	max-width: none;
+	height: var(--_avatar);
+	margin: 0;
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+/* Hover and focus effects (class on the widget wrapper) -------------------- */
+
+@media (hover: hover) {
+	.lst-posts .lst-posts__item:hover .lst-posts__overlay {
+		opacity: var(--_overlay-hover);
+	}
+
+	.lst-posts-hover-title .lst-posts__item:hover .lst-posts__title {
+		color: var(--_title-hover);
+	}
+
+	.lst-posts-hover-zoom .lst-posts__item:hover .lst-posts__image {
+		transform: scale(var(--_zoom));
+	}
+}
+
+.lst-posts .lst-posts__item:focus-within .lst-posts__overlay {
+	opacity: var(--_overlay-hover);
+}
+
+.lst-posts-hover-title .lst-posts__item:focus-within .lst-posts__title {
+	color: var(--_title-hover);
+}
+
+.lst-posts-hover-zoom .lst-posts__item:focus-within .lst-posts__image {
+	transform: scale(var(--_zoom));
+}
+
+/* List layout --------------------------------------------------------------- */
+
+.lst-posts--list .lst-posts__item {
+	flex-direction: row;
+	background-color: var(--_list-bg);
+}
+
+.lst-posts--list .lst-posts__media {
+	position: relative;
+	inset: auto;
+	z-index: 0;
+	flex: 0 0 var(--_list-media);
+	border-radius: var(--_radius) 0 0 var(--_radius);
+	background-color: var(--_card-bg);
+}
+
+.lst-posts--list .lst-posts__content {
+	flex: 1 1 0;
+}
+
+.lst-posts--list .lst-posts__item--no-image .lst-posts__overlay {
+	opacity: 0;
+}
+
+@media (max-width: 767.98px) {
+	.lst-posts--list .lst-posts__item {
+		flex-direction: column;
+	}
+
+	.lst-posts--list .lst-posts__media {
+		flex: 0 0 200px;
+		border-radius: var(--_radius) var(--_radius) 0 0;
+	}
+
+	.lst-posts--list .lst-posts__content {
+		flex: 1 1 auto;
+		padding-bottom: 0;
+	}
+}
+
+/* Empty state, pagination ------------------------------------------------------ */
+
+.lst-posts .lst-posts__empty {
+	margin: 0;
+	padding: 30px 0;
+	color: var(--_option-color);
+	font-size: 18px;
+	line-height: 1.5;
+}
+
+.lst-posts .lst-posts__empty[hidden],
+.lst-posts .lst-posts__pagination[hidden] {
+	display: none;
+}
+
+.lst-posts .lst-posts__pagination {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 8px;
+	margin: var(--_button-gap) 0 var(--_button-after);
+}
+
+.lst-posts .lst-posts__pagination .lst-posts__more {
+	display: inline-block;
+	box-sizing: border-box;
+	width: var(--_button-width);
+	margin: 0;
+	padding: var(--_button-padding);
+	border: var(--_button-border) solid var(--_button-border-color);
+	border-radius: var(--_button-radius);
+	background-color: var(--_button-bg);
+	color: var(--_button-color);
+	font-family: inherit;
+	font-size: 20px;
+	font-weight: 400;
+	line-height: 1;
+	letter-spacing: 3px;
+	text-align: center;
+	text-decoration: none;
+	text-transform: uppercase;
+	cursor: pointer;
+	transition: all var(--_duration) ease;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.lst-posts .lst-posts__pagination .lst-posts__more:focus-visible {
+	outline: 3px solid var(--_focus);
+	outline-offset: 3px;
+}
+
+.lst-posts .lst-posts__pagination .lst-posts__more[aria-disabled="true"] {
+	cursor: progress;
+}
+
+.lst-posts .lst-posts__no-more {
+	margin: 0;
+	color: var(--_option-color);
+	font-size: 16px;
+	line-height: 1.5;
+	text-align: center;
+}
+
+.lst-posts .lst-posts__pagination .page-numbers {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	min-width: 44px;
+	height: 44px;
+	padding: 0 10px;
+	border: var(--_button-border) solid var(--_button-border-color);
+	border-radius: var(--_button-radius);
+	color: var(--_button-bg);
+	font-family: inherit;
+	font-size: 16px;
+	line-height: 1;
+	text-decoration: none;
+	transition: all var(--_duration) ease;
+}
+
+.lst-posts .lst-posts__pagination .page-numbers.current {
+	background-color: var(--_button-bg);
+	color: var(--_button-color);
+}
+
+.lst-posts .lst-posts__pagination .page-numbers.dots {
+	border-color: transparent;
+}
+
+.lst-posts .lst-posts__pagination a.page-numbers:focus-visible {
+	outline: 3px solid var(--_focus);
+	outline-offset: 3px;
+}
+
+@media (hover: hover) {
+	.lst-posts .lst-posts__pagination .lst-posts__more:hover {
+		border-color: var(--_button-hover-border-color);
+		background-color: var(--_button-hover-bg);
+		color: var(--_button-hover-color);
+	}
+
+	.lst-posts .lst-posts__pagination a.page-numbers:hover {
+		background-color: var(--_button-bg);
+		color: var(--_button-color);
+	}
+}
+
+.lst-posts .lst-posts__pagination .lst-posts__more:focus-visible {
+	border-color: var(--_button-hover-border-color);
+	background-color: var(--_button-hover-bg);
+	color: var(--_button-hover-color);
+}
+
+/* Steps of the original typography -------------------------------------------------- */
+
+@media (max-width: 1279.98px) {
+	.lst-posts .lst-posts__heading {
+		font-size: 36px;
+		line-height: 45px;
+	}
+
+	/* The original's 18px / 24px titles render with the 33.6px line box of their heading, the date with a 27px one. */
+	.lst-posts .lst-posts__date {
+		line-height: 27px;
+	}
+
+	.lst-posts .lst-posts__title {
+		font-size: 18px;
+		line-height: 33.6px;
+	}
+
+	.lst-posts .lst-posts__author-name {
+		font-size: 14px;
+	}
+}
+
+@media (max-width: 767.98px) {
+	.lst-posts .lst-posts__heading {
+		font-size: 24px;
+		line-height: 32px;
+	}
+
+	.lst-posts .lst-posts__pagination .lst-posts__more {
+		font-size: 18px;
+	}
+}
+
+/* Cards added by "load more" fade in. */
+@media (prefers-reduced-motion: no-preference) {
+	.lst-posts .lst-posts__item.is-new {
+		animation: lst-posts-in 0.4s ease both;
+	}
+}
+
+@keyframes lst-posts-in {
+	from {
+		opacity: 0;
+		transform: translateY(12px);
+	}
+
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+/* Reduced motion: no transitions, no zoom. */
+@media (prefers-reduced-motion: reduce) {
+	.lst-posts .lst-posts__item,
+	.lst-posts .lst-posts__image,
+	.lst-posts .lst-posts__overlay,
+	.lst-posts .lst-posts__title,
+	.lst-posts .lst-posts__box,
+	.lst-posts .lst-posts__box::after,
+	.lst-posts .lst-posts__grid,
+	.lst-posts .lst-posts__pagination .lst-posts__more,
+	.lst-posts .lst-posts__pagination .page-numbers {
+		transition: none;
+	}
+
+	.lst-posts-hover-zoom .lst-posts__item .lst-posts__image {
+		transform: none !important;
+	}
+}
+
+/* Forced colors (Windows High Contrast): backgrounds are repainted, keep the check mark visible. */
+@media (forced-colors: active) {
+	.lst-posts .lst-posts__box::after {
+		forced-color-adjust: none;
+		background-color: Highlight;
+	}
+
+	.lst-posts .lst-posts__item {
+		border: 1px solid CanvasText;
+	}
+}
+
+@media print {
+	.lst-posts .lst-posts__filter,
+	.lst-posts .lst-posts__pagination {
+		display: none;
+	}
+
+	.lst-posts .lst-posts__item {
+		break-inside: avoid;
+	}
+}
+
+/* Editor-only notice (unsaved widget). */
+.lst-posts .lst-posts__notice {
+	margin: 20px 0 0;
+	padding: 8px 12px;
+	border: 1px dashed #c2c7cd;
+	background: #f9fafa;
+	color: #515962;
+	font-size: 13px;
+	line-height: 1.5;
+	text-align: center;
+}

@@ -36,6 +36,8 @@ final class Plugin {
 		Widgets\Continuous_Slider::class,
 		Widgets\Menu::class,
 		Widgets\Header::class,
+		Widgets\Downloads::class,
+		Widgets\Posts::class,
 	);
 
 	/**
@@ -44,6 +46,7 @@ final class Plugin {
 	const SCRIPTS = array(
 		'listemann-toolkit-continuous-slider' => array( 'assets/js/continuous-slider.js', array( 'elementor-frontend' ) ),
 		'listemann-toolkit-header'            => array( 'assets/js/header.js', array() ),
+		'listemann-toolkit-posts'             => array( 'assets/js/posts.js', array() ),
 	);
 
 	/**
@@ -53,6 +56,8 @@ final class Plugin {
 		'listemann-toolkit-continuous-slider' => array( 'assets/css/continuous-slider.css', array() ),
 		'listemann-toolkit-menu'              => array( 'assets/css/menu.css', array() ),
 		'listemann-toolkit-header'            => array( 'assets/css/header.css', array( 'listemann-toolkit-menu' ) ),
+		'listemann-toolkit-downloads'         => array( 'assets/css/downloads.css', array() ),
+		'listemann-toolkit-posts'             => array( 'assets/css/posts.css', array() ),
 	);
 
 	/**
@@ -104,6 +109,9 @@ final class Plugin {
 		add_action( 'elementor/widgets/register', array( $this, 'register_widgets' ) );
 		add_action( 'elementor/frontend/after_register_scripts', array( $this, 'register_scripts' ) );
 		add_action( 'elementor/frontend/after_register_styles', array( $this, 'register_styles' ) );
+
+		// REST route of the Listemann Posts widget (filter and "load more").
+		Posts_Rest::init();
 	}
 
 	/**
