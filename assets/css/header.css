@@ -61,7 +61,22 @@
 	padding-inline: var(--lst-hdr-pad-x, 50px);
 }
 
-/* Buttons: neutralise theme / kit button styles (incl. their hover states). */
+/*
+ * Buttons: neutralise theme / kit button styles. The box (margin, padding,
+ * minimum size) is reset only for the plain state: the state selectors below
+ * are more specific than the toggle's own spacing further down, so resetting
+ * it there would move the toggle on hover/focus and make the menu jitter.
+ */
+.lst-header button.lst-header__toggle,
+.lst-header button.lst-header__toggle-label,
+.lst-header button.lst-header__burger,
+.lst-offcanvas button.lst-offcanvas__close {
+	min-width: 0;
+	min-height: 0;
+	margin: 0;
+	padding: 0;
+}
+
 .lst-header button.lst-header__toggle,
 .lst-header button.lst-header__toggle-label,
 .lst-header button.lst-header__burger,
@@ -76,10 +91,6 @@
 .lst-offcanvas button.lst-offcanvas__close:focus {
 	-webkit-appearance: none;
 	appearance: none;
-	min-width: 0;
-	min-height: 0;
-	margin: 0;
-	padding: 0;
 	border: 0;
 	border-radius: 0;
 	background: transparent;

@@ -342,3 +342,10 @@ wp i18n make-mo languages/listemann-toolkit-addon-de_DE.po languages/
 ### Asset versions
 
 With `SCRIPT_DEBUG` set to `true`, the widget assets registered by `Plugin` get the file modification time as their version, which busts browser caches while developing. The side dock, scrollbar and settings page assets always use the plugin version (`LISTEMANN_TOOLKIT_VERSION`).
+
+Bump `Version` and `LISTEMANN_TOOLKIT_VERSION` in `listemann-toolkit-addon.php` for every release, so browsers and caching plugins load the new CSS and JS.
+
+## Changelog
+
+- **1.0.1**: Header: hovering or focusing a dropdown arrow no longer shifts the menu (the menu jittered while the pointer rested on an arrow).
+- **1.0.0**: First release: Continuous Slider, Listemann Menu, Listemann Header, Listemann Downloads, Listemann Posts and Listemann Footer widgets; contact box, back-to-top button and branded scrollbar with the Listemann Toolkit settings page.
