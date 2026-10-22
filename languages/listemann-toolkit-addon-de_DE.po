@@ -10,8 +10,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-21T16:22:32+00:00\n"
-"PO-Revision-Date: 2026-10-21 16:23+0000\n"
+"POT-Creation-Date: 2026-10-22T06:16:14+00:00\n"
+"PO-Revision-Date: 2026-10-22 06:16+0000\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Domain: listemann-toolkit-addon\n"
@@ -23,8 +23,8 @@ msgstr "Listemann Toolkit Addon"
 
 #. Description of the plugin
 #: listemann-toolkit-addon.php
-msgid "Listemann site toolkit: Elementor widgets (continuous slider, menu, header, downloads, posts) plus a site-wide contact box, back-to-top button and branded scrollbar, managed under Listemann Toolkit in the dashboard."
-msgstr "Listemann-Website-Toolkit: Elementor-Widgets (Endlos-Slider, Menü, Header, Downloads, Beiträge) sowie eine Kontaktbox, ein „Nach oben“-Button und eine Scrollbar in der Markenfarbe auf allen Seiten, verwaltet unter „Listemann Toolkit“ im Dashboard."
+msgid "Listemann site toolkit: Elementor widgets (continuous slider, menu, header, footer, downloads, posts) plus a site-wide contact box, back-to-top button and branded scrollbar, managed under Listemann Toolkit in the dashboard."
+msgstr "Listemann-Website-Toolkit: Elementor-Widgets (Endlos-Slider, Menü, Header, Footer, Downloads, Beiträge) sowie eine Kontaktbox, ein „Nach oben“-Button und eine Scrollbar in der Markenfarbe auf allen Seiten, verwaltet unter „Listemann Toolkit“ im Dashboard."
 
 #. Author of the plugin
 #: listemann-toolkit-addon.php
@@ -149,19 +149,18 @@ msgstr "Scrollbar der Seite einfärben"
 #: includes/widgets/class-downloads.php:1116
 #: includes/widgets/class-downloads.php:1160
 #: includes/widgets/class-downloads.php:1216
-#: includes/widgets/class-header.php:1114
-#: includes/widgets/class-header.php:1131
-#: includes/widgets/class-header.php:1150
-#: includes/widgets/class-header.php:1330
-#: includes/widgets/class-header.php:1339
-#: includes/widgets/class-header.php:1348
-#: includes/widgets/class-header.php:1372
-#: includes/widgets/class-header.php:1448
-#: includes/widgets/class-header.php:1494
-#: includes/widgets/class-header.php:1541
-#: includes/widgets/class-header.php:1689
-#: includes/widgets/class-header.php:1726
-#: includes/widgets/class-header.php:1849
+#: includes/widgets/class-footer.php:624
+#: includes/widgets/class-footer.php:763
+#: includes/widgets/class-header.php:1012
+#: includes/widgets/class-header.php:1029
+#: includes/widgets/class-header.php:1048
+#: includes/widgets/class-header.php:1228
+#: includes/widgets/class-header.php:1237
+#: includes/widgets/class-header.php:1246
+#: includes/widgets/class-header.php:1270
+#: includes/widgets/class-header.php:1346
+#: includes/widgets/class-header.php:1392
+#: includes/widgets/class-header.php:1439
 #: includes/widgets/class-menu.php:391
 #: includes/widgets/class-menu.php:410
 #: includes/widgets/class-menu.php:429
@@ -175,6 +174,9 @@ msgstr "Scrollbar der Seite einfärben"
 #: includes/widgets/class-posts.php:1633
 #: includes/widgets/class-posts.php:1644
 #: includes/widgets/class-posts.php:1678
+#: includes/widgets/trait-widget-helpers.php:176
+#: includes/widgets/trait-widget-helpers.php:213
+#: includes/widgets/trait-widget-helpers.php:335
 msgid "Color"
 msgstr "Farbe"
 
@@ -184,12 +186,12 @@ msgstr "Leer lassen, um die Markenfarbe zu verwenden."
 
 #: includes/admin/class-settings-page.php:234
 #: includes/widgets/class-downloads.php:1023
-#: includes/widgets/class-header.php:1004
-#: includes/widgets/class-header.php:1418
-#: includes/widgets/class-header.php:1552
-#: includes/widgets/class-header.php:1803
+#: includes/widgets/class-header.php:902
+#: includes/widgets/class-header.php:1316
+#: includes/widgets/class-header.php:1450
 #: includes/widgets/class-menu.php:758
 #: includes/widgets/class-posts.php:1914
+#: includes/widgets/trait-widget-helpers.php:289
 msgid "Width"
 msgstr "Breite"
 
@@ -302,6 +304,7 @@ msgstr "Textgröße"
 
 #: includes/admin/class-settings-page.php:582
 #: includes/admin/class-settings-page.php:622
+#: includes/widgets/class-footer.php:435
 #: includes/widgets/class-posts.php:354
 msgid "Text"
 msgstr "Text"
@@ -345,30 +348,30 @@ msgstr "Mega-Menü-Spalten (Listemann Header)"
 msgid "Applies to top-level items only: 2–%d shows the dropdown as a multi-column mega panel (each sub item becomes a column). Leave empty or 0 for a normal dropdown."
 msgstr "Gilt nur für Einträge der obersten Ebene: 2–%d zeigt das Dropdown als mehrspaltiges Mega-Panel (jeder Untereintrag wird zu einer Spalte). Für ein normales Dropdown leer lassen oder 0 eintragen."
 
-#: includes/class-plugin.php:150
+#: includes/class-plugin.php:152
 msgid "Listemann"
 msgstr "Listemann"
 
-#: includes/class-plugin.php:239
+#: includes/class-plugin.php:241
 msgid "Activate Elementor"
 msgstr "Elementor aktivieren"
 
-#: includes/class-plugin.php:245
+#: includes/class-plugin.php:247
 msgid "Install Elementor"
 msgstr "Elementor installieren"
 
 #. translators: 1: Plugin name, 2: Elementor.
-#: includes/class-plugin.php:252
+#: includes/class-plugin.php:254
 #, php-format
 msgid "%1$s needs %2$s to be installed and active. Its widgets are unavailable until then."
 msgstr "%1$s benötigt ein installiertes und aktiviertes %2$s. Bis dahin sind seine Widgets nicht verfügbar."
 
-#: includes/class-plugin.php:276
+#: includes/class-plugin.php:278
 msgid "Update Elementor"
 msgstr "Elementor aktualisieren"
 
 #. translators: 1: Plugin name, 2: Elementor, 3: Required Elementor version.
-#: includes/class-plugin.php:283
+#: includes/class-plugin.php:285
 #, php-format
 msgid "%1$s needs %2$s version %3$s or newer. Its widgets are unavailable until Elementor is updated."
 msgstr "%1$s benötigt %2$s in Version %3$s oder neuer. Seine Widgets sind erst nach der Aktualisierung von Elementor verfügbar."
@@ -394,9 +397,10 @@ msgid "Contact"
 msgstr "Kontakt"
 
 #: includes/frontend/class-side-dock.php:278
-#: includes/widgets/class-downloads.php:1471
-#: includes/widgets/class-downloads.php:1819
+#: includes/widgets/class-downloads.php:1494
+#: includes/widgets/class-downloads.php:1848
 #: includes/widgets/class-posts.php:2861
+#: includes/widgets/trait-widget-helpers.php:476
 msgid "(opens in a new tab)"
 msgstr "(öffnet in einem neuen Tab)"
 
@@ -415,8 +419,9 @@ msgid "Image"
 msgstr "Bild"
 
 #: includes/widgets/class-continuous-slider.php:219
-#: includes/widgets/class-header.php:324
-#: includes/widgets/class-header.php:729
+#: includes/widgets/class-footer.php:222
+#: includes/widgets/class-header.php:287
+#: includes/widgets/trait-widget-helpers.php:680
 msgid "Link"
 msgstr "Link"
 
@@ -462,8 +467,8 @@ msgid "Half gap: each slide plus its gap takes exactly 1 / slides per view of th
 msgstr "Halber Abstand: Jede Slide nimmt samt Abstand genau 1 / „Slides pro Ansicht“ der Breite ein, wie beim Original-Streifen. Keiner: Die äußeren Slides berühren die Ränder."
 
 #: includes/widgets/class-continuous-slider.php:346
-#: includes/widgets/class-header.php:924
-#: includes/widgets/class-header.php:1020
+#: includes/widgets/class-header.php:822
+#: includes/widgets/class-header.php:918
 msgid "Height"
 msgstr "Höhe"
 
@@ -653,8 +658,8 @@ msgstr "Prozentwerte beziehen sich auf die Höhe der Slide. Ein höheres Bild wi
 #: includes/widgets/class-continuous-slider.php:1115
 #: includes/widgets/class-downloads.php:775
 #: includes/widgets/class-downloads.php:1088
-#: includes/widgets/class-header.php:1111
-#: includes/widgets/class-header.php:1327
+#: includes/widgets/class-header.php:1009
+#: includes/widgets/class-header.php:1225
 #: includes/widgets/class-menu.php:385
 #: includes/widgets/class-menu.php:532
 #: includes/widgets/class-posts.php:1522
@@ -669,8 +674,8 @@ msgstr "Normal"
 #: includes/widgets/class-continuous-slider.php:1148
 #: includes/widgets/class-downloads.php:831
 #: includes/widgets/class-downloads.php:1109
-#: includes/widgets/class-header.php:453
-#: includes/widgets/class-header.php:1336
+#: includes/widgets/class-header.php:416
+#: includes/widgets/class-header.php:1234
 #: includes/widgets/class-menu.php:404
 #: includes/widgets/class-menu.php:551
 #: includes/widgets/class-posts.php:1537
@@ -707,7 +712,9 @@ msgstr "Übergangsdauer"
 
 #: includes/widgets/class-continuous-slider.php:994
 #: includes/widgets/class-downloads.php:740
-#: includes/widgets/class-header.php:1230
+#: includes/widgets/class-footer.php:506
+#: includes/widgets/class-footer.php:804
+#: includes/widgets/class-header.php:1128
 #: includes/widgets/class-posts.php:1901
 msgid "Padding"
 msgstr "Innenabstand"
@@ -862,8 +869,8 @@ msgid "URL"
 msgstr "URL"
 
 #: includes/widgets/class-downloads.php:318
-#: includes/widgets/class-downloads.php:1635
-#: includes/widgets/class-downloads.php:1814
+#: includes/widgets/class-downloads.php:1658
+#: includes/widgets/class-downloads.php:1843
 msgid "File"
 msgstr "Datei"
 
@@ -888,7 +895,7 @@ msgid "Empty: a document icon chosen by the file type."
 msgstr "Leer: ein Dokument-Icon passend zum Dateityp."
 
 #: includes/widgets/class-downloads.php:374
-#: includes/widgets/class-header.php:1308
+#: includes/widgets/class-header.php:1206
 msgid "Items"
 msgstr "Einträge"
 
@@ -909,6 +916,7 @@ msgid "Small text above each title. {type} becomes the file type in capitals (PD
 msgstr "Kleiner Text über jedem Titel. {type} wird zum Dateityp in Großbuchstaben (PDF, DOCX, ZIP …) oder zu „Datei“, wenn die Adresse keine Dateiendung hat. Die Typografie der Beschriftung zeigt ihn in Großbuchstaben."
 
 #: includes/widgets/class-downloads.php:424
+#: includes/widgets/class-footer.php:294
 msgid "Open in New Tab"
 msgstr "In neuem Tab öffnen"
 
@@ -941,7 +949,8 @@ msgid "Use the level below the heading, without skipping one (the original page 
 msgstr "Die Ebene unter der Überschrift verwenden, ohne eine zu überspringen (die Originalseite nutzte H4 unter ihrer H2)."
 
 #: includes/widgets/class-downloads.php:475
-#: includes/widgets/class-header.php:801
+#: includes/widgets/class-footer.php:532
+#: includes/widgets/class-header.php:699
 #: includes/widgets/class-menu.php:235
 #: includes/widgets/class-posts.php:618
 #: includes/widgets/class-posts.php:625
@@ -1064,7 +1073,7 @@ msgid "Focus Outline Color"
 msgstr "Farbe des Fokusrahmens"
 
 #: includes/widgets/class-downloads.php:1015
-#: includes/widgets/class-header.php:714
+#: includes/widgets/trait-widget-helpers.php:665
 msgid "Icon"
 msgstr "Icon"
 
@@ -1102,313 +1111,213 @@ msgid "Always under the icon"
 msgstr "Immer unter dem Icon"
 
 #. translators: %s: File type, e.g. PDF.
-#: includes/widgets/class-downloads.php:1463
-#: includes/widgets/class-downloads.php:1816
+#: includes/widgets/class-downloads.php:1486
+#: includes/widgets/class-downloads.php:1845
 #, php-format
 msgid "(%s file, opens in a new tab)"
 msgstr "(%s-Datei, öffnet in einem neuen Tab)"
 
 #. translators: %s: File type, e.g. PDF.
-#: includes/widgets/class-downloads.php:1468
-#: includes/widgets/class-downloads.php:1818
+#: includes/widgets/class-downloads.php:1491
+#: includes/widgets/class-downloads.php:1847
 #, php-format
 msgid "(%s file)"
 msgstr "(%s-Datei)"
 
-#: includes/widgets/class-downloads.php:1549
-#: includes/widgets/class-downloads.php:1820
+#: includes/widgets/class-downloads.php:1572
+#: includes/widgets/class-downloads.php:1849
 msgid "Add group titles and downloads in the Downloads section."
 msgstr "Gruppentitel und Downloads im Bereich „Downloads“ hinzufügen."
 
-#: includes/widgets/class-downloads.php:1604
-#: includes/widgets/class-downloads.php:1821
+#: includes/widgets/class-downloads.php:1627
+#: includes/widgets/class-downloads.php:1850
 msgid "This group has no downloads yet: add \"Download\" items below its title. It is hidden on the live page until then."
 msgstr "Diese Gruppe hat noch keine Downloads: Einträge vom Typ „Download“ unter ihrem Titel hinzufügen. Bis dahin ist sie auf der Live-Seite ausgeblendet."
 
-#: includes/widgets/class-downloads.php:1684
-#: includes/widgets/class-downloads.php:1822
+#: includes/widgets/class-downloads.php:1713
+#: includes/widgets/class-downloads.php:1851
 msgid "No file or URL yet: this card is not a link."
 msgstr "Noch keine Datei und keine URL: Diese Karte ist kein Link."
 
-#. translators: %s: Menu item title.
-#: includes/widgets/class-header-nav-walker.php:303
-#, php-format
-msgid "%s submenu"
-msgstr "Untermenü %s"
+#: includes/widgets/class-footer.php:94
+msgid "Listemann Footer"
+msgstr "Listemann Footer"
 
-#: includes/widgets/class-header.php:135
-msgid "Listemann Header"
-msgstr "Listemann Header"
-
-#: includes/widgets/class-header.php:303
+#: includes/widgets/class-footer.php:188
+#: includes/widgets/class-header.php:266
 msgid "Logo"
 msgstr "Logo"
 
-#: includes/widgets/class-header.php:310
+#: includes/widgets/class-footer.php:195
+#: includes/widgets/class-header.php:631
+msgid "Show logo"
+msgstr "Logo anzeigen"
+
+#: includes/widgets/class-footer.php:207
+#: includes/widgets/class-header.php:273
 msgid "Logo image"
 msgstr "Logo-Bild"
 
-#: includes/widgets/class-header.php:317
-msgid "Defaults to the site logo (Customizer) or the bundled Listemann logo."
-msgstr "Standardmäßig das Website-Logo (Customizer) oder das mitgelieferte Listemann-Logo."
+#: includes/widgets/class-footer.php:214
+msgid "Defaults to the bundled Listemann colour logo."
+msgstr "Standardmäßig das mitgelieferte farbige Listemann-Logo."
 
-#: includes/widgets/class-header.php:339
+#: includes/widgets/class-footer.php:238
+#: includes/widgets/class-header.php:302
 msgid "Alternative text"
 msgstr "Alternativtext"
 
-#: includes/widgets/class-header.php:350
-#: includes/widgets/class-header.php:1637
+#: includes/widgets/class-footer.php:250
+#: includes/widgets/class-header.php:313
+#: includes/widgets/class-header.php:1535
 msgid "Logo width"
 msgstr "Logo-Breite"
 
-#: includes/widgets/class-header.php:374
-msgid "Main menu"
-msgstr "Hauptmenü"
+#: includes/widgets/class-footer.php:275
+#: includes/widgets/class-footer.php:282
+#: includes/widgets/class-header.php:665
+msgid "Social links"
+msgstr "Social-Media-Links"
 
-#: includes/widgets/class-header.php:384
-#: includes/widgets/class-header.php:625
-#: includes/widgets/class-header.php:785
-#: includes/widgets/class-header.php:2329
-#: includes/widgets/class-menu.php:178
-#: includes/widgets/class-menu.php:188
-msgid "Menu"
-msgstr "Menü"
+#: includes/widgets/class-footer.php:298
+msgid "Applies to all social links. Screen readers announce it. Off: only links with \"Open in new window\" ticked open in a new tab."
+msgstr "Gilt für alle Social-Media-Links und wird von Screenreadern angesagt. Aus: Nur Links, bei denen „In neuem Fenster öffnen“ angehakt ist, öffnen in einem neuen Tab."
 
-#. translators: 1: Link open tag, 2: Link close tag.
-#: includes/widgets/class-header.php:391
-#: includes/widgets/class-menu.php:195
-#, php-format
-msgid "Go to the %1$sMenus screen%2$s to manage your menus."
-msgstr "Deine Menüs verwaltest du in der %1$sMenüverwaltung%2$s."
+#: includes/widgets/class-footer.php:312
+#: includes/widgets/class-footer.php:375
+#: includes/widgets/class-header.php:615
+msgid "Menu columns"
+msgstr "Menüspalten"
 
 #. translators: 1: Link open tag, 2: Link close tag.
-#: includes/widgets/class-header.php:404
+#: includes/widgets/class-footer.php:326
+#: includes/widgets/class-header.php:367
 #: includes/widgets/class-menu.php:208
 #, php-format
 msgid "There are no menus on your site yet. %1$sCreate a menu%2$s in Appearance > Menus, then reload the editor."
 msgstr "Auf deiner Website gibt es noch keine Menüs. %1$sErstelle ein Menü%2$s unter Design > Menüs und lade dann den Editor neu."
 
-#: includes/widgets/class-header.php:417
-msgid "Mega menu: second-level items that have sub-items are shown as column headings with their sub-items beneath. To show a dropdown as a multi-column panel, set \"Mega menu columns\" (2–6) on its top-level item in Appearance > Menus."
-msgstr "Mega-Menü: Einträge der zweiten Ebene mit Untereinträgen werden als Spaltenüberschriften mit ihren Untereinträgen darunter angezeigt. Um ein Dropdown als mehrspaltiges Panel anzuzeigen, setze „Mega-Menü-Spalten“ (2–6) bei seinem Eintrag der obersten Ebene unter Design > Menüs."
+#. translators: 1: Link open tag, 2: Link close tag.
+#: includes/widgets/class-footer.php:340
+#, php-format
+msgid "No menus named \"Footer …\" were found, so no columns are preset. Add a column per menu below, or %1$screate the footer menus%2$s in Appearance > Menus and reload the editor."
+msgstr "Es wurden keine Menüs mit dem Namen „Footer …“ gefunden, deshalb sind keine Spalten voreingestellt. Füge unten für jedes Menü eine Spalte hinzu oder %1$serstelle die Footer-Menüs%2$s unter Design > Menüs und lade den Editor neu."
 
-#: includes/widgets/class-header.php:425
-msgid "Mega panel width"
-msgstr "Breite des Mega-Panels"
-
-#: includes/widgets/class-header.php:428
-msgid "Auto (fit content)"
-msgstr "Automatisch (passend zum Inhalt)"
-
-#: includes/widgets/class-header.php:429
-msgid "Full (header content width)"
-msgstr "Voll (Inhaltsbreite des Headers)"
-
-#: includes/widgets/class-header.php:432
-msgid "Applies to items with 2 or more mega menu columns."
-msgstr "Gilt für Einträge mit 2 oder mehr Mega-Menü-Spalten."
-
-#: includes/widgets/class-header.php:439
-msgid "Show dropdown chevrons"
-msgstr "Dropdown-Pfeile anzeigen"
-
-#: includes/widgets/class-header.php:443
-msgid "When hidden, the dropdown toggle buttons stay available to keyboard users."
-msgstr "Ausgeblendete Dropdown-Pfeile bleiben für Tastaturnutzer als Schaltflächen verfügbar."
-
-#: includes/widgets/class-header.php:450
-msgid "Open dropdowns on"
-msgstr "Dropdowns öffnen bei"
-
-#: includes/widgets/class-header.php:454
-msgid "Click"
-msgstr "Klick"
-
-#: includes/widgets/class-header.php:457
-msgid "With \"Click\", the first click on a parent item opens its dropdown and a second click follows its link."
-msgstr "Bei „Klick“ öffnet der erste Klick auf einen übergeordneten Eintrag sein Dropdown, ein zweiter Klick folgt seinem Link."
-
-#: includes/widgets/class-header.php:464
-#: includes/widgets/class-header.php:635
-#: includes/widgets/class-header.php:744
-#: includes/widgets/class-header.php:782
-#: includes/widgets/class-menu.php:329
-msgid "Accessible label"
-msgstr "Bezeichnung für Screenreader"
-
-#: includes/widgets/class-header.php:467
-#: includes/widgets/class-header.php:638
-#: includes/widgets/class-menu.php:332
-msgid "Menu name"
-msgstr "Menüname"
-
-#: includes/widgets/class-header.php:468
-#: includes/widgets/class-header.php:639
-#: includes/widgets/class-menu.php:333
-msgid "Label of the navigation landmark for screen readers. Leave empty to use the menu name."
-msgstr "Bezeichnung der Navigationsregion für Screenreader. Leer lassen, um den Menünamen zu verwenden."
-
-#: includes/widgets/class-header.php:483
-#: includes/widgets/class-header.php:1476
-msgid "Language switcher"
-msgstr "Sprachumschalter"
-
-#: includes/widgets/class-header.php:490
-msgid "Show language switcher (WPML / Polylang)"
-msgstr "Sprachumschalter anzeigen (WPML / Polylang)"
-
-#: includes/widgets/class-header.php:495
-msgid "Shown only when WPML or Polylang provides two or more languages, and not when WPML / Polylang already adds language items to the selected menu."
-msgstr "Wird nur angezeigt, wenn WPML oder Polylang zwei oder mehr Sprachen bereitstellt, und nicht, wenn WPML / Polylang dem gewählten Menü bereits Spracheinträge hinzufügt."
-
-#: includes/widgets/class-header.php:504
-msgid "Neither WPML nor Polylang is active, so the language switcher is hidden."
-msgstr "Weder WPML noch Polylang ist aktiv, daher ist der Sprachumschalter ausgeblendet."
-
-#: includes/widgets/class-header.php:516
-msgid "Display"
-msgstr "Anzeige"
-
-#: includes/widgets/class-header.php:519
-msgid "Flag + code"
-msgstr "Flagge + Code"
-
-#: includes/widgets/class-header.php:520
-msgid "Code only"
-msgstr "Nur Code"
-
-#: includes/widgets/class-header.php:521
-msgid "Flag only"
-msgstr "Nur Flagge"
-
-#: includes/widgets/class-header.php:533
-msgid "Also show in the off-canvas"
-msgstr "Auch im Off-Canvas anzeigen"
-
-#: includes/widgets/class-header.php:537
-msgid "Adds the languages as a group below the last off-canvas menu column (the header switcher is hidden below the collapse breakpoint)."
-msgstr "Fügt die Sprachen als Gruppe unter der letzten Menüspalte des Off-Canvas hinzu (unterhalb des Breakpoints zum Einklappen ist der Umschalter im Header ausgeblendet)."
-
-#: includes/widgets/class-header.php:554
-msgid "Hamburger / off-canvas"
-msgstr "Hamburger / Off-Canvas"
-
-#: includes/widgets/class-header.php:564
-msgid "Show hamburger"
-msgstr "Hamburger anzeigen"
-
-#: includes/widgets/class-header.php:574
-msgid "Below the collapse breakpoint (Layout section) the hamburger is always shown, because it is then the only way to reach the menu."
-msgstr "Unterhalb des Breakpoints zum Einklappen (Abschnitt Layout) wird der Hamburger immer angezeigt, da er dann der einzige Weg zum Menü ist."
-
+#: includes/widgets/class-footer.php:354
+#: includes/widgets/class-header.php:347
 #: includes/widgets/class-header.php:588
-msgid "Off-canvas content"
-msgstr "Inhalt des Off-Canvas"
+#: includes/widgets/class-header.php:683
+#: includes/widgets/class-header.php:1947
+#: includes/widgets/class-menu.php:178
+#: includes/widgets/class-menu.php:188
+msgid "Menu"
+msgstr "Menü"
 
-#: includes/widgets/class-header.php:591
-msgid "Menus"
-msgstr "Menüs"
-
-#: includes/widgets/class-header.php:592
-msgid "Elementor template"
-msgstr "Elementor-Vorlage"
-
-#: includes/widgets/class-header.php:602
-msgid "Template"
-msgstr "Vorlage"
-
-#: includes/widgets/class-header.php:604
-#: includes/widgets/class-header.php:627
+#: includes/widgets/class-footer.php:356
+#: includes/widgets/class-header.php:567
+#: includes/widgets/class-header.php:590
 msgid "— Select —"
 msgstr "— Auswählen —"
 
+#: includes/widgets/class-footer.php:364
+#: includes/widgets/class-footer.php:462
+#: includes/widgets/class-header.php:427
+#: includes/widgets/class-header.php:598
+#: includes/widgets/class-header.php:680
+#: includes/widgets/class-menu.php:329
+#: includes/widgets/trait-widget-helpers.php:695
+msgid "Accessible label"
+msgstr "Bezeichnung für Screenreader"
+
+#: includes/widgets/class-footer.php:367
+msgid "Headings of the menu"
+msgstr "Überschriften des Menüs"
+
+#: includes/widgets/class-footer.php:368
+msgid "Label of the navigation landmark for screen readers. Leave empty to use the headings of the menu (or its name if it has none)."
+msgstr "Bezeichnung der Navigationsregion für Screenreader. Leer lassen, um die Überschriften des Menüs zu verwenden (oder seinen Namen, wenn es keine hat)."
+
 #. translators: 1: Link open tag, 2: Link close tag.
-#: includes/widgets/class-header.php:608
+#: includes/widgets/class-footer.php:383
 #, php-format
-msgid "Saved templates are managed under %1$sTemplates > Saved Templates%2$s."
-msgstr "Gespeicherte Vorlagen werden unter %1$sVorlagen > Gespeicherte Vorlagen%2$s verwaltet."
+msgid "Each column shows one menu: top-level items are headings, their sub-items get the red line. Preset: the menus named \"Footer 1\", \"Footer 2\" … (up to four). %1$sManage menus%2$s"
+msgstr "Jede Spalte zeigt ein Menü: Einträge der obersten Ebene sind Überschriften, ihre Untereinträge erhalten die rote Linie. Voreingestellt: die Menüs „Footer 1“, „Footer 2“ … (bis zu vier). %1$sMenüs verwalten%2$s"
 
-#: includes/widgets/class-header.php:652
-msgid "Menu columns"
-msgstr "Menüspalten"
+#: includes/widgets/class-footer.php:393
+#: includes/widgets/class-menu.php:220
+msgid "Depth"
+msgstr "Tiefe"
 
-#: includes/widgets/class-header.php:657
-msgid "Menu column"
-msgstr "Menüspalte"
+#: includes/widgets/class-footer.php:396
+#: includes/widgets/class-menu.php:223
+msgid "All levels"
+msgstr "Alle Ebenen"
 
-#: includes/widgets/class-header.php:658
-msgid "Each column shows one menu: top-level items are headings, their sub-items get the red line."
-msgstr "Jede Spalte zeigt ein Menü: Einträge der obersten Ebene sind Überschriften, ihre Untereinträge erhalten die rote Linie."
+#: includes/widgets/class-footer.php:397
+#: includes/widgets/class-menu.php:224
+msgid "1 level"
+msgstr "1 Ebene"
 
-#: includes/widgets/class-header.php:668
-msgid "Show logo"
-msgstr "Logo anzeigen"
+#: includes/widgets/class-footer.php:398
+#: includes/widgets/class-menu.php:225
+msgid "2 levels"
+msgstr "2 Ebenen"
 
-#: includes/widgets/class-header.php:682
-msgid "Off-canvas logo"
-msgstr "Off-Canvas-Logo"
+#: includes/widgets/class-footer.php:399
+#: includes/widgets/class-menu.php:226
+msgid "3 levels"
+msgstr "3 Ebenen"
 
-#: includes/widgets/class-header.php:704
-msgid "Network"
-msgstr "Netzwerk"
+#: includes/widgets/class-footer.php:415
+#: includes/widgets/class-footer.php:748
+msgid "Bottom bar"
+msgstr "Fußleiste"
 
-#: includes/widgets/class-header.php:706
-#: includes/widgets/class-header.php:772
-msgid "Custom icon"
-msgstr "Eigenes Icon"
+#: includes/widgets/class-footer.php:422
+msgid "Show bottom bar"
+msgstr "Fußleiste anzeigen"
 
-#: includes/widgets/class-header.php:747
-msgid "Network name"
-msgstr "Name des Netzwerks"
+#: includes/widgets/class-footer.php:426
+msgid "A line below the menus with a copyright text and, optionally, legal links (not on listemann.com)."
+msgstr "Eine Zeile unter den Menüs mit einem Copyright-Text und optional rechtlichen Links (nicht auf listemann.com)."
 
-#: includes/widgets/class-header.php:754
-msgid "Social links"
-msgstr "Social-Media-Links"
+#: includes/widgets/class-footer.php:442
+msgid "{year} becomes the current year."
+msgstr "{year} wird durch das aktuelle Jahr ersetzt."
 
-#: includes/widgets/class-header.php:786
-msgid "Name of the off-canvas dialog for screen readers."
-msgstr "Name des Off-Canvas-Dialogs für Screenreader."
+#: includes/widgets/class-footer.php:450
+msgid "Legal links menu"
+msgstr "Menü mit rechtlichen Links"
 
-#: includes/widgets/class-header.php:808
-msgid "Collapse breakpoint (px)"
-msgstr "Breakpoint zum Einklappen (px)"
+#: includes/widgets/class-footer.php:452
+msgid "— None —"
+msgstr "— Keines —"
 
-#: includes/widgets/class-header.php:814
-msgid "Below this screen width the main menu and the language switcher are hidden; only the logo and the hamburger remain. 0 = never collapse."
-msgstr "Unterhalb dieser Bildschirmbreite werden Hauptmenü und Sprachumschalter ausgeblendet; nur Logo und Hamburger bleiben. 0 = nie einklappen."
+#: includes/widgets/class-footer.php:454
+msgid "Its top-level items are shown in a row, e.g. Impressum and Datenschutz."
+msgstr "Seine Einträge der obersten Ebene werden in einer Reihe angezeigt, z. B. Impressum und Datenschutz."
 
-#: includes/widgets/class-header.php:821
-msgid "Sticky header"
-msgstr "Sticky Header"
+#: includes/widgets/class-footer.php:465
+#: includes/widgets/class-footer.php:470
+#: includes/widgets/class-footer.php:1009
+msgid "Legal links"
+msgstr "Rechtliche Links"
 
-#: includes/widgets/class-header.php:826
-msgid "Once the header has scrolled out of view, a compact version stays fixed at the top. It does not work inside a parent that uses CSS transforms."
-msgstr "Sobald der Header aus dem sichtbaren Bereich gescrollt ist, bleibt eine kompakte Version oben fixiert. Funktioniert nicht in einem übergeordneten Element mit CSS-Transforms."
+#. translators: %s: Default label ("Legal links").
+#: includes/widgets/class-footer.php:469
+#, php-format
+msgid "Label of the navigation landmark for screen readers. Leave empty to use \"%s\"."
+msgstr "Bezeichnung der Navigationsregion für Screenreader. Leer lassen, um „%s“ zu verwenden."
 
-#: includes/widgets/class-header.php:832
-msgid "Sticky height"
-msgstr "Höhe (sticky)"
+#: includes/widgets/class-footer.php:496
+msgid "Footer"
+msgstr "Footer"
 
-#: includes/widgets/class-header.php:851
-msgid "Sticky logo width"
-msgstr "Logo-Breite (sticky)"
-
-#: includes/widgets/class-header.php:870
-msgid "Sticky background"
-msgstr "Hintergrund (sticky)"
-
-#: includes/widgets/class-header.php:884
-msgid "Sticky shadow"
-msgstr "Schatten (sticky)"
-
-#: includes/widgets/class-header.php:917
-msgid "Header bar"
-msgstr "Header-Leiste"
-
-#: includes/widgets/class-header.php:940
-#: includes/widgets/class-header.php:996
-#: includes/widgets/class-header.php:1225
-#: includes/widgets/class-header.php:1599
+#: includes/widgets/class-footer.php:501
+#: includes/widgets/class-header.php:838
+#: includes/widgets/class-header.php:894
+#: includes/widgets/class-header.php:1123
+#: includes/widgets/class-header.php:1497
 #: includes/widgets/class-posts.php:1267
 #: includes/widgets/class-posts.php:1369
 #: includes/widgets/class-posts.php:1845
@@ -1416,311 +1325,556 @@ msgstr "Header-Leiste"
 msgid "Background color"
 msgstr "Hintergrundfarbe"
 
-#: includes/widgets/class-header.php:947
-#: includes/widgets/class-header.php:1037
+#: includes/widgets/class-footer.php:515
+msgid "Left empty: 150 px above and below; 75 px above and below under 1280 px; 75 px above and 50 px below on mobile, like the original. A value also applies to smaller screens that have no value of their own."
+msgstr "Leer: oben und unten 150 px; unter 1280 px oben und unten 75 px; auf Mobilgeräten oben 75 px und unten 50 px, wie im Original. Ein Wert gilt auch für kleinere Bildschirme ohne eigenen Wert."
+
+#: includes/widgets/class-footer.php:540
+msgid "Column gap"
+msgstr "Spaltenabstand"
+
+#: includes/widgets/class-footer.php:549
+msgid "Left empty: at least 30 px on desktop, where the logo and the menus are spread across the width; none below 1280 px, where the menus share the width equally, like the original."
+msgstr "Leer: auf dem Desktop mindestens 30 px, dort werden Logo und Menüs über die Breite verteilt; unter 1280 px keiner, dort teilen sich die Menüs die Breite gleichmäßig, wie im Original."
+
+#: includes/widgets/class-footer.php:559
+msgid "Row gap"
+msgstr "Zeilenabstand"
+
+#: includes/widgets/class-footer.php:568
+msgid "Space between the rows below 1280 px, including the row with the logo. Left empty: 25 px; on mobile 30 px between the menus, like the original."
+msgstr "Abstand zwischen den Zeilen unter 1280 px, auch unter der Zeile mit dem Logo. Leer: 25 px; auf Mobilgeräten 30 px zwischen den Menüs, wie im Original."
+
+#: includes/widgets/class-footer.php:578
+msgid "Columns below 1280 px"
+msgstr "Spalten unter 1280 px"
+
+#: includes/widgets/class-footer.php:585
+msgid "Below 1280 px the logo and the social icons share the first row and the menus wrap into this many columns. Left empty: 2."
+msgstr "Unter 1280 px teilen sich Logo und Social-Media-Icons die erste Zeile, die Menüs verteilen sich auf so viele Spalten. Leer: 2."
+
+#: includes/widgets/class-footer.php:595
+msgid "Columns below 768 px"
+msgstr "Spalten unter 768 px"
+
+#: includes/widgets/class-footer.php:601
+msgid "Left empty: 1."
+msgstr "Leer: 1."
+
+#: includes/widgets/class-footer.php:618
+msgid "Social icons"
+msgstr "Social-Media-Icons"
+
+#: includes/widgets/class-footer.php:625
+#: includes/widgets/class-header.php:1271
+#: includes/widgets/class-header.php:1442
+#: includes/widgets/class-menu.php:953
+#: includes/widgets/trait-widget-helpers.php:177
+#: includes/widgets/trait-widget-helpers.php:214
+msgid "Hover color"
+msgstr "Hover-Farbe"
+
+#: includes/widgets/class-footer.php:629
+msgid "Icon height"
+msgstr "Icon-Höhe"
+
+#: includes/widgets/class-footer.php:645
+msgid "Space beside each icon"
+msgstr "Abstand neben jedem Icon"
+
+#: includes/widgets/class-footer.php:656
+msgid "Left and right of every icon (it also enlarges the clickable area)."
+msgstr "Links und rechts von jedem Icon (vergrößert auch die klickbare Fläche)."
+
+#: includes/widgets/class-footer.php:662
+msgid "Space above the icons"
+msgstr "Abstand über den Icons"
+
+#: includes/widgets/class-footer.php:673
+msgid "Between the logo and the icons on desktop (the original's 40 px plus the gap below its inline logo). Below 1280 px the icons sit to the right of the logo."
+msgstr "Zwischen Logo und Icons auf dem Desktop (die 40 px des Originals plus der Abstand unter seinem Inline-Logo). Unter 1280 px stehen die Icons rechts neben dem Logo."
+
+#: includes/widgets/class-footer.php:680
+msgid "Hover zoom"
+msgstr "Zoom beim Hovern"
+
+#: includes/widgets/class-footer.php:705
+#: includes/widgets/class-header.php:1572
+msgid "Menu headings"
+msgstr "Menüüberschriften"
+
+#: includes/widgets/class-footer.php:717
+#: includes/widgets/class-header.php:1583
+msgid "Menu items"
+msgstr "Menüeinträge"
+
+#: includes/widgets/class-footer.php:729
+#: includes/widgets/class-header.php:1308
+#: includes/widgets/class-header.php:1594
+#: includes/widgets/class-menu.php:723
+msgid "Line before items"
+msgstr "Linie vor Einträgen"
+
+#: includes/widgets/class-footer.php:764
+msgid "Link hover color"
+msgstr "Hover-Farbe der Links"
+
+#: includes/widgets/class-footer.php:768
+msgid "Top border width"
+msgstr "Breite der oberen Linie"
+
+#: includes/widgets/class-footer.php:783
+msgid "Top border color"
+msgstr "Farbe der oberen Linie"
+
+#: includes/widgets/class-footer.php:787
+msgid "Space above"
+msgstr "Abstand oben"
+
+#: includes/widgets/class-footer.php:841
+msgid "The footer is empty: show the logo, or add social links or menu columns."
+msgstr "Der Footer ist leer: Blende das Logo ein oder füge Social-Media-Links oder Menüspalten hinzu."
+
+#: includes/widgets/class-footer.php:936
+#: includes/widgets/class-header.php:1798
+#: includes/widgets/class-menu.php:1023
+msgid "The selected menu has no items."
+msgstr "Das gewählte Menü hat keine Einträge."
+
+#: includes/widgets/class-footer.php:939
+msgid "Select a menu for this column."
+msgstr "Wähle ein Menü für diese Spalte aus."
+
+#: includes/widgets/class-footer.php:941
+#: includes/widgets/class-footer.php:1022
+#: includes/widgets/class-header.php:1775
+#: includes/widgets/class-menu.php:982
+msgid "The selected menu no longer exists. Please select another menu."
+msgstr "Das gewählte Menü existiert nicht mehr. Bitte wähle ein anderes Menü aus."
+
+#. translators: %s: Menu item title.
+#: includes/widgets/class-header-nav-walker.php:303
+#, php-format
+msgid "%s submenu"
+msgstr "Untermenü %s"
+
+#: includes/widgets/class-header.php:112
+msgid "Listemann Header"
+msgstr "Listemann Header"
+
+#: includes/widgets/class-header.php:280
+msgid "Defaults to the site logo (Customizer) or the bundled Listemann logo."
+msgstr "Standardmäßig das Website-Logo (Customizer) oder das mitgelieferte Listemann-Logo."
+
+#: includes/widgets/class-header.php:337
+msgid "Main menu"
+msgstr "Hauptmenü"
+
+#. translators: 1: Link open tag, 2: Link close tag.
+#: includes/widgets/class-header.php:354
+#: includes/widgets/class-menu.php:195
+#, php-format
+msgid "Go to the %1$sMenus screen%2$s to manage your menus."
+msgstr "Deine Menüs verwaltest du in der %1$sMenüverwaltung%2$s."
+
+#: includes/widgets/class-header.php:380
+msgid "Mega menu: second-level items that have sub-items are shown as column headings with their sub-items beneath. To show a dropdown as a multi-column panel, set \"Mega menu columns\" (2–6) on its top-level item in Appearance > Menus."
+msgstr "Mega-Menü: Einträge der zweiten Ebene mit Untereinträgen werden als Spaltenüberschriften mit ihren Untereinträgen darunter angezeigt. Um ein Dropdown als mehrspaltiges Panel anzuzeigen, setze „Mega-Menü-Spalten“ (2–6) bei seinem Eintrag der obersten Ebene unter Design > Menüs."
+
+#: includes/widgets/class-header.php:388
+msgid "Mega panel width"
+msgstr "Breite des Mega-Panels"
+
+#: includes/widgets/class-header.php:391
+msgid "Auto (fit content)"
+msgstr "Automatisch (passend zum Inhalt)"
+
+#: includes/widgets/class-header.php:392
+msgid "Full (header content width)"
+msgstr "Voll (Inhaltsbreite des Headers)"
+
+#: includes/widgets/class-header.php:395
+msgid "Applies to items with 2 or more mega menu columns."
+msgstr "Gilt für Einträge mit 2 oder mehr Mega-Menü-Spalten."
+
+#: includes/widgets/class-header.php:402
+msgid "Show dropdown chevrons"
+msgstr "Dropdown-Pfeile anzeigen"
+
+#: includes/widgets/class-header.php:406
+msgid "When hidden, the dropdown toggle buttons stay available to keyboard users."
+msgstr "Ausgeblendete Dropdown-Pfeile bleiben für Tastaturnutzer als Schaltflächen verfügbar."
+
+#: includes/widgets/class-header.php:413
+msgid "Open dropdowns on"
+msgstr "Dropdowns öffnen bei"
+
+#: includes/widgets/class-header.php:417
+msgid "Click"
+msgstr "Klick"
+
+#: includes/widgets/class-header.php:420
+msgid "With \"Click\", the first click on a parent item opens its dropdown and a second click follows its link."
+msgstr "Bei „Klick“ öffnet der erste Klick auf einen übergeordneten Eintrag sein Dropdown, ein zweiter Klick folgt seinem Link."
+
+#: includes/widgets/class-header.php:430
+#: includes/widgets/class-header.php:601
+#: includes/widgets/class-menu.php:332
+msgid "Menu name"
+msgstr "Menüname"
+
+#: includes/widgets/class-header.php:431
+#: includes/widgets/class-header.php:602
+#: includes/widgets/class-menu.php:333
+msgid "Label of the navigation landmark for screen readers. Leave empty to use the menu name."
+msgstr "Bezeichnung der Navigationsregion für Screenreader. Leer lassen, um den Menünamen zu verwenden."
+
+#: includes/widgets/class-header.php:446
+#: includes/widgets/class-header.php:1374
+msgid "Language switcher"
+msgstr "Sprachumschalter"
+
+#: includes/widgets/class-header.php:453
+msgid "Show language switcher (WPML / Polylang)"
+msgstr "Sprachumschalter anzeigen (WPML / Polylang)"
+
+#: includes/widgets/class-header.php:458
+msgid "Shown only when WPML or Polylang provides two or more languages, and not when WPML / Polylang already adds language items to the selected menu."
+msgstr "Wird nur angezeigt, wenn WPML oder Polylang zwei oder mehr Sprachen bereitstellt, und nicht, wenn WPML / Polylang dem gewählten Menü bereits Spracheinträge hinzufügt."
+
+#: includes/widgets/class-header.php:467
+msgid "Neither WPML nor Polylang is active, so the language switcher is hidden."
+msgstr "Weder WPML noch Polylang ist aktiv, daher ist der Sprachumschalter ausgeblendet."
+
+#: includes/widgets/class-header.php:479
+msgid "Display"
+msgstr "Anzeige"
+
+#: includes/widgets/class-header.php:482
+msgid "Flag + code"
+msgstr "Flagge + Code"
+
+#: includes/widgets/class-header.php:483
+msgid "Code only"
+msgstr "Nur Code"
+
+#: includes/widgets/class-header.php:484
+msgid "Flag only"
+msgstr "Nur Flagge"
+
+#: includes/widgets/class-header.php:496
+msgid "Also show in the off-canvas"
+msgstr "Auch im Off-Canvas anzeigen"
+
+#: includes/widgets/class-header.php:500
+msgid "Adds the languages as a group below the last off-canvas menu column (the header switcher is hidden below the collapse breakpoint)."
+msgstr "Fügt die Sprachen als Gruppe unter der letzten Menüspalte des Off-Canvas hinzu (unterhalb des Breakpoints zum Einklappen ist der Umschalter im Header ausgeblendet)."
+
+#: includes/widgets/class-header.php:517
+msgid "Hamburger / off-canvas"
+msgstr "Hamburger / Off-Canvas"
+
+#: includes/widgets/class-header.php:527
+msgid "Show hamburger"
+msgstr "Hamburger anzeigen"
+
+#: includes/widgets/class-header.php:537
+msgid "Below the collapse breakpoint (Layout section) the hamburger is always shown, because it is then the only way to reach the menu."
+msgstr "Unterhalb des Breakpoints zum Einklappen (Abschnitt Layout) wird der Hamburger immer angezeigt, da er dann der einzige Weg zum Menü ist."
+
+#: includes/widgets/class-header.php:551
+msgid "Off-canvas content"
+msgstr "Inhalt des Off-Canvas"
+
+#: includes/widgets/class-header.php:554
+msgid "Menus"
+msgstr "Menüs"
+
+#: includes/widgets/class-header.php:555
+msgid "Elementor template"
+msgstr "Elementor-Vorlage"
+
+#: includes/widgets/class-header.php:565
+msgid "Template"
+msgstr "Vorlage"
+
+#. translators: 1: Link open tag, 2: Link close tag.
+#: includes/widgets/class-header.php:571
+#, php-format
+msgid "Saved templates are managed under %1$sTemplates > Saved Templates%2$s."
+msgstr "Gespeicherte Vorlagen werden unter %1$sVorlagen > Gespeicherte Vorlagen%2$s verwaltet."
+
+#: includes/widgets/class-header.php:621
+msgid "Each column shows one menu: top-level items are headings, their sub-items get the red line."
+msgstr "Jede Spalte zeigt ein Menü: Einträge der obersten Ebene sind Überschriften, ihre Untereinträge erhalten die rote Linie."
+
+#: includes/widgets/class-header.php:645
+msgid "Off-canvas logo"
+msgstr "Off-Canvas-Logo"
+
+#: includes/widgets/class-header.php:684
+msgid "Name of the off-canvas dialog for screen readers."
+msgstr "Name des Off-Canvas-Dialogs für Screenreader."
+
+#: includes/widgets/class-header.php:706
+msgid "Collapse breakpoint (px)"
+msgstr "Breakpoint zum Einklappen (px)"
+
+#: includes/widgets/class-header.php:712
+msgid "Below this screen width the main menu and the language switcher are hidden; only the logo and the hamburger remain. 0 = never collapse."
+msgstr "Unterhalb dieser Bildschirmbreite werden Hauptmenü und Sprachumschalter ausgeblendet; nur Logo und Hamburger bleiben. 0 = nie einklappen."
+
+#: includes/widgets/class-header.php:719
+msgid "Sticky header"
+msgstr "Sticky Header"
+
+#: includes/widgets/class-header.php:724
+msgid "Once the header has scrolled out of view, a compact version stays fixed at the top. It does not work inside a parent that uses CSS transforms."
+msgstr "Sobald der Header aus dem sichtbaren Bereich gescrollt ist, bleibt eine kompakte Version oben fixiert. Funktioniert nicht in einem übergeordneten Element mit CSS-Transforms."
+
+#: includes/widgets/class-header.php:730
+msgid "Sticky height"
+msgstr "Höhe (sticky)"
+
+#: includes/widgets/class-header.php:749
+msgid "Sticky logo width"
+msgstr "Logo-Breite (sticky)"
+
+#: includes/widgets/class-header.php:768
+msgid "Sticky background"
+msgstr "Hintergrund (sticky)"
+
+#: includes/widgets/class-header.php:782
+msgid "Sticky shadow"
+msgstr "Schatten (sticky)"
+
+#: includes/widgets/class-header.php:815
+msgid "Header bar"
+msgstr "Header-Leiste"
+
+#: includes/widgets/class-header.php:845
+#: includes/widgets/class-header.php:935
 msgid "Side padding"
 msgstr "Seitlicher Innenabstand"
 
-#: includes/widgets/class-header.php:963
+#: includes/widgets/class-header.php:861
 msgid "Max content width"
 msgstr "Maximale Inhaltsbreite"
 
-#: includes/widgets/class-header.php:975
+#: includes/widgets/class-header.php:873
 msgid "Empty = full width. The original uses 1280px (padding included) and 1640px on screens 1640px and wider: enable Elementor's Widescreen breakpoint at 1640px (Site Settings > Layout > Breakpoints) and set 1640px there."
 msgstr "Leer = volle Breite. Das Original verwendet 1280px (inklusive Innenabstand) und auf Bildschirmen ab 1640px Breite 1640px: Elementors Widescreen-Breakpoint auf 1640px setzen (Website-Einstellungen > Layout > Breakpoints) und dort 1640px eintragen."
 
-#: includes/widgets/class-header.php:989
+#: includes/widgets/class-header.php:887
 msgid "Logo box"
 msgstr "Logo-Box"
 
-#: includes/widgets/class-header.php:1031
+#: includes/widgets/class-header.php:929
 msgid "May be taller than the header bar: the box then hangs over the content below."
 msgstr "Darf höher als die Header-Leiste sein: Die Box ragt dann über den Inhalt darunter."
 
-#: includes/widgets/class-header.php:1053
+#: includes/widgets/class-header.php:951
 msgid "Logo bottom margin"
 msgstr "Abstand unter dem Logo"
 
-#: includes/widgets/class-header.php:1064
+#: includes/widgets/class-header.php:962
 msgid "Defaults match listemann.com, where a 20px (tablet: 10px) margin plus the gap below its inline logo image put the logo 27px (17px) above the box bottom."
 msgstr "Die Standardwerte entsprechen listemann.com: Dort setzen ein Abstand von 20px (Tablet: 10px) und die Lücke unter dem Inline-Logobild das Logo 27px (17px) über den unteren Rand der Box."
 
-#: includes/widgets/class-header.php:1071
+#: includes/widgets/class-header.php:969
 msgid "Z-index"
 msgstr "Z-Index"
 
-#: includes/widgets/class-header.php:1093
+#: includes/widgets/class-header.php:991
 #: includes/widgets/class-menu.php:748
 msgid "Top-level items"
 msgstr "Einträge der obersten Ebene"
 
-#: includes/widgets/class-header.php:1117
-#: includes/widgets/class-header.php:1134
+#: includes/widgets/class-header.php:1015
+#: includes/widgets/class-header.php:1032
 msgid "Chevron color"
 msgstr "Pfeilfarbe"
 
-#: includes/widgets/class-header.php:1121
+#: includes/widgets/class-header.php:1019
 msgid "Empty = item color."
 msgstr "Leer = Farbe des Eintrags."
 
-#: includes/widgets/class-header.php:1128
+#: includes/widgets/class-header.php:1026
 msgid "Hover / open"
 msgstr "Hover / geöffnet"
 
-#: includes/widgets/class-header.php:1138
+#: includes/widgets/class-header.php:1036
 msgid "Empty = item hover color."
 msgstr "Leer = Hover-Farbe des Eintrags."
 
-#: includes/widgets/class-header.php:1145
-#: includes/widgets/class-header.php:1345
+#: includes/widgets/class-header.php:1043
+#: includes/widgets/class-header.php:1243
 #: includes/widgets/class-menu.php:423
 #: includes/widgets/class-menu.php:570
 msgid "Active"
 msgstr "Aktiv"
 
-#: includes/widgets/class-header.php:1154
+#: includes/widgets/class-header.php:1052
 msgid "Current page and its ancestors."
 msgstr "Aktuelle Seite und ihre übergeordneten Einträge."
 
-#: includes/widgets/class-header.php:1163
+#: includes/widgets/class-header.php:1061
 msgid "Item spacing"
 msgstr "Abstand zwischen Einträgen"
 
-#: includes/widgets/class-header.php:1180
+#: includes/widgets/class-header.php:1078
 msgid "Chevron width"
 msgstr "Pfeilbreite"
 
-#: includes/widgets/class-header.php:1197
+#: includes/widgets/class-header.php:1095
 #: includes/widgets/class-menu.php:593
 #: includes/widgets/class-posts.php:1498
 msgid "Transition duration"
 msgstr "Übergangsdauer"
 
-#: includes/widgets/class-header.php:1220
+#: includes/widgets/class-header.php:1118
 msgid "Dropdown"
 msgstr "Dropdown"
 
-#: includes/widgets/class-header.php:1241
+#: includes/widgets/class-header.php:1139
 msgid "The default right padding (56px) reproduces listemann.com, whose dropdown items also kept the 38px item spacing."
 msgstr "Der Standard-Innenabstand rechts (56px) entspricht listemann.com, wo auch die Dropdown-Einträge den Eintragsabstand von 38px behalten."
 
-#: includes/widgets/class-header.php:1258
+#: includes/widgets/class-header.php:1156
 msgid "Min width"
 msgstr "Mindestbreite"
 
-#: includes/widgets/class-header.php:1274
+#: includes/widgets/class-header.php:1172
 msgid "Offset top"
 msgstr "Versatz oben"
 
-#: includes/widgets/class-header.php:1285
+#: includes/widgets/class-header.php:1183
 msgid "Distance from the top of the menu item to the panel."
 msgstr "Abstand vom oberen Rand des Menüeintrags zum Panel."
 
-#: includes/widgets/class-header.php:1291
+#: includes/widgets/class-header.php:1189
 msgid "Mega panel column gap"
 msgstr "Spaltenabstand im Mega-Panel"
 
-#: includes/widgets/class-header.php:1357
+#: includes/widgets/class-header.php:1255
 msgid "Group headings (2nd level items with sub-items)"
 msgstr "Gruppenüberschriften (Einträge der 2. Ebene mit Untereinträgen)"
 
-#: includes/widgets/class-header.php:1373
-#: includes/widgets/class-header.php:1544
-#: includes/widgets/class-header.php:1690
-#: includes/widgets/class-header.php:1727
-#: includes/widgets/class-menu.php:953
-msgid "Hover color"
-msgstr "Hover-Farbe"
-
-#: includes/widgets/class-header.php:1377
+#: includes/widgets/class-header.php:1275
 msgid "Space below heading"
 msgstr "Abstand unter der Überschrift"
 
-#: includes/widgets/class-header.php:1393
+#: includes/widgets/class-header.php:1291
 msgid "Space after group"
 msgstr "Abstand nach der Gruppe"
 
-#: includes/widgets/class-header.php:1410
-#: includes/widgets/class-header.php:1795
-#: includes/widgets/class-menu.php:723
-msgid "Line before items"
-msgstr "Linie vor Einträgen"
-
-#: includes/widgets/class-header.php:1434
-#: includes/widgets/class-header.php:1835
+#: includes/widgets/class-header.php:1332
 #: includes/widgets/class-menu.php:781
+#: includes/widgets/trait-widget-helpers.php:321
 msgid "Thickness"
 msgstr "Stärke"
 
-#: includes/widgets/class-header.php:1452
-#: includes/widgets/class-header.php:1853
+#: includes/widgets/class-header.php:1350
 #: includes/widgets/class-menu.php:817
+#: includes/widgets/trait-widget-helpers.php:339
 msgid "Gap to text"
 msgstr "Abstand zum Text"
 
-#: includes/widgets/class-header.php:1498
+#: includes/widgets/class-header.php:1396
 msgid "Empty = top-level item color."
 msgstr "Leer = Farbe der Einträge der obersten Ebene."
 
-#: includes/widgets/class-header.php:1503
+#: includes/widgets/class-header.php:1401
 msgid "Hover / open color"
 msgstr "Farbe bei Hover / geöffnet"
 
-#: includes/widgets/class-header.php:1507
+#: includes/widgets/class-header.php:1405
 msgid "Empty = top-level item hover color."
 msgstr "Leer = Hover-Farbe der Einträge der obersten Ebene."
 
-#: includes/widgets/class-header.php:1512
+#: includes/widgets/class-header.php:1410
 msgid "Flag width"
 msgstr "Flaggenbreite"
 
-#: includes/widgets/class-header.php:1536
+#: includes/widgets/class-header.php:1434
 msgid "Hamburger"
 msgstr "Hamburger"
 
-#: includes/widgets/class-header.php:1568
+#: includes/widgets/class-header.php:1466
 msgid "Bar thickness"
 msgstr "Balkenstärke"
 
-#: includes/widgets/class-header.php:1594
+#: includes/widgets/class-header.php:1492
 msgid "Off-canvas"
 msgstr "Off-Canvas"
 
-#: includes/widgets/class-header.php:1600
+#: includes/widgets/class-header.php:1498
 msgid "Close (X) color"
 msgstr "Farbe von Schließen (X)"
 
-#: includes/widgets/class-header.php:1604
+#: includes/widgets/class-header.php:1502
 msgid "Close (X) size"
 msgstr "Größe von Schließen (X)"
 
-#: includes/widgets/class-header.php:1620
+#: includes/widgets/class-header.php:1518
 msgid "Content max width"
 msgstr "Maximale Inhaltsbreite"
 
-#: includes/widgets/class-header.php:1652
+#: includes/widgets/class-header.php:1550
 msgid "Social icon color"
 msgstr "Farbe der Social-Media-Icons"
 
-#: includes/widgets/class-header.php:1653
+#: includes/widgets/class-header.php:1551
 msgid "Social icon hover color"
 msgstr "Hover-Farbe der Social-Media-Icons"
 
-#: includes/widgets/class-header.php:1658
+#: includes/widgets/class-header.php:1556
 msgid "Open / close duration"
 msgstr "Dauer Öffnen / Schließen"
 
-#: includes/widgets/class-header.php:1674
-msgid "Menu headings"
-msgstr "Menüüberschriften"
-
-#: includes/widgets/class-header.php:1694
-#: includes/widgets/class-menu.php:445
-msgid "Spacing between groups"
-msgstr "Abstand zwischen Gruppen"
-
-#: includes/widgets/class-header.php:1711
-msgid "Menu items"
-msgstr "Menüeinträge"
-
-#: includes/widgets/class-header.php:1728
-msgid "Active color"
-msgstr "Aktiv-Farbe"
-
-#: includes/widgets/class-header.php:1735
-msgid "Nested items font size"
-msgstr "Schriftgröße verschachtelter Einträge"
-
-#: includes/widgets/class-header.php:1757
-msgid "Nested items line height"
-msgstr "Zeilenhöhe verschachtelter Einträge"
-
-#: includes/widgets/class-header.php:1778
-#: includes/widgets/class-menu.php:632
-msgid "Indent per nested level"
-msgstr "Einzug pro Verschachtelungsebene"
-
-#: includes/widgets/class-header.php:1819
-msgid "Width (nested levels)"
-msgstr "Breite (verschachtelte Ebenen)"
-
-#: includes/widgets/class-header.php:2153
+#: includes/widgets/class-header.php:1771
 #: includes/widgets/class-menu.php:978
 msgid "There are no menus yet. Create one in Appearance > Menus."
 msgstr "Es gibt noch keine Menüs. Erstelle eines unter Design > Menüs."
 
-#: includes/widgets/class-header.php:2155
+#: includes/widgets/class-header.php:1773
 #: includes/widgets/class-menu.php:980
 msgid "Please select a menu."
 msgstr "Bitte wähle ein Menü aus."
 
-#: includes/widgets/class-header.php:2157
-#: includes/widgets/class-menu.php:982
-msgid "The selected menu no longer exists. Please select another menu."
-msgstr "Das gewählte Menü existiert nicht mehr. Bitte wähle ein anderes Menü aus."
-
-#: includes/widgets/class-header.php:2180
-#: includes/widgets/class-menu.php:1023
-msgid "The selected menu has no items."
-msgstr "Das gewählte Menü hat keine Einträge."
-
 #. translators: %s: Name of the current language.
-#: includes/widgets/class-header.php:2214
+#: includes/widgets/class-header.php:1832
 #, php-format
 msgid "Change language (current: %s)"
 msgstr "Sprache wechseln (aktuell: %s)"
 
-#: includes/widgets/class-header.php:2311
+#: includes/widgets/class-header.php:1929
 msgid "Open menu"
 msgstr "Menü öffnen"
 
-#: includes/widgets/class-header.php:2344
+#: includes/widgets/class-header.php:1962
 msgid "Close menu"
 msgstr "Menü schließen"
 
-#: includes/widgets/class-header.php:2414
-msgid "Social link"
-msgstr "Social-Media-Link"
-
-#: includes/widgets/class-header.php:2451
+#: includes/widgets/class-header.php:2030
 msgid "Select a menu for this off-canvas column."
 msgstr "Wähle ein Menü für diese Off-Canvas-Spalte aus."
 
-#: includes/widgets/class-header.php:2552
+#: includes/widgets/class-header.php:2098
 msgid "Language"
 msgstr "Sprache"
 
-#: includes/widgets/class-header.php:2568
+#: includes/widgets/class-header.php:2114
 msgid "Please select an Elementor template for the off-canvas."
 msgstr "Bitte wähle eine Elementor-Vorlage für das Off-Canvas aus."
 
-#: includes/widgets/class-header.php:2575
+#: includes/widgets/class-header.php:2121
 msgid "This template cannot be shown here (it is not published, or it contains this header)."
 msgstr "Diese Vorlage kann hier nicht angezeigt werden (sie ist nicht veröffentlicht oder enthält diesen Header)."
 
 #: includes/widgets/class-menu.php:77
 msgid "Listemann Menu"
 msgstr "Listemann Menü"
-
-#: includes/widgets/class-menu.php:220
-msgid "Depth"
-msgstr "Tiefe"
-
-#: includes/widgets/class-menu.php:223
-msgid "All levels"
-msgstr "Alle Ebenen"
-
-#: includes/widgets/class-menu.php:224
-msgid "1 level"
-msgstr "1 Ebene"
-
-#: includes/widgets/class-menu.php:225
-msgid "2 levels"
-msgstr "2 Ebenen"
-
-#: includes/widgets/class-menu.php:226
-msgid "3 levels"
-msgstr "3 Ebenen"
 
 #: includes/widgets/class-menu.php:238
 msgid "Vertical"
@@ -1778,6 +1932,11 @@ msgstr "Nur für Überschriften, die Links sind."
 msgid "When the heading or one of its sub-items is the current page."
 msgstr "Wenn die Überschrift oder einer ihrer Untereinträge die aktuelle Seite ist."
 
+#: includes/widgets/class-menu.php:445
+#: includes/widgets/trait-widget-helpers.php:181
+msgid "Spacing between groups"
+msgstr "Abstand zwischen Gruppen"
+
 #: includes/widgets/class-menu.php:458
 msgid "Space before and after each group (an item with its sub-items, e.g. a heading with its links), on every level."
 msgstr "Abstand vor und nach jeder Gruppe (ein Eintrag mit seinen Untereinträgen, z. B. eine Überschrift mit ihren Links), auf jeder Ebene."
@@ -1797,6 +1956,11 @@ msgstr "Aktuelle Seite (und übergeordnete Einträge der aktuellen Seite)."
 #: includes/widgets/class-menu.php:609
 msgid "Spacing between items"
 msgstr "Abstand zwischen Einträgen"
+
+#: includes/widgets/class-menu.php:632
+#: includes/widgets/trait-widget-helpers.php:265
+msgid "Indent per nested level"
+msgstr "Einzug pro Verschachtelungsebene"
 
 #: includes/widgets/class-menu.php:645
 msgid "Links directly below a heading are not indented."
@@ -2584,6 +2748,43 @@ msgstr[1] "%s weitere Beiträge geladen."
 #: includes/widgets/class-posts.php:3190
 msgid "All posts are shown."
 msgstr "Alle Beiträge werden angezeigt."
+
+#: includes/widgets/trait-widget-helpers.php:215
+msgid "Active color"
+msgstr "Aktiv-Farbe"
+
+#: includes/widgets/trait-widget-helpers.php:222
+msgid "Nested items font size"
+msgstr "Schriftgröße verschachtelter Einträge"
+
+#: includes/widgets/trait-widget-helpers.php:244
+msgid "Nested items line height"
+msgstr "Zeilenhöhe verschachtelter Einträge"
+
+#: includes/widgets/trait-widget-helpers.php:305
+msgid "Width (nested levels)"
+msgstr "Breite (verschachtelte Ebenen)"
+
+#: includes/widgets/trait-widget-helpers.php:461
+msgid "Social link"
+msgstr "Social-Media-Link"
+
+#: includes/widgets/trait-widget-helpers.php:655
+msgid "Network"
+msgstr "Netzwerk"
+
+#: includes/widgets/trait-widget-helpers.php:657
+#: includes/widgets/trait-widget-helpers.php:711
+msgid "Custom icon"
+msgstr "Eigenes Icon"
+
+#: includes/widgets/trait-widget-helpers.php:698
+msgid "Network name"
+msgstr "Name des Netzwerks"
+
+#: includes/widgets/trait-widget-helpers.php:721
+msgid "Menu column"
+msgstr "Menüspalte"
 
 #. translators: 1: Plugin name, 2: Required PHP version, 3: Current PHP version.
 #: listemann-toolkit-addon.php:48

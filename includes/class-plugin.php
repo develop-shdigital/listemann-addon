@@ -38,6 +38,7 @@ final class Plugin {
 		Widgets\Header::class,
 		Widgets\Downloads::class,
 		Widgets\Posts::class,
+		Widgets\Footer::class,
 	);
 
 	/**
@@ -58,6 +59,7 @@ final class Plugin {
 		'listemann-toolkit-header'            => array( 'assets/css/header.css', array( 'listemann-toolkit-menu' ) ),
 		'listemann-toolkit-downloads'         => array( 'assets/css/downloads.css', array() ),
 		'listemann-toolkit-posts'             => array( 'assets/css/posts.css', array() ),
+		'listemann-toolkit-footer'            => array( 'assets/css/footer.css', array( 'listemann-toolkit-menu' ) ),
 	);
 
 	/**

@@ -85,5 +85,20 @@
 				<field type="Listemann Posts: No posts text" editor_type="LINE">empty_text</field>
 			</fields>
 		</widget>
+		<widget name="listemann-footer">
+			<fields>
+				<field type="Listemann Footer: Logo link" editor_type="LINK">logo_link>url</field>
+				<field type="Listemann Footer: Logo alternative text" editor_type="LINE">logo_alt</field>
+				<field type="Listemann Footer: Bottom bar text" editor_type="LINE">bottom_text</field>
+				<field type="Listemann Footer: Legal links accessible label" editor_type="LINE">bottom_menu_label</field>
+			</fields>
+			<fields-in-item items_of="social_links">
+				<field type="Listemann Footer: Social link" editor_type="LINK">link>url</field>
+				<field type="Listemann Footer: Social link accessible label" editor_type="LINE">label</field>
+			</fields-in-item>
+			<fields-in-item items_of="menu_columns">
+				<field type="Listemann Footer: Menu column accessible label" editor_type="LINE">label</field>
+			</fields-in-item>
+		</widget>
 	</elementor-widgets>
 </wpml-config>

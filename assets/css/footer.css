@@ -1,0 +1,317 @@
+/**
+ * Listemann Footer widget.
+ *
+ * Values that the widget controls change are CSS custom properties set by
+ * Elementor on the widget wrapper ({{WRAPPER}}), or on .lst-footer__top for
+ * the --lst-menu-* properties of menu.css. The fallbacks below are the
+ * listemann.com values. Padding, column gap and row gap have no default in
+ * the widget, so the original's steps at 1280 px and 768 px apply until a
+ * value is set. Nothing here relies on `.elementor-widget-container` (works
+ * with Elementor's optimized markup on and off).
+ *
+ * Footer:  --lst-ft-bg, --lst-ft-pad
+ * Layout:  --lst-ft-col-gap, --lst-ft-row-gap, --lst-ft-cols-tablet, --lst-ft-cols-mobile
+ * Logo:    --lst-ft-logo-w
+ * Social:  --lst-ft-social-color / -hover-color / -h / -pad / -top / -scale
+ * Bottom:  --lst-ft-bottom-color / -hover-color / -border-w / -border-color / -gap / -pad
+ *
+ * Layout: desktop = one row (logo column, then the menus at their natural
+ * width, spread with space-between; from 5 menu columns on, columns that do
+ * not fit continue on a second row); below 1280 px = a grid with the logo
+ * row on top (logo left, icons right) and 2 menu columns, 25 px apart;
+ * below 768 px = 1 column, 30 px apart (25 px below the logo row).
+ */
+
+.lst-footer {
+	--_pad: var(--lst-ft-pad, 150px 0);
+	--_col-gap: var(--lst-ft-col-gap, 30px);
+	--_row-gap: var(--lst-ft-row-gap, 25px);
+	box-sizing: border-box;
+	width: 100%;
+	padding: var(--_pad);
+	background-color: var(--lst-ft-bg, #fff);
+	color: #626262;
+	text-align: start;
+}
+
+.lst-footer *,
+.lst-footer *::before,
+.lst-footer *::after {
+	box-sizing: border-box;
+}
+
+@media (max-width: 1279.98px) {
+	.lst-footer {
+		--_pad: var(--lst-ft-pad, 75px 0);
+		--_col-gap: var(--lst-ft-col-gap, 0px);
+	}
+}
+
+@media (max-width: 767.98px) {
+	.lst-footer {
+		--_pad: var(--lst-ft-pad, 75px 0 50px);
+		--_row-gap: var(--lst-ft-row-gap, 30px);
+	}
+}
+
+/* Defaults of the --lst-menu-* properties used by menu.css (zero specificity). */
+:where(.lst-footer__top) {
+	--lst-menu-heading-color: #626262;
+	--lst-menu-heading-hover-color: #dd191a;
+	--lst-menu-item-color: #626262;
+	--lst-menu-item-hover-color: #dd191a;
+	--lst-menu-item-active-color: #dd191a;
+}
+
+/* Desktop: logo column and menu columns in one row. */
+.lst-footer .lst-footer__top {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	column-gap: var(--_col-gap);
+}
+
+.lst-footer .lst-footer__brand {
+	display: flex;
+	flex: none;
+	flex-direction: column;
+	align-items: flex-start;
+	max-width: 100%;
+}
+
+/* Columns may shrink, but not below their longest word (min-width: auto), so labels wrap at spaces only. */
+.lst-footer .lst-footer__col {
+	flex: 0 1 auto;
+}
+
+/* From five menu columns on (more than fit next to the logo in the 1180 px container), the columns that do not fit wrap onto a second row instead of overflowing; up to four stay in one row and shrink. */
+.lst-footer .lst-footer__top:has(> .lst-footer__col ~ .lst-footer__col ~ .lst-footer__col ~ .lst-footer__col ~ .lst-footer__col) {
+	flex-wrap: wrap;
+	row-gap: var(--_row-gap);
+}
+
+/* Logo ----------------------------------------------------------------------- */
+
+.lst-footer .lst-footer__logo {
+	width: var(--lst-ft-logo-w, 125px);
+	max-width: 100%;
+	line-height: 0;
+}
+
+.lst-footer .lst-footer__logo-link {
+	display: block;
+}
+
+.lst-footer .lst-footer__logo-img {
+	display: block;
+	width: 100%;
+	max-width: none;
+	height: auto;
+}
+
+/* Social icons: centred below the logo (as wide as the column, like the original). */
+.lst-footer .lst-footer__social {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	align-self: center;
+	margin: var(--lst-ft-social-top, 50px) 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.lst-footer .lst-footer__social:first-child {
+	margin-top: 0;
+}
+
+.lst-footer .lst-footer__social li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.lst-footer .lst-footer__social li::before,
+.lst-footer .lst-footer__social li::after {
+	content: none;
+}
+
+.lst-footer .lst-footer__social-link {
+	display: flex;
+	align-items: center;
+	padding: 0 var(--lst-ft-social-pad, 10px);
+	color: var(--lst-ft-social-color, #949494);
+	line-height: 1;
+	text-decoration: none;
+	transition: transform 300ms ease, color 300ms ease;
+}
+
+.lst-footer .lst-footer__social-link:hover,
+.lst-footer .lst-footer__social-link:focus-visible {
+	color: var(--lst-ft-social-hover-color, var(--lst-ft-social-color, #949494));
+	transform: scale(var(--lst-ft-social-scale, 1.25));
+}
+
+/* Every icon is as high as the setting (the original blew them up on phones). */
+.lst-footer .lst-footer__social-link svg {
+	display: block;
+	width: auto;
+	height: var(--lst-ft-social-h, 20px);
+	fill: currentColor;
+}
+
+.lst-footer .lst-footer__social-link i {
+	display: block;
+	font-size: var(--lst-ft-social-h, 20px);
+	line-height: 1;
+}
+
+/* Menu columns (menu.css); typography fallbacks, Elementor's CSS overrides them. */
+:where(.lst-footer__top) .lst-menu__link {
+	font-size: 15px;
+	font-weight: 400;
+	line-height: 34px;
+}
+
+:where(.lst-footer__top) .lst-menu__item--heading > .lst-menu__link {
+	font-size: 18px;
+	font-weight: 700;
+	line-height: 34px;
+	text-transform: uppercase;
+}
+
+:where(.lst-footer__top) .lst-menu__sub .lst-menu__sub > .lst-menu__item:not(.lst-menu__item--heading) > .lst-menu__link {
+	font-size: 13px;
+	line-height: 24px;
+}
+
+/* As on listemann.com, a nested group gets space above it but not below it. */
+.lst-footer .lst-footer__top .lst-menu .lst-menu__sub > .lst-menu__item--has-sub + .lst-menu__item:not(.lst-menu__item--has-sub) {
+	margin-top: var(--lst-menu-item-gap, 0px);
+}
+
+/* Bottom bar ----------------------------------------------------------------- */
+
+.lst-footer .lst-footer__bottom {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px 30px;
+	margin-top: var(--lst-ft-bottom-gap, 50px);
+	padding: var(--lst-ft-bottom-pad, 25px 0 0);
+	border-top: var(--lst-ft-bottom-border-w, 1px) solid var(--lst-ft-bottom-border-color, #e5e5e5);
+	color: var(--lst-ft-bottom-color, #626262);
+	font-size: 14px;
+	line-height: 24px;
+}
+
+.lst-footer .lst-footer__bottom:first-child {
+	margin-top: 0;
+}
+
+.lst-footer .lst-footer__copy {
+	margin: 0;
+	padding: 0;
+}
+
+.lst-footer .lst-footer__legal {
+	--lst-menu-item-color: var(--lst-ft-bottom-color, #626262);
+	--lst-menu-item-hover-color: var(--lst-ft-bottom-hover-color, #dd191a);
+	--lst-menu-item-active-color: var(--lst-ft-bottom-hover-color, #dd191a);
+	--lst-menu-h-gap: 20px;
+	--lst-menu-item-gap: 0px;
+}
+
+/* The legal links use the bottom bar typography (not the kit's link typography). */
+.lst-footer .lst-footer__legal .lst-menu__link {
+	font: inherit;
+	text-transform: inherit;
+}
+
+/* Focus ------------------------------------------------------------------------ */
+
+.lst-footer a:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
+}
+
+/* Below 1280 px: the logo row on top (logo left, icons right), menus in a grid. */
+@media (max-width: 1279.98px) {
+	.lst-footer .lst-footer__top {
+		display: grid;
+		grid-template-columns: repeat(var(--lst-ft-cols-tablet, 2), minmax(0, 1fr));
+		gap: var(--_row-gap) var(--_col-gap);
+	}
+
+	.lst-footer .lst-footer__brand {
+		grid-column: 1 / -1;
+		flex-direction: row;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 15px 30px;
+		/* 25 px to the menus even where the rows are 30 px apart (phones, as on the original); a set row gap applies here too. */
+		margin-bottom: calc(var(--lst-ft-row-gap, 25px) - var(--_row-gap));
+	}
+
+	.lst-footer .lst-footer__social {
+		align-self: auto;
+		margin-top: 0;
+	}
+}
+
+@media (max-width: 767.98px) {
+	.lst-footer .lst-footer__top {
+		grid-template-columns: repeat(var(--lst-ft-cols-mobile, 1), minmax(0, 1fr));
+	}
+}
+
+/* Reduced motion --------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+	.lst-footer .lst-footer__social-link {
+		transition: none;
+	}
+}
+
+/* Forced colors (Windows High Contrast): the red line is a background, which would be painted in the page colour. */
+@media (forced-colors: active) {
+	.lst-footer .lst-menu__link--line::before {
+		forced-color-adjust: none;
+		background-color: CanvasText;
+	}
+}
+
+/* Print ------------------------------------------------------------------------ */
+
+@media print {
+	.lst-footer {
+		padding: 20px 0 !important;
+		background: none !important;
+	}
+
+	.lst-footer .lst-footer__social {
+		display: none;
+	}
+
+	.lst-footer .lst-footer__col,
+	.lst-footer .lst-footer__bottom {
+		break-inside: avoid;
+	}
+
+	.lst-footer .lst-menu__link--line::before {
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
+	}
+}
+
+/* Editor-only notice ------------------------------------------------------- */
+
+.lst-footer-notice {
+	padding: 8px 12px;
+	border: 1px dashed #c2c7cd;
+	background: #f9fafa;
+	color: #515962;
+	font-size: 13px;
+	line-height: 1.5;
+}

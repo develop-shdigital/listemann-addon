@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Listemann Toolkit Addon
- * Description:       Listemann site toolkit: Elementor widgets (continuous slider, menu, header, downloads, posts) plus a site-wide contact box, back-to-top button and branded scrollbar, managed under Listemann Toolkit in the dashboard.
+ * Description:       Listemann site toolkit: Elementor widgets (continuous slider, menu, header, footer, downloads, posts) plus a site-wide contact box, back-to-top button and branded scrollbar, managed under Listemann Toolkit in the dashboard.
  * Version:           1.0.0
  * Requires at least: 6.5
  * Requires PHP:      7.4
@@ -63,7 +63,8 @@ if ( version_compare( PHP_VERSION, LISTEMANN_TOOLKIT_MIN_PHP, '<' ) ) {
  * Autoloads classes of the `Listemann_Toolkit` namespace.
  *
  * Follows the WordPress file naming convention:
- * `Listemann_Toolkit\Widgets\Continuous_Slider` → `includes/widgets/class-continuous-slider.php`.
+ * `Listemann_Toolkit\Widgets\Continuous_Slider` → `includes/widgets/class-continuous-slider.php`,
+ * traits in `trait-*.php` (`Listemann_Toolkit\Widgets\Widget_Helpers` → `includes/widgets/trait-widget-helpers.php`).
  *
  * @param string $class_name Fully qualified class name.
  * @return void
@@ -83,11 +84,15 @@ function listemann_toolkit_autoload( $class_name ) {
 		},
 		$parts
 	);
-	$file  = LISTEMANN_TOOLKIT_PATH . 'includes/' . ( $dirs ? implode( '/', $dirs ) . '/' : '' )
-		. 'class-' . strtolower( str_replace( '_', '-', $class ) ) . '.php';
+	$dir   = LISTEMANN_TOOLKIT_PATH . 'includes/' . ( $dirs ? implode( '/', $dirs ) . '/' : '' );
+	$name  = strtolower( str_replace( '_', '-', $class ) ) . '.php';
 
-	if ( is_readable( $file ) ) {
-		require_once $file;
+	// Classes live in class-*.php, traits in trait-*.php.
+	foreach ( array( 'class-', 'trait-' ) as $type ) {
+		if ( is_readable( $dir . $type . $name ) ) {
+			require_once $dir . $type . $name;
+			return;
+		}
 	}
 }
 

@@ -2,7 +2,7 @@
 
 WordPress plugin for [listemann.com](https://listemann.com/) by SH Digital. It provides:
 
-- **Elementor widgets** in the panel category **Listemann**: *Continuous Slider*, *Listemann Menu*, *Listemann Header*, *Listemann Downloads* and *Listemann Posts*;
+- **Elementor widgets** in the panel category **Listemann**: *Continuous Slider*, *Listemann Menu*, *Listemann Header*, *Listemann Footer*, *Listemann Downloads* and *Listemann Posts*;
 - three **site-wide features** that appear on every front-end page without any widget: a **contact box** and a **back-to-top button** docked to the right edge, and a **scrollbar in the brand colour**. They are edited under **Listemann Toolkit** in the dashboard.
 
 ## Requirements
@@ -156,6 +156,39 @@ The switcher reads its languages from **WPML** (`wpml_active_languages`) or **Po
 - The current page and its ancestors get the active colour. Reduced motion turns off the transitions.
 - The script runs without Elementor's frontend script (`window.ListemannHeader.init( root )`, `.destroy( root )`, `.initAll()`) and cleans up when the Elementor editor re-renders the widget.
 
+## Listemann Footer
+
+Elementor panel: **Listemann › Listemann Footer** (search: *footer*, *fusszeile*). It recreates the listemann.com footer: the colour logo with the social icons below it, then the footer menus in columns (top-level items as headings, sub-items with the **red line**, exactly like the Listemann Menu widget), spread across the width. Below 1280 px the logo and the icons share the first row (logo left, icons right) and the menus wrap into 2 columns; on phones into 1. The hidden newsletter form of the original is not part of it.
+
+### Where to place it
+
+- **With Elementor Pro:** *Templates › Theme Builder › Footer*, add a container (boxed, content width 1180 px, side padding 50 px, 15 px on mobile, like the original), drop the widget into it, publish and set the display condition to *Entire Site*. The template provides the `<footer>` landmark.
+- **Without Elementor Pro:** put the widget at the end of a page in such a container and set the container's *Layout › Additional Options › HTML Tag* to *footer*, so the page keeps its footer landmark (the theme's own footer can be hidden with *Elementor Canvas* or Hello Elementor's *Disable theme header and footer*).
+
+### Settings
+
+| Section | Controls (defaults) |
+| --- | --- |
+| Content › Logo | Show logo (on), Logo image (the bundled colour logo), Link (home page), Alternative text (site name), Logo width ⧉ (125 px). |
+| Content › Social links | Social links: LinkedIn, Facebook, YouTube, Instagram, Xing, X or a custom icon, each with a link and an accessible label (the three Listemann profiles, as in the header); Open in New Tab (on, announced to screen readers). |
+| Content › Menu columns | Menu columns: one menu per column with an optional accessible label (empty: the menu's headings, e.g. "Verfahren, Einsatzgebiete"). On desktop four columns fit next to the logo in the 1180 px container; from five on, the columns that do not fit continue on a second row. Preset: the menus named "Footer 1", "Footer 2" … in that order (at most four); without numbered ones the menus whose names start with "Footer" (or "Fusszeile"); otherwise none, with a hint linking to *Appearance › Menus*. Depth (all levels or 1–3). |
+| Content › Bottom bar | Show bottom bar (off; not on listemann.com): Text (`© {year} Listemann AG`, `{year}` becomes the current year), Legal links menu (its top-level items in a row), accessible label (empty: "Legal links"). |
+| Style › Footer | Background color (#fff), Padding ⧉ (empty: 150 px above and below; 75 / 75 px below 1280 px; 75 / 50 px on mobile, like the original; the original's 400 px below 1280 px only made room for its hidden newsletter form and is not copied). |
+| Style › Layout | Column gap ⧉ (empty: at least 30 px on desktop, none below 1280 px where the menus share the width equally), Row gap ⧉ (empty: 25 px, 30 px between the menus on mobile), Columns below 1280 px (empty: 2), Columns below 768 px (empty: 1). |
+| Style › Social icons | Color (#949494, see below), Hover color, Icon height (20 px at every width; the original blew the icons up on phones), Space beside each icon (10 px), Space above the icons (50 px on desktop), Hover zoom (1.25). |
+| Style › Menu headings / Menu items / Line before items | The same controls and defaults as the header's off-canvas columns: headings 18 / 700 / 34 px uppercase, items 15 / 34 px, both #626262, hover and current page #dd191a, 25 px between groups; line 30 × 2 px #dd191a, 20 px on nested levels, 5 px to the text. |
+| Style › Bottom bar | Typography (14 / 24 px), Color (#626262), Link hover color (#dd191a), Top border width and color (1 px, #e5e5e5), Space above (50 px), Padding ⧉ (25 px above). |
+
+⧉ = can be set per device. Values left empty follow the original's steps at 1280 px and 768 px; a desktop value also applies to tablet and mobile unless they have their own.
+
+### Accessibility
+
+- The widget renders a `<div class="lst-footer">`; the `<footer>` landmark is the theme's or the Theme Builder template's (on a page without either, set the surrounding container's HTML Tag to *footer*). Each menu column is a `<nav>` labelled with the column's accessible label or else with the menu's headings ("Verfahren, Einsatzgebiete"; the menu name if it has none), the legal links with "Legal links" unless set otherwise. Items with an empty or `#` URL are text, and ids are unique, also with several footers on a page.
+- The social icons are a list of links named by their network ("LinkedIn (opens in a new tab)"); the icons themselves are hidden from screen readers. listemann.com uses #a8a8a8 for them, which has a contrast of 2.4:1 on white; the default #949494 is the lightest grey with the 3:1 that icons need (as in the header).
+- Keyboard focus shows a 2 px outline (the icons also zoom), reduced motion turns the zoom transition off, forced colours (Windows High Contrast) keep the red lines visible, and print hides the icons and drops the large padding.
+
+The output depends on the current page (the current menu item) and the date, so Elementor never caches it.
+
 ## Listemann Downloads
 
 Elementor panel: **Listemann › Listemann Downloads** (search: *downloads*, *pdf*, *ressourcen*). It recreates the "Ressourcen" list of [listemann.com/downloads/](https://listemann.com/downloads/): a heading, then groups of download cards, each with a group title. Each card is a white box with a red bar on the left, a file icon, a small label ("PDF DOWNLOAD") and the title; on hover it zooms in. The defaults are the live page's 5 groups and 16 PDFs, so the page can be rebuilt by dropping the widget into a boxed container (content width 1200 px, side padding 50 px, 15 px on mobile, like the original page).
@@ -242,9 +275,9 @@ All settings live in the single option `listemann_toolkit_settings`. The option 
 
 ## Translation and multilingual sites
 
-- **Plugin texts.** The editor labels, admin screens and the texts read by screen readers (e.g. "Open menu", "carousel", "(opens in a new tab)") are translatable with the text domain `listemann-toolkit-addon`. A German translation (`de_DE`) ships in `languages/`; with a German admin language the widgets are listed as *Endlos-Slider*, *Listemann Menü*, *Listemann Header*, *Listemann Downloads* and *Listemann Beiträge*. Other languages can be added with Loco Translate or Poedit from `languages/listemann-toolkit-addon.pot`. Elementor caches the slider's output (by default for 24 hours), so after adding or changing a translation, clear it with *Elementor › Tools › Clear Files & Data*.
+- **Plugin texts.** The editor labels, admin screens and the texts read by screen readers (e.g. "Open menu", "carousel", "(opens in a new tab)") are translatable with the text domain `listemann-toolkit-addon`. A German translation (`de_DE`) ships in `languages/`; with a German admin language the widgets are listed as *Endlos-Slider*, *Listemann Menü*, *Listemann Header*, *Listemann Footer*, *Listemann Downloads* and *Listemann Beiträge*. Other languages can be added with Loco Translate or Poedit from `languages/listemann-toolkit-addon.pot`. Elementor caches the slider's output (by default for 24 hours), so after adding or changing a translation, clear it with *Elementor › Tools › Clear Files & Data*.
 - **Contact box and back-to-top texts (WPML).** `wpml-config.xml` registers the button label, section titles, line texts and URLs, and the back-to-top label as admin texts. **Save the Listemann Toolkit settings page once** (WPML can only register an option that exists, see above), then translate the strings under *WPML › String Translation*, domain *admin_texts_listemann_toolkit_settings*. After *Reset to defaults*, save the page again before translating. Polylang reads the same file and lists the strings under *Languages › Translations*.
-- **Widget content** is stored in each page's Elementor data and translated with the page. `wpml-config.xml` registers the widgets' texts, so WPML's Translation Editor lists them: the slide titles and links and the Accessible Label of the slider, the accessible label of the menu, the logo link and alternative text, accessible labels and social links of the header, the heading, label template, group titles, download titles, labels and URLs of the downloads widget (a Media Library file is not a text and is not listed), and the heading, custom date format, filter texts and button texts of the posts widget. Selected menus and templates are not texts: check on every language version that the header and menu widgets show the menus of that language.
+- **Widget content** is stored in each page's Elementor data and translated with the page. `wpml-config.xml` registers the widgets' texts, so WPML's Translation Editor lists them: the slide titles and links and the Accessible Label of the slider, the accessible label of the menu, the logo link and alternative text, accessible labels and social links of the header and of the footer, the footer's bottom bar text, the heading, label template, group titles, download titles, labels and URLs of the downloads widget (a Media Library file is not a text and is not listed), and the heading, custom date format, filter texts and button texts of the posts widget. Selected menus and templates are not texts: check on every language version that the header, footer and menu widgets show the menus of that language.
 
 ## Uninstall
 
@@ -262,6 +295,7 @@ includes/admin/class-settings-page.php   Dashboard page "Listemann Toolkit" (Set
 includes/frontend/class-side-dock.php    Contact box + back-to-top button (wp_footer)
 includes/frontend/class-scrollbar.php    Branded scrollbar (inline CSS)
 includes/widgets/class-*.php             One file per widget, plus the menu walkers
+includes/widgets/trait-widget-helpers.php  Shared by header and footer: logo image, social links, menu columns, style control helpers
 assets/css, assets/js, assets/img        Front-end and admin assets, icons, logos
 assets/img/file-*.svg                    File icons of Listemann Downloads (PDF and generic, currentColor)
 languages/                               .pot template and the German translation (text domain listemann-toolkit-addon)
@@ -269,7 +303,7 @@ wpml-config.xml                          Translatable admin texts and widget tex
 uninstall.php                            Deletes the settings option and the mega menu item meta
 ```
 
-Classes live in the `Listemann_Toolkit` namespace. The autoloader maps namespaces to folders and class names to WordPress-style file names: `Listemann_Toolkit\Widgets\My_Widget` → `includes/widgets/class-my-widget.php`, `Listemann_Toolkit\Frontend\My_Feature` → `includes/frontend/class-my-feature.php`.
+Classes live in the `Listemann_Toolkit` namespace. The autoloader maps namespaces to folders and class names to WordPress-style file names: `Listemann_Toolkit\Widgets\My_Widget` → `includes/widgets/class-my-widget.php`, `Listemann_Toolkit\Frontend\My_Feature` → `includes/frontend/class-my-feature.php`; traits use `trait-*.php` (`Listemann_Toolkit\Widgets\Widget_Helpers` → `includes/widgets/trait-widget-helpers.php`).
 
 ### Adding a widget
 
